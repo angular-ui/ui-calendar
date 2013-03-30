@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="calendarDemoApp" id="top">
+<head>
+	<title>AngularUI for AngularJS</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+
+	<script src="http://code.angularjs.org/1.0.4/angular.js"></script>
+	<script src="https://github.com/angular-ui/angular-ui.github.com/blob/master/lib/calendar/fullcalendar.js"></script> 
+	<script src="http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js"></script>
+	<script src="../src/calendar.js"></script>
+	<script src="calendarDemoApp.js"></script>
+
+	<link rel="stylesheet" href="http://angular-ui.github.com/lib/bootstrap/docs/assets/css/bootstrap.css" >
+	<link rel="stylesheet" href="https://github.com/angular-ui/angular-ui.github.com/blob/master/lib/calendar/fullcalendar.css" >
+	<link rel="stylesheet" href="calendarDemoApp.css" >
+</head>
+<body data-spy="scroll">
+	<header class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="dropdown pull-left">
+					<a class="brand dropdown-toggle" role="button" data-toggle="dropdown" href="#"> 
+						AngularUI
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li><a href="https://github.com/angular-ui/"><strong>Related Projects:</strong></a></li>
+						<li class="divider"></li>
+						<li><a href="http://angular-ui.github.com/bootstrap/">Bootstrap</a></li>
+						<li><a href="http://angular-ui.github.com/ng-grid/">Grid</a></li>
+						<li><a href="https://github.com/angular-ui/AngularJs.tmbundle">AngularJS.tmbundle</a></li>
+						<li><a href="http://angular-ui.github.com/ui-router/">Router <span class="label label-success">New!</span></a></li>
+						<li><a href="http://angular-ui.github.com/Tips-n-Tricks/">Tips-n-Tricks <span class="label">WIP</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div role="main">
+
+		<div class="container">
+
+			<section id="directives-calendar" ng-controller="CalendarCtrl">
+				<div class="page-header">
+					<h1>Calendar</h1>
+				</div>
+				<div class="well">
+					<div class="row">
+						<div class="span3">
+							<h3>What?</h3>
+							<p>Attach Angular objects to a calendar.</p>
+							<h3>Why?</h3>
+							<p>For easy integration with scope objects.</p>
+							<h4>Click to add an Event!</h4>
+						    </b>
+							 <button style="margin-bottom: 3px;" class="btn btn-primary" ng-click="addEvent()">Add Event</button>
+						    <ul>
+						        <li ng-repeat="e in events">
+						            <p class="label label-important">
+						              {{e.title}}
+						              <a class="btn btn-important calXBtn" ng-click="remove($index)">x</a>
+						            </p>
+						        </li>
+						    </ul>
+
+						</div>
+						<div class="alert-success calAlert"><h4>{{alertMessage}}</h4></div>
+				        <div class="well">
+				          <button class="btn btn-danger calBtn" ng-click="addRemoveEventSource(eventSources,eventSource)">Add/Remove Source</button>
+				          <button class="btn btn-info calBtn" ng-click="changeView('month')">Month</button>
+				          <button class="btn btn-warning calBtn" ng-click="changeView('agendaWeek')">Agenda Week</button>
+				          <button class="btn btn-success calBtn" ng-click="changeView('agendaDay')">Day</button>
+				        </div>
+						<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+					</div>
+				</div>
+				<h3>How?</h3>
+				<pre class="prettyprint linenums">
+&lt;div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"&gt;&lt;/div&gt; 
+
+function CalendarCtrl($scope) {
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    /* event source that pulls from google.com */
+    $scope.eventSource = {
+            url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
+            className: 'gcal-event',           // an option!
+            currentTimezone: 'America/Chicago' // an option!
+    };
+    /* event source that contains custom events on the scope */
+    $scope.events = [
+	  {title: 'All Day Event',start: new Date(y, m, 1)},
+	  {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+	  {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+	  {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
+	  {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
+	  {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
+    ];
+    /* event source that calls a function on every view switch */
+    $scope.eventsF = function (start, end, callback) {
+      var s = new Date(start).getTime() / 1000;
+      var e = new Date(end).getTime() / 1000;
+      var m = new Date(start).getMonth()
+      var events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
+      callback(events);
+    };
+    /* alert on eventClick */
+    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
+        $scope.$apply(function(){
+          $scope.alertMessage = ('Day Clicked ' + date);
+        });
+    };
+    /* change view from scope 
+    *
+    *   a calendar object is attached to the scope,
+    *   so that functions can be called at any time to control the calendar.
+    */
+    $scope.changeView = function(view){
+        $scope.calendar.fullCalendar('changeView',view);
+    };
+    /* add and removes an event source of choice */
+    $scope.addRemoveEventSource = function(sources,source) {
+      var canAdd = 0;
+      angular.forEach(sources,function(value, key){
+        if(sources[key] === source){
+          sources.splice(key,1)
+          canAdd = 1;
+        }
+      })
+      if(canAdd === 0){
+        sources.push(source);
+      }
+    };
+    /* add custom event*/
+    $scope.addEvent = function() {
+      $scope.events.push({
+        title: 'Open Sesame',
+        start: new Date(y, m, 28),
+        end: new Date(y, m, 29),
+        className: ['openSesame']
+      });
+    }
+    /* remove event */
+    $scope.remove = function(index) {
+      $scope.events.splice(index,1);
+    }
+    /* config object */
+    $scope.uiConfig = {
+      calendar:{
+        height: 450,
+        editiable: true,
+        dayClick: $scope.alertEventOnClick
+      }
+    };
+    /* event sources array*/
+    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+}
+</pre>
+</section>
+</div>
+</div>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17352735-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>
