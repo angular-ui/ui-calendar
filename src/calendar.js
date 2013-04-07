@@ -63,7 +63,10 @@ angular.module('ui.calendar', [])
               /* watches all eventSources */
               scope.$watch(getSources, function( newVal, oldVal )
               {
-                update();
+                scope.calendar.fullCalendar('removeEventSources');
+                for(var i in sources) {                  
+                  scope.calendar.fullCalendar('addEventSource', sources[i]);
+                }
               });
          }
     };
