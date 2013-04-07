@@ -17,7 +17,9 @@
   ],
   "dependencies": {
     "angular": "~1.x",
-    "jquery-ui": ">= 1.9"
+    "jquery": "~1.x",
+    "jquery-ui": ">= 1.9",
+    "fullcalendar": "~1.x"
   },
   "devDependencies": {
     "angular-mocks": "~1.x"
