@@ -1,8 +1,6 @@
-
 /**
- * calendarDemoApp - 0.0.1
+ * calendarDemoApp - 0.1.0
  */
-
 angular.module('calendarDemoApp', ['ui.calendar']);
 
 function CalendarCtrl($scope) {
@@ -34,17 +32,22 @@ function CalendarCtrl($scope) {
       callback(events);
     };
     /* alert on eventClick */
-    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
+    $scope.addEventOnClick = function( date, allDay, jsEvent, view ){
         $scope.$apply(function(){
           $scope.alertMessage = ('Day Clicked ' + date);
         });
     };
-    /* change view from scope 
-    *
-    *   a calendar object is attached to the scope that the calendar is called from, so that functions can be called at any time to control the calendar.
-    */
-    $scope.changeView = function(view){
-        $scope.calendar.fullCalendar('changeView',view);
+    /* alert on Drop */
+     $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+        $scope.$apply(function(){
+          $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
+        });
+    };
+    /* alert on Resize */
+    $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
+        $scope.$apply(function(){
+          $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
+        });
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {
@@ -77,7 +80,14 @@ function CalendarCtrl($scope) {
       calendar:{
         height: 450,
         editable: true,
-        dayClick: $scope.alertEventOnClick
+        header:{
+          left: 'month basicWeek basicDay agendaWeek agendaDay',
+          center: 'title',
+          right: 'today prev,next'
+        },
+        dayClick: $scope.alertEventOnClick,
+        eventDrop: $scope.alertOnDrop,
+        eventResize: $scope.alertOnResize
       }
     };
     /* event sources array*/
