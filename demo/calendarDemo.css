@@ -79,9 +79,6 @@ section {
 }
 
 /*** Calendar ***/
-.calBtn{
-	float: left;  margin-left: 5px;
-}
 
 .calAlert{
 	width: 680px; float: right; margin-bottom: 5px;
