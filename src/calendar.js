@@ -15,11 +15,18 @@ angular.module('ui.calendar', [])
   //returns calendar
   return {
     require: 'ngModel',
-    scope: true,
+    scope: {calendar:'=',ngModel:'=',config:'='},
     restrict: 'A',
-    link: function(scope, elm, attrs) {
-      var sources = scope.$eval(attrs.ngModel);
-      var calendar = elm.html('');
+    controller:function($scope,$element){
+      
+    },
+    link: function(scope, elm, attrs,calCtrl) {
+      var sources = scope.ngModel;//scope.$eval(attrs.ngModel);
+      scope.destroy = function(){
+        scope.calendar = elm.html('');
+      }
+      scope.destroy();
+      //scope.calendar = elm.html('');
       var eventsFingerprint = function() {
         var fpn = "";
         angular.forEach(sources, function(events) {
@@ -36,11 +43,14 @@ angular.module('ui.calendar', [])
         });
         return fpn;
       };
-
-      var options = { eventSources: sources };
-      angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$eval(attrs.uiCalendar) : {});
-      calendar.fullCalendar(options);
-
+      scope.init = function(){
+        var options = { eventSources: sources };
+        // not sure which would be more convenient
+        //angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? attrs.uiCalendar : {});
+        angular.extend(options, uiCalendarConfig, scope.config ? scope.config : {});
+        scope.calendar.fullCalendar(options);
+      }
+      scope.init();
       // Track changes in array by assigning numeric ids to each element and watching the scope for changes in those ids
       var changeTracker = function(array) {
         var self;
@@ -102,13 +112,13 @@ angular.module('ui.calendar', [])
       var sourcesTracker = changeTracker(sources);
       sourcesTracker.subscribe(scope);
       sourcesTracker.onAdded = function(source) {
-        calendar.fullCalendar('addEventSource', source);
+        scope.calendar.fullCalendar('addEventSource', source);
       };
       sourcesTracker.onRemoved = function(source) {
-        calendar.fullCalendar('removeEventSource', source);
+        scope.calendar.fullCalendar('removeEventSource', source);
       };
       scope.$watch(eventsFingerprint, function() {
-        calendar.fullCalendar('refetchEvents');
+        scope.calendar.fullCalendar('refetchEvents');
       });
     }
   };
