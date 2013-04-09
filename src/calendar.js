@@ -24,7 +24,7 @@ angular.module('ui.calendar', [])
       var sources = scope.ngModel;//scope.$eval(attrs.ngModel);
       scope.destroy = function(){
         scope.calendar = elm.html('');
-      }
+      };
       scope.destroy();
       //scope.calendar = elm.html('');
       var eventsFingerprint = function() {
@@ -49,7 +49,7 @@ angular.module('ui.calendar', [])
         //angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? attrs.uiCalendar : {});
         angular.extend(options, uiCalendarConfig, scope.config ? scope.config : {});
         scope.calendar.fullCalendar(options);
-      }
+      };
       scope.init();
       // Track changes in array by assigning numeric ids to each element and watching the scope for changes in those ids
       var changeTracker = function(array) {
