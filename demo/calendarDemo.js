@@ -4,6 +4,7 @@
 angular.module('calendarDemoApp', ['ui.calendar']);
 
 function CalendarCtrl($scope) {
+    $scope.myCalendar = '';
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -32,7 +33,7 @@ function CalendarCtrl($scope) {
       callback(events);
     };
     /* alert on eventClick */
-    $scope.addEventOnClick = function( date, allDay, jsEvent, view ){
+    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
         $scope.$apply(function(){
           $scope.alertMessage = ('Day Clicked ' + date);
         });
@@ -74,6 +75,10 @@ function CalendarCtrl($scope) {
     /* remove event */
     $scope.remove = function(index) {
       $scope.events.splice(index,1);
+    };
+    /* Change View */
+    $scope.changeView = function(view) {
+      $scope.myCalendar.fullCalendar('changeView',view);
     };
     /* config object */
     $scope.uiConfig = {

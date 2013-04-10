@@ -17,9 +17,15 @@ angular.module('ui.calendar', [])
     require: 'ngModel',
     scope: true,
     restrict: 'A',
-    link: function(scope, elm, attrs) {
+    link: function(scope, elm, attrs, parent) {
       var sources = scope.$eval(attrs.ngModel);
-      var calendar = elm.html('');
+      var calendar;
+      if(!attrs.calendar){
+        calendar = elm.html(''); 
+      }
+      else{
+        calendar = angular.element(elm.parent()).scope()[attrs.calendar] = elm.html('');
+      }
       var eventsFingerprint = function() {
         var fpn = "";
         angular.forEach(sources, function(events) {

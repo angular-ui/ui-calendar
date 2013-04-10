@@ -77,12 +77,14 @@
                     <div class="span8">
                         <div class="alert-success calAlert"><h4>{{alertMessage}}</h4></div>
                         <div class="btn-toolbar">
-                            <p class="pull-right lead">You can drag events below</p>
                             <div class="btn-group">
                                 <button class="btn btn-info" ng-click="addRemoveEventSource(eventSources,eventSource)">Toggle an event source</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
+                                <button class="btn btn-success" ng-click="changeView('month')">Month</button>
                             </div>
                         </div>
-                        <div class="calendar" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
+                        <div class="calendar" ng-model="eventSources" ui-calendar="uiConfig.calendar" calendar="myCalendar"></div>
                     </div>
                 </div>
             </div>
@@ -93,6 +95,7 @@
 angular.module('calendarDemoApp', ['ui.calendar']);
 
 function CalendarCtrl($scope) {
+    $scope.myCalendar = '';
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -121,7 +124,7 @@ function CalendarCtrl($scope) {
       callback(events);
     };
     /* alert on eventClick */
-    $scope.addEventOnClick = function( date, allDay, jsEvent, view ){
+    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
         $scope.$apply(function(){
           $scope.alertMessage = ('Day Clicked ' + date);
         });
@@ -164,6 +167,10 @@ function CalendarCtrl($scope) {
     $scope.remove = function(index) {
       $scope.events.splice(index,1);
     };
+    /* Change View */
+    $scope.changeView = function(view) {
+      $scope.myCalendar.fullCalendar('changeView',view);
+    };
     /* config object */
     $scope.uiConfig = {
       calendar:{
@@ -181,6 +188,7 @@ function CalendarCtrl($scope) {
     };
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+}
 }
 </pre>
         </section>
