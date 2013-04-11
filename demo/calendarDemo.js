@@ -32,7 +32,7 @@ function CalendarCtrl($scope) {
       callback(events);
     };
     /* alert on eventClick */
-    $scope.addEventOnClick = function( date, allDay, jsEvent, view ){
+    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
         $scope.$apply(function(){
           $scope.alertMessage = ('Day Clicked ' + date);
         });
