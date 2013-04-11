@@ -13,7 +13,7 @@
     <script src="http://code.angularjs.org/1.0.4/angular.js"></script>
     <script src="https://raw.github.com/angular-ui/angular-ui.github.com/master/lib/calendar/fullcalendar.js"></script>
     <script src="http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js"></script>
-    <script src="https://raw.github.com/angular-ui/ui-calendar/master/src/calendar.js"></script>
+    <script src="https://raw.github.com/yourilima/ui-calendar/master/src/calendar.js"></script>
     <script src="calendarDemo.js"></script>
 </head>
 <body data-spy="scroll">
@@ -82,7 +82,7 @@
                                 <button class="btn btn-info" ng-click="addRemoveEventSource(eventSources,eventSource)">Toggle an event source</button>
                             </div>
                         </div>
-                        <div class="calendar" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
+                        <div class="calendar" ng-model="eventSources" calendar="myCalendar"config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
                     </div>
                 </div>
             </div>

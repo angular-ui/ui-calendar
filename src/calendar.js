@@ -10,16 +10,44 @@
 
 angular.module('ui.calendar', [])
 .constant('uiCalendarConfig', {})
-.directive('uiCalendar', ['uiCalendarConfig', '$parse', function(uiCalendarConfig) {
+.factory('Calendar',function(){
+  return function(elem){
+    var calendar = elem;//this will become the fullcalendar object when loaded
+    var call = function(call,args){//interface to fullcalendars functions
+      return calendar.fullCalendar(call,args);
+    };
+    this.test = 'works';
+    this.refetchEvents = function(){//refetchEvents... this way an interface can be made to all functionality and add more controll.
+      return call('refetchEvents');
+    };
+    this.init = function(options){//the creation of the fullcalendar.
+      return call(options);
+    };
+    this.fullCalendar = function(call,args){//backwards compatibility
+      return call(call,args);
+    };
+  };
+})
+.directive('uiCalendar', ['uiCalendarConfig', 'Calendar' , '$parse', function(uiCalendarConfig,Calendar) {
   uiCalendarConfig = uiCalendarConfig || {};
   //returns calendar
   return {
     require: 'ngModel',
-    scope: true,
+    scope: {ngModel:'=',config:'='},
     restrict: 'A',
-    link: function(scope, elm, attrs) {
-      var sources = scope.$eval(attrs.ngModel);
-      var calendar = elm.html('');
+    controller:function($scope,$element){
+    },
+    link: function(scope, elm, attrs,calCtrl) {
+      var sources = scope.ngModel;//scope.$eval(attrs.ngModel);
+      scope.destroy = function(){
+        if(attrs.calendar){
+          scope.calendar = scope.$parent[attrs.calendar] =  new Calendar(elm.html(''));
+        }else{
+          scope.calendar = new Calendar(elm.html(''));
+        }
+      };
+      scope.destroy();
+      //scope.calendar = elm.html('');
       var eventsFingerprint = function() {
         var fpn = "";
         angular.forEach(sources, function(events) {
@@ -36,11 +64,14 @@ angular.module('ui.calendar', [])
         });
         return fpn;
       };
-
-      var options = { eventSources: sources };
-      angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$eval(attrs.uiCalendar) : {});
-      calendar.fullCalendar(options);
-
+      scope.init = function(){
+        var options = { eventSources: sources };
+        // not sure which would be more convenient
+        //angular.extend(options, uiCalendarConfig, scope.config ? scope.config : {});
+        angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {});
+        scope.calendar.init(options);
+      };
+      scope.init();
       // Track changes in array by assigning numeric ids to each element and watching the scope for changes in those ids
       var changeTracker = function(array) {
         var self;
@@ -102,13 +133,13 @@ angular.module('ui.calendar', [])
       var sourcesTracker = changeTracker(sources);
       sourcesTracker.subscribe(scope);
       sourcesTracker.onAdded = function(source) {
-        calendar.fullCalendar('addEventSource', source);
+        scope.calendar.addEventSource(source);
       };
       sourcesTracker.onRemoved = function(source) {
-        calendar.fullCalendar('removeEventSource', source);
+        scope.calendar.removeEventSource(source);
       };
       scope.$watch(eventsFingerprint, function() {
-        calendar.fullCalendar('refetchEvents');
+        scope.calendar.refetchEvents();
       });
     }
   };
