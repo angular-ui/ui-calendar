@@ -17,9 +17,7 @@ angular.module('ui.calendar', [])
     require: 'ngModel',
     scope: {ngModel:'=',config:'='},
     restrict: 'A',
-    controller:function($scope,$element){
-    },
-    link: function(scope, elm, attrs,calCtrl) {
+    link: function(scope, elm, attrs) {
       var sources = scope.ngModel;
       scope.destroy = function(){
         if(attrs.calendar){
