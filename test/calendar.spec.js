@@ -9,21 +9,21 @@ describe('uiCalendar', function () {
         scope = _$rootScope_.$new();
         $compile = _$compile_;
 
-        
+
           //Date Objects needed for event
           var date = new Date();
           var d = date.getDate();
           var m = date.getMonth();
           var y = date.getFullYear();
 
-          // create an array of events, to pass into the directive. 
+          // create an array of events, to pass into the directive.
           scope.events = [
             {title: 'All Day Event',start: new Date(y, m, 1),url: 'http://www.angularjs.org'},
             {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
             {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
             {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
 
-          // create an array of events, to pass into the directive. 
+          // create an array of events, to pass into the directive.
           scope.events2 = [
             {title: 'All Day Event 2',start: new Date(y, m, 1),url: 'http://www.atlantacarlocksmith.com'},
             {title: 'Long Event 2',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
@@ -36,23 +36,18 @@ describe('uiCalendar', function () {
             {id: 998,title: 'Repeating Event 3',start: new Date(y, m, d - 3, 16, 0),allDay: false},
             {id: 998,title: 'Repeating Event 3',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
 
-          // create an array of events, to pass into the directive. 
+          // create an array of events, to pass into the directive.
           scope.events4 = [{title: 'All Day Event 3',start: new Date(y, m, 1),url: 'http://www.yoyoyo.com'}];
 
-          //equalsTracker to force the calendar to update on rare occasions
-          //ie... an event source is replacing another and has the same length as the prior eventSource
-          //or... replacing an eventSource that is an object with another eventSource
-          scope.equalsTracker = 0;
-
-          //event Sources array  
+          //event Sources array
           scope.eventSources = [scope.events,scope.events2]; //End of Events Array
-          
+
           scope.addSource = function(source) {
             scope.eventSources.push(source);
           };
 
-          scope.addChild = function(array) {
-            array.push({
+          scope.addChild = function(array, child) {
+            array.push(child || {
               title: 'Click for Google ' + scope.events.length,
               start: new Date(y, m, 28),
               end: new Date(y, m, 29),
@@ -71,7 +66,7 @@ describe('uiCalendar', function () {
               defaultView: 'month'
            }
           };
-         
+
     }));
 
     describe('compiling this directive and checking for events inside the calendar', function () {
@@ -106,7 +101,7 @@ describe('uiCalendar', function () {
         it('should expect the calendar attribute height to be 200', function () {
             spyOn($.fn, 'fullCalendar');
             $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
-            expect($.fn.fullCalendar.mostRecentCall.args[0].height).toEqual(200);  
+            expect($.fn.fullCalendar.mostRecentCall.args[0].height).toEqual(200);
         });
         /* Tests the weekends boolean of the calendar. */
         it('should expect the calendar attribute weekends to be false', function () {
@@ -131,7 +126,7 @@ describe('uiCalendar', function () {
             expect(clientEventsLength).toEqual(4);
             //remove an event from the scope.
             scope.remove(scope.events,0);
-            //events should auto update inside the calendar. 
+            //events should auto update inside the calendar.
             clientEventsLength = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length;
             expect(clientEventsLength).toEqual(3);
         });
@@ -140,7 +135,7 @@ describe('uiCalendar', function () {
             spyOn($.fn, 'fullCalendar');
             scope.uiConfig2 = {
               calendar:{
-                header: {center: 'title'} 
+                header: {center: 'title'}
              }
             };
             $compile('<div ui-calendar="uiConfig2.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
@@ -158,7 +153,7 @@ describe('uiCalendar', function () {
             expect(clientEventsLength2).toEqual(4);
             //remove an event from the scope.
             scope.remove(scope.events2,0);
-            //events should auto update inside the calendar. 
+            //events should auto update inside the calendar.
             clientEventsLength = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length;
             clientEventsLength2 = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[1].length;
             expect(clientEventsLength).toEqual(4);
@@ -175,7 +170,7 @@ describe('uiCalendar', function () {
             expect(clientEventSources).toEqual(2);
             //add new source to calendar
             scope.addSource(scope.events4);
-            //eventSources should auto update inside the calendar. 
+            //eventSources should auto update inside the calendar.
             clientEventSources = $.fn.fullCalendar.mostRecentCall.args[0].eventSources.length;
             expect(clientEventSources).toEqual(3);
             //go ahead and add some more events to the array and check those too.
@@ -183,6 +178,7 @@ describe('uiCalendar', function () {
             var clientEventsLength = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[2].length;
             expect(clientEventsLength).toEqual(2);
         });
+
         /* Test to see if calendar is updating when an eventSource replaces another with an equal length. */
         it('should update the calendar if an eventSource has same length as prior eventSource', function () {
             spyOn($.fn, 'fullCalendar');
@@ -194,9 +190,7 @@ describe('uiCalendar', function () {
             expect(clientEventSources[1][0].title).toEqual('All Day Event 2');
             //replace source with one that has the same length
             scope.eventSources.splice(1,1,scope.events3);
-            //must update the equalsTracker as we would detect that the length is equal from controller
-            scope.equalsTracker++;
-            //eventSources should update inside the calendar since we incremented the equalsTracker 
+            //eventSources should update inside the calendar since we incremented the equalsTracker
             clientEventSources = $.fn.fullCalendar.mostRecentCall.args[0].eventSources;
             expect(clientEventSources.length).toEqual(2);
             expect(clientEventSources[1][0].title).toEqual('All Day Event 3');
@@ -204,9 +198,8 @@ describe('uiCalendar', function () {
             scope.remove(scope.events,0);
             clientEventsLength = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length;
             expect(clientEventsLength).toEqual(3);
-           
         });
-        
+
 
        });
 
