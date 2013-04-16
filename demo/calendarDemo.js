@@ -1,5 +1,5 @@
 /**
- * calendarDemoApp - 0.1.2
+ * calendarDemoApp - 0.1.3
  */
 angular.module('calendarDemoApp', ['ui.calendar']);
 
