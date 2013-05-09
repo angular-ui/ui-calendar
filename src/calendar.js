@@ -84,6 +84,7 @@ angular.module('ui.calendar', [])
               self.onChanged(el);
             }
           }
+
           var addedTokens = subtractAsSets(newTokens, oldTokens);
           for (i = 0, n = addedTokens.length; i < n; i++) {
             token = addedTokens[i];
@@ -94,8 +95,12 @@ angular.module('ui.calendar', [])
           }
         };
         return self = {
-          subscribe: function(scope) {
-            scope.$watch(getTokens, applyChanges, true);
+          subscribe: function(scope, onChanged) {
+            scope.$watch(getTokens, function(newTokens, oldTokens) {
+              if (!onChanged || onChanged(newTokens, oldTokens) !== false) {
+                applyChanges(newTokens, oldTokens);
+              }
+            }, true);
           },
           onAdded: angular.noop,
           onChanged: angular.noop,
@@ -105,15 +110,19 @@ angular.module('ui.calendar', [])
 
       //= tracking sources added/removed
 
+      var sourcesChanged = false;
+
       var eventSourcesWatcher = changeWatcher(sources, function(source) {
         return source.__id || (source.__id = sourceSerialId++);
       });
       eventSourcesWatcher.subscribe(scope);
       eventSourcesWatcher.onAdded = function(source) {
         scope.calendar.fullCalendar('addEventSource', source);
+        sourcesChanged = true;
       };
       eventSourcesWatcher.onRemoved = function(source) {
         scope.calendar.fullCalendar('removeEventSource', source);
+        sourcesChanged = true;
       };
 
       //= tracking individual events added/changed/removed
@@ -136,7 +145,15 @@ angular.module('ui.calendar', [])
         return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
             (e.allDay || false) + (e.className || '');
       });
-      eventsWatcher.subscribe(scope);
+      eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
+        if (sourcesChanged) {
+          // Rerender the whole thing if a new event source was added/removed
+          scope.calendar.fullCalendar('rerenderEvents');
+          sourcesChanged = false;
+          // prevent incremental updates in this case
+          return false;
+        }
+      });
       eventsWatcher.onAdded = function(event) {
         scope.calendar.fullCalendar('renderEvent', event);
       };
@@ -149,3 +166,4 @@ angular.module('ui.calendar', [])
     }
   };
 }]);
+
