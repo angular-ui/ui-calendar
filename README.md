@@ -50,14 +50,16 @@ Apply the directive to your div elements:
 
 All the Arshaw Fullcalendar options can be passed through the directive. This even means function objects that are declared on the scope. 
 
-	myAppModule.controller('MyController', function($scope) {
-		/* config object */
-    $scope.calendarConfig = {
-        height: 450,
-        editiable: true,
-        dayClick: $scope.alertEventOnClick
-    };
-	});
+    myAppModule.controller('MyController', function($scope) {
+        /* config object */
+        $scope.calendarConfig = {
+            height: 450,
+            editiable: true,
+            dayClick: function(){
+                scope.$apply($scope.alertEventOnClick);
+            }
+        };
+    });
 
     <div ui-calendar="calendarOptions" ng-model="eventSources">
 
@@ -67,7 +69,8 @@ The ui-calendar directive plays nicely with ng-model.
 
 An Event Sources objects needs to be created to pass into ng-model. This object will be watched for changes and update the calendar accordingly, giving the calendar some Angular Magic. 
 
-_The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar._ [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
+The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar. [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
+Note that all calendar options are passed directly into `fullCalendar`, so you will need to wrap listeners to fullCalendar events in `scope.$apply`, as in example above.
 
 ## Accessing the calendar object
 
