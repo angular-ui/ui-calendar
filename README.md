@@ -69,6 +69,18 @@ An Event Sources objects needs to be created to pass into ng-model. This object 
 
 _The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar._ [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
 
+## Accessing the calendar object
+
+To avoid potential issues, by default the calendar object is not available in the parent scope. Access the object by declaring a name:
+
+    <div ui-calendar="calendarOptions" ng-model="eventSources" calendar="myCalendar">
+    
+Now the calendar object is available in the parent scope:
+
+    $scope.myCalendar.fullCalendar
+    
+This allows you to declare any number of calendar objects with distinct names.
+
 ## Documentation for the Calendar
 
 The calendar works alongside of all the documentation represented [here](http://arshaw.com/fullcalendar/docs)
