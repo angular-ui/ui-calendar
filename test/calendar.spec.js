@@ -278,6 +278,28 @@ describe('uiCalendar', function () {
           expect(sourcesChanged).toBe('changed');
         });
 
+        it('makes sure the correct function is called when the calendarWatchEvent function is return variable is altered', function () {
+          scope.testX = 0;
+
+          scope.calendarWatchEvent = function(){
+            return scope.testX;
+          };
+
+          var calendarCtrl2 = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
+          scope.$apply();
+
+          var eventsWatcher = calendarCtrl2.changeWatcher(calendarCtrl2.allEvents,calendarCtrl2.eventsFingerprint);
+          expect(sourcesChanged).toBe(false);
+          eventsWatcher.subscribe(scope);
+          eventsWatcher.onAdded = onFnAdd;
+          eventsWatcher.onRemoved = onFnRemove;
+          eventsWatcher.onChanged = onFnChanged;
+          scope.$apply();
+          scope.testX++;
+          scope.$apply();
+          expect(sourcesChanged).toBe('changed');
+        });
+
     });
 
 });

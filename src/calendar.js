@@ -15,14 +15,15 @@ angular.module('ui.calendar', [])
       var sourceSerialId = 1, 
           eventSerialId = 1,
           sources = $scope.eventSources;
+          extraEventSignature = $scope.calendarWatchEvent ? $scope.calendarWatchEvent : angular.noop;
 
       this.eventsFingerprint = function(e) {
-          if (!e.__uiCalId) {
-            e.__uiCalId = eventSerialId++;
-          }
-          // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
-          return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
-              (e.allDay || false) + (e.className || '');
+        if (!e.__uiCalId) {
+          e.__uiCalId = eventSerialId++;
+        }
+        // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
+        return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
+          (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
       };
 
       this.sourcesFingerprint = function(source) {
@@ -49,11 +50,14 @@ angular.module('ui.calendar', [])
         var self;
         var getTokens = function() {
           var array = angular.isFunction(arraySource) ? arraySource() : arraySource;
-          return array.map(function(el) {
-            var token = tokenFn(el);
+          var result = [], token, el;
+          for (var i = 0, n = array.length; i < n; i++) {
+            el = array[i];
+            token = tokenFn(el);
             map[token] = el;
-            return token;
-          });
+            result.push(token);
+          }
+          return result;
         };
         // returns elements in that are in a but not in b
         // subtractAsSets([4, 5, 6], [4, 5, 7]) => [6]
@@ -138,7 +142,7 @@ angular.module('ui.calendar', [])
     //returns calendar
     return {
       restrict: 'A',
-      scope: {eventSources:'=ngModel',config:'='},
+      scope: {eventSources:'=ngModel',config:'=',calendarWatchEvent: '&'},
       controller: 'uiCalendarCtrl',
       link: function(scope, elm, attrs, controller) {
 
@@ -195,7 +199,7 @@ angular.module('ui.calendar', [])
             return false;
           }
         });
-      }
+        }
     };
 }]);
 
