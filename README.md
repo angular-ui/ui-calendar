@@ -93,6 +93,21 @@ Now the calendar object is available in the parent scope:
     
 This allows you to declare any number of calendar objects with distinct names.
 
+## Custom event rendering
+
+You can use fullcalendar's `eventRender` option to customize how events are rendered in the calendar.
+However, only certain event attributes are watched for changes (they are `id`, `title`, `url`, `start`, `end`, `allDay`, and `className`).
+
+If you need to automatically re-render other event data, you can use `calendar-watch-event`.
+`calendar-watch-event` expression must return a function that is passed `event` as argument and returns a string or a number, for example:
+
+    $scope.extraEventSignature = function(event) {
+       returns "" + event.price;
+    }
+
+    <ui-calendar calendar-watch-event="extraEventSignature" ... >
+    // will now watch for price
+
 ## Documentation for the Calendar
 
 The calendar works alongside of all the documentation represented [here](http://arshaw.com/fullcalendar/docs)
