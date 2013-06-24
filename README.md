@@ -14,10 +14,10 @@ A complete AngularJS directive for the Arshaw FullCalendar.
 
 We use testacular and jshint to ensure the quality of the code.  The easiest way to run these checks is to use grunt:
 
-  npm install -g grunt-cli
-  npm install
-  bower install
-  grunt
+    npm install -g grunt-cli
+    npm install
+    bower install
+    grunt
 
 # Usage
 
