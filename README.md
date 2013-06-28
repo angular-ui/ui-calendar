@@ -52,12 +52,19 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
 
     myAppModule.controller('MyController', function($scope) {
         /* config object */
-        $scope.calendarConfig = {
+        $scope.uiConfig = {
+          calendar:{
             height: 450,
-            editiable: true,
-            dayClick: function(){
-                scope.$apply($scope.alertEventOnClick);
-            }
+            editable: true,
+            header:{
+              left: 'month basicWeek basicDay agendaWeek agendaDay',
+              center: 'title',
+              right: 'today prev,next'
+            },
+            dayClick: $scope.alertEventOnClick,
+            eventDrop: $scope.alertOnDrop,
+            eventResize: $scope.alertOnResize
+          }
         };
     });
 
