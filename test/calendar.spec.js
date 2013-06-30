@@ -2,12 +2,13 @@
 describe('uiCalendar', function () {
     'use strict';
 
-    var scope, $compile;
+    var scope, $compile, $locale;
 
     beforeEach(module('ui.calendar'));
-    beforeEach(inject(function (_$rootScope_, _$compile_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_) {
         scope = _$rootScope_.$new();
         $compile = _$compile_;
+        $locale = _$locale_;
 
         
           //Date Objects needed for event
@@ -70,7 +71,12 @@ describe('uiCalendar', function () {
     }));
 
     describe('compiling this directive and checking for events inside the calendar', function () {
-
+        it('should set names for $locale', function() {
+            spyOn($.fn, 'fullCalendar');
+            $locale.DATETIME_FORMATS.MONTH[0] = 'enero';
+            $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
+            expect($.fn.fullCalendar.mostRecentCall.args[0].monthNames[0]).toBe('enero');
+        });
 
         /* test the calendar's events length  */
         it('should excpect to load 4 events to scope', function () {
