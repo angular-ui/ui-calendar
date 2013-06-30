@@ -10,8 +10,24 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {})
-  .directive('uiCalendar', ['uiCalendarConfig', '$parse', function(uiCalendarConfig) {
-  uiCalendarConfig = uiCalendarConfig || {};
+  .directive('uiCalendar', ['uiCalendarConfig', '$locale', function(uiCalendarConfig, $locale) {
+  // Configure to use locale names by default
+  var tValues = function(data) {
+    // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
+    var r, k;
+    r = [];
+    for (k in data) {
+      r[k] = data[k];
+    }
+    return r;
+  };
+  var dtf = $locale.DATETIME_FORMATS;
+  uiCalendarConfig = angular.extend({
+    monthNames: tValues(dtf.MONTH),
+    monthNamesShort: tValues(dtf.SHORTMONTH),
+    dayNames: tValues(dtf.DAY),
+    dayNamesShort: tValues(dtf.SHORTDAY)
+  }, uiCalendarConfig || {});
   var sourceSerialId = 1, eventSerialId = 1;
   //returns calendar
   return {
