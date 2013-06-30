@@ -71,11 +71,19 @@ describe('uiCalendar', function () {
     }));
 
     describe('compiling this directive and checking for events inside the calendar', function () {
-        it('should set names for $locale', function() {
+        it('should set names for $locale by default', function() {
             spyOn($.fn, 'fullCalendar');
             $locale.DATETIME_FORMATS.MONTH[0] = 'enero';
             $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
             expect($.fn.fullCalendar.mostRecentCall.args[0].monthNames[0]).toBe('enero');
+        });
+
+        it('should allow overriding names for $locale', function() {
+          spyOn($.fn, 'fullCalendar');
+          scope.uiConfig.calendar.monthNames = $locale.DATETIME_FORMATS.MONTH.slice();
+          scope.uiConfig.calendar.monthNames[0] = 'custom name';
+          $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
+          expect($.fn.fullCalendar.mostRecentCall.args[0].monthNames[0]).toBe('custom name');
         });
 
         /* test the calendar's events length  */
