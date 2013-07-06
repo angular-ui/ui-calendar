@@ -76,8 +76,8 @@ function CalendarCtrl($scope) {
       $scope.events.splice(index,1);
     };
     /* Change View */
-    $scope.changeView = function(view) {
-      $scope.myCalendar.fullCalendar('changeView',view);
+    $scope.changeView = function(view,calendar) {
+      calendar.fullCalendar('changeView',view);
     };
     /* config object */
     $scope.uiConfig = {
@@ -85,8 +85,8 @@ function CalendarCtrl($scope) {
         height: 450,
         editable: true,
         header:{
-          left: 'month basicWeek basicDay agendaWeek agendaDay',
-          center: 'title',
+          left: 'title',
+          center: '',
           right: 'today prev,next'
         },
         dayClick: $scope.alertEventOnClick,

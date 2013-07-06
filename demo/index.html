@@ -2,18 +2,18 @@
 <html lang="en" ng-app="calendarDemoApp" id="top">
 <head>
     <title>AngularUI Calendar for AngularJS</title>
-
-    <link rel="stylesheet" href="http://angular-ui.github.com/lib/bootstrap/docs/assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="http://arshaw.com/js/fullcalendar-1.6.0/fullcalendar/fullcalendar.css">
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="../bower_components/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/fullcalendar/fullcalendar.css">
     <link rel="stylesheet" href="calendarDemo.css" />
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script src="../bower_components/jquery/jquery.js"></script>
+    <script src="../bower_components/jquery-ui/ui/jquery-ui.js"></script>
 
-    <script src="http://code.angularjs.org/1.0.4/angular.js"></script>
-    <script src="https://raw.github.com/angular-ui/angular-ui.github.com/master/lib/calendar/fullcalendar.js"></script>
-    <script src="http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js"></script>
-    <script src="https://raw.github.com/angular-ui/ui-calendar/master/src/calendar.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/fullcalendar/fullcalendar.js"></script>
+    <script src="../bower_components/fullcalendar/gcal.js"></script>
+    <script src="../src/calendar.js"></script>
     <script src="calendarDemo.js"></script>
 </head>
 <body data-spy="scroll">
@@ -46,7 +46,7 @@
 
         <section id="directives-calendar" ng-controller="CalendarCtrl">
             <div class="page-header">
-                <h1>Calendar</h1>
+                <h1>UI-Calendar</h1>
             </div>
             <div class="well">
                 <div class="row-fluid">
@@ -54,14 +54,21 @@
                         <h3>What?</h3>
 
                         <p>Attach Angular objects to a calendar.</p>
+                        <p>Show the data binding between two differnet calendars using the same event sources.</p>
 
                         <h3>Why?</h3>
 
-                        <p>For easy integration with scope objects.</p>
+                        <p>Why Not?</p>
+                        
+                        <div class="btn-group calTools">
+                          <button class="btn btn-info" ng-click="addRemoveEventSource(eventSources,eventSource)">
+                            Toggle an event source
+                          </button>
 
-                        <p><button type="button" class="btn btn-primary" ng-click="addEvent()">
-                         Add Event
-                        </button></p>
+                          <button type="button" class="btn btn-primary" ng-click="addEvent()">
+                            Add Event
+                          </button>
+                        </div>
 
                         <ul class="unstyled">
                             <li ng-repeat="e in events">
@@ -75,18 +82,27 @@
                     </div>
 
                     <div class="span8">
-                        <div class="alert-success calAlert"><h4>{{alertMessage}}</h4></div>
+                        <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+                            <h4>{{alertMessage}}</h4>
+                        </div>
                         <div class="btn-toolbar">
-                            <p class="pull-right lead">You can drag events below</p>
+                            <p class="pull-right lead">Calendar One View Options</p>
                             <div class="btn-group">
-                                <button class="btn btn-info" ng-click="addRemoveEventSource(eventSources,eventSource)">Toggle an event source</button>
-                                <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
-                                <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
-                                <button class="btn btn-success" ng-click="changeView('month')">Month</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar)">AgendaDay</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar)">AgendaWeek</button>
+                                <button class="btn btn-success" ng-click="changeView('month', myCalendar)">Month</button>
                             </div>
                         </div>
                         <div class="calendar" ng-model="eventSources" calendar="myCalendar" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
-                        <div class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+                        <div class="btn-toolbar">
+                            <p class="pull-right lead">Calendar Two View Options</p>
+                            <div class="btn-group">
+                                <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar2)">AgendaDay</button>
+                                <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar2)">AgendaWeek</button>
+                                <button class="btn btn-success" ng-click="changeView('month', myCalendar2)">Month</button>
+                            </div>
+                        </div>
+                        <div class="calendar" ng-model="eventSources" calendar="myCalendar2" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
                     </div>
                 </div>
             </div>
@@ -169,8 +185,8 @@ function CalendarCtrl($scope) {
       $scope.events.splice(index,1);
     };
     /* Change View */
-    $scope.changeView = function(view) {
-      $scope.myCalendar.fullCalendar('changeView',view);
+    $scope.changeView = function(view, calendar) {
+      calendar.fullCalendar('changeView',view);
     };
     /* config object */
     $scope.uiConfig = {

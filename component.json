@@ -22,6 +22,7 @@
     "fullcalendar": "~1.x"
   },
   "devDependencies": {
-    "angular-mocks": "~1.x"
+    "angular-mocks": "~1.x",
+    "bootstrap": "http://twitter.github.com/bootstrap/assets/bootstrap.zip"
   }
 }
