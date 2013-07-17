@@ -68,7 +68,7 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
         };
     });
 
-    <div ui-calendar="calendarOptions" ng-model="eventSources">
+    <div ui-calendar="uiConfig.calendar" ng-model="eventSources">
 
 ## Working with ng-model
 
