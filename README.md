@@ -1,23 +1,23 @@
 # ui-calendar directive [![Build Status](https://travis-ci.org/angular-ui/ui-calendar.png)](https://travis-ci.org/angular-ui/ui-calendar)
 
-A complete AngularJS directive for the Arshaw FullCalendar.
+A complete AngularJS directive for the Arshaw FullCalendar. Checkout the [Demo](http://angular-ui.github.io/ui-calendar/).
 
 # Requirements
-- ([fullcalendar.css](https://raw.github.com/angular-ui/angular-ui.github.com/master/lib/calendar/fullcalendar.css))
-- ([JQuery](http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js))
-- ([JQueryUI](http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js))
-- ([AngularJS](http://code.angularjs.org/1.0.4/angular.js))
-- ([fullcalendar.js](https://raw.github.com/angular-ui/angular-ui.github.com/master/lib/calendar/fullcalendar.js))
-- optional - ([gcal-plugin](http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js))
+- ([fullcalendar.css](http://arshaw.com/js/fullcalendar-1.6.1/fullcalendar/fullcalendar.css))
+- ([JQuery](http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js))
+- ([JQueryUI](http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js))
+- ([AngularJS](https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js))
+- ([fullcalendar.js](http://arshaw.com/js/fullcalendar-1.6.1/fullcalendar/fullcalendar.js))
+- optional - ([gcal-plugin](http://arshaw.com/js/fullcalendar-1.6.1/fullcalendar/gcal.js))
 
 # Testing
 
 We use testacular and jshint to ensure the quality of the code.  The easiest way to run these checks is to use grunt:
 
-    npm install -g grunt-cli
-    npm install
-    bower install
-    grunt
+  npm install -g grunt-cli
+  npm install
+  bower install
+  grunt
 
 # Usage
 
@@ -68,7 +68,7 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
         };
     });
 
-    <div ui-calendar="uiConfig.calendar" ng-model="eventSources">
+    <div ui-calendar="calendarOptions" ng-model="eventSources">
 
 ## Working with ng-model
 
