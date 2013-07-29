@@ -1,0 +1,19 @@
+{
+  "name": "jquery-ui",
+  "version": "1.10.3",
+  "main": [
+    "ui/jquery-ui.js"
+  ],
+  "dependencies": {
+    "jquery": "~> 1.10.1"
+  },
+  "gitHead": "f939c615b49693934bac6782773435fb463a170b",
+  "readme": "[jQuery UI](http://jqueryui.com/) - Interactions and Widgets for the web\n================================\n\njQuery UI provides interactions like Drag and Drop and widgets like Autocomplete, Tabs and Slider and makes these as easy to use as jQuery itself.\n\nIf you want to use jQuery UI, go to [jqueryui.com](http://jqueryui.com) to get started. Or visit the [Using jQuery UI Forum](http://forum.jquery.com/using-jquery-ui) for discussions and questions.\n\nIf you are interested in helping develop jQuery UI, you are in the right place.\nTo discuss development with team members and the community, visit the [Developing jQuery UI Forum](http://forum.jquery.com/developing-jquery-ui) or in #jquery on irc.freednode.net.\n\n## This repo only holds precompiled files.\n",
+  "readmeFilename": "README.md",
+  "_id": "jquery-ui@1.10.3",
+  "description": "[jQuery UI](http://jqueryui.com/) - Interactions and Widgets for the web ================================",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/components/jqueryui"
+  }
+}
