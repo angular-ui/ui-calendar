@@ -1,12 +1,17 @@
 language: node_js
 node_js:
-  - "0.8"
+  - "0.10"
+
+branches:
+  except:
+    - gh-pages
 
 before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+
+before_script:
   - npm install -g bower grunt-cli
-  - npm install
   - bower install
 
-script: "grunt"
+script: "grunt --verbose"

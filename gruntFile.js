@@ -1,12 +1,13 @@
 module.exports = function (grunt) {
+  "use strict";
 
-  grunt.loadNpmTasks('grunt-testacular');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  // load all grunt tasks
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'testacular']);
+  grunt.registerTask('default', ['jshint', 'karma']);
 
-  var testacularConfig = function(configFile, customOptions) {
+  var testConfig = function (configFile, customOptions) {
     var options = { configFile: configFile, keepalive: true };
     var travisOptions = process.env.TRAVIS && { browsers: ['Firefox'], reporters: 'dots' };
     return grunt.util._.extend(options, customOptions, travisOptions);
@@ -14,26 +15,25 @@ module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    testacular: {
+    karma: {
       unit: {
-        options: testacularConfig('test/test.conf.js')
+        options: testConfig('test/test.conf.js')
       }
     },
-    jshint:{
-      files:['src/**/*.js', 'test/**/*.js', 'demo/**/*.js'],
-      options:{
-        curly:true,
-        eqeqeq:true,
-        immed:true,
-        latedef:true,
-        newcap:true,
-        noarg:true,
-        sub:true,
-        boss:true,
-        eqnull:true,
-        globals:{}
+    jshint: {
+      files: ['src/**/*.js', 'test/**/*.js', 'demo/**/*.js'],
+      options: {
+        curly: true,
+        eqeqeq: true,
+        immed: true,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        boss: true,
+        eqnull: true,
+        globals: {}
       }
     }
   });
-
 };

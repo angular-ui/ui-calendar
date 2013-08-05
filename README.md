@@ -1,4 +1,4 @@
-# ui-calendar directive [![Build Status](https://travis-ci.org/angular-ui/ui-calendar.png)](https://travis-ci.org/angular-ui/ui-calendar)
+# ui-calendar directive [![Build Status](https://travis-ci.org/dalelotts/ui-calendar.png?branch=master)](https://travis-ci.org/dalelotts/ui-calendar)
 
 A complete AngularJS directive for the Arshaw FullCalendar.
 
