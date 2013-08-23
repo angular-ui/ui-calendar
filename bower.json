@@ -18,7 +18,7 @@
   "dependencies": {
     "angular": "~1.x",
     "jquery": "~1.x",
-    "jquery-ui": "1.10.2",
+    "jquery-ui": "~1.10.3",
     "fullcalendar": "~1.x"
   },
   "devDependencies": {
