@@ -37,8 +37,11 @@ angular.module('ui.calendar', [])
     link: function(scope, elm, attrs) {
       var sources = scope.ngModel;
       scope.destroy = function(){
-        if(attrs.calendar){
-          scope.calendar = scope.$parent[attrs.calendar] =  elm.html('');
+        //Try to eval calendar value in parent scope
+	      var calendarValue = attrs.calendar ? scope.$parent.$eval(attrs.calendar) : attrs.calendar;
+	      if(calendarValue){
+		      //Save calendar reference in array to allow multiple instance on one page
+          scope.calendar = scope.$parent.calendars[calendarValue] =  elm.html('');
         }else{
           scope.calendar = elm.html('');
         }
