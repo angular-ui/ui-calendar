@@ -85,9 +85,15 @@ To avoid potential issues, by default the calendar object is not available in th
 
     <div ui-calendar="calendarOptions" ng-model="eventSources" calendar="myCalendar">
     
-Now the calendar object is available in the parent scope:
+You can also use angular expressions (without the curly braces):
 
-    $scope.myCalendar.fullCalendar
+    <div ng-repeat="calendar in myCalendars">
+        <div ui-calendar="calendarOptions" ng-model="calendar.eventSources" calendar="calendar.name">
+    </div>
+    
+Now the calendar object(s) is/are available in the parent scope:
+
+    $scope.calendars['myCalendar'].fullCalendar
     
 This allows you to declare any number of calendar objects with distinct names.
 
