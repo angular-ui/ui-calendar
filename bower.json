@@ -5,7 +5,7 @@
   "author": "https://github.com/angular-ui/ui-calendar/graphs/contributors",
   "license": "MIT",
   "homepage": "http://angular-ui.github.com",
-  "main": "./ui-calendar.js",
+  "main": "./src/calendar.js",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -18,7 +18,7 @@
   "dependencies": {
     "angular": "~1.x",
     "jquery": "~1.x",
-    "jquery-ui": "1.10.2",
+    "jquery-ui": "~1.10.3",
     "fullcalendar": "~1.x"
   },
   "devDependencies": {
