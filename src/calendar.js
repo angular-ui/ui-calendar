@@ -36,9 +36,23 @@ angular.module('ui.calendar', [])
         for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
           var source = sources[i];
           if (angular.isArray(source)) {
+            // event source as array
             arraySources.push(source);
+          } else if(angular.isObject(source) && angular.isArray(source.events)){
+            // event source as object, ie extended form
+            var extEvent = {};
+            for(var key in source){
+              if(key !== '_uiCalId' && key !== 'events'){
+                 extEvent[key] = source[key];
+              }
+            }
+            for(var eI = 0;eI < source.events.length;eI++){
+              angular.extend(source.events[eI],extEvent);
+            }
+            arraySources.push(source.events);
           }
         }
+
         return Array.prototype.concat.apply([], arraySources);
       };
 
@@ -139,7 +153,6 @@ angular.module('ui.calendar', [])
       dayNamesShort: tValues(dtf.SHORTDAY)
     }, uiCalendarConfig || {});
 
-    //returns calendar
     return {
       restrict: 'A',
       scope: {eventSources:'=ngModel',config:'=',calendarWatchEvent: '&'},
