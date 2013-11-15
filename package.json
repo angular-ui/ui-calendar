@@ -9,9 +9,11 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-karma": "~0.4.3",
+    "grunt-karma": "~0.7.1",
     "grunt-contrib-jshint": "~0.2.0",
-    "matchdep": "~0.1.1"
+    "matchdep": "~0.1.1",
+    "karma" : "~0.10.4",
+    "karma-coverage" : "~0.1.2"
   },
   "scripts": {"test": "grunt"},
   "repository": {
