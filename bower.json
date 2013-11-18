@@ -16,7 +16,7 @@
     "package.json"
   ],
   "dependencies": {
-    "angular": "~1.x",
+    "angular": "~1.2.x",
     "jquery": "~1.x",
     "jquery-ui": "~1.10.3",
     "fullcalendar": "~1.x"
