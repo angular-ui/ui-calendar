@@ -34,9 +34,11 @@ To your `components.json` file. Then run
 This will copy the ui-calendar files into your `components` folder, along with its dependencies. Load the script files in your application:
 
     <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
-    <script type="text/javascript" src="bower_components/jquery-ui\ui\jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="bower_components/angular-ui-calendar/calendar.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+    <script type="text/javascript" src="bower_components/fullcalendar/fullcalendar.js"></script>
+    <script type="text/javascript" src="bower_components/fullcalendar/gcal.js"></script>
 
 Add the calendar module as a dependency to your application module:
 
@@ -44,7 +46,7 @@ Add the calendar module as a dependency to your application module:
 
 Apply the directive to your div elements. The calendar must be supplied an array of decoumented event sources to render itself:
 
-    <div ui-calendar ng-module="eventSources"></div>
+    <div ui-calendar ng-model="eventSources"></div>
 
 ## Options
 
