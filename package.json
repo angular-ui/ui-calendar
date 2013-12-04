@@ -12,10 +12,13 @@
     "grunt-karma": "~0.7.1",
     "grunt-contrib-jshint": "~0.2.0",
     "matchdep": "~0.1.1",
-    "karma" : "~0.10.4",
-    "karma-coverage" : "~0.1.2"
+    "karma": "~0.10.4",
+    "karma-coverage": "~0.1.2",
+    "load-grunt-tasks": "~0.2.0"
   },
-  "scripts": {"test": "grunt"},
+  "scripts": {
+    "test": "grunt"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/angular-ui/ui-calendar.git"
