@@ -10,7 +10,7 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {})
-  .directive('uiCalendar', ['uiCalendarConfig', '$locale', function(uiCalendarConfig, $locale) {
+  .directive('uiCalendar', ['uiCalendarConfig', '$locale', '$parse', function(uiCalendarConfig, $locale, $parse) {
   // Configure to use locale names by default
   var tValues = function(data) {
     // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
@@ -37,8 +37,11 @@ angular.module('ui.calendar', [])
     link: function(scope, elm, attrs) {
       var sources = scope.ngModel;
       scope.destroy = function(){
-        if(attrs.calendar){
-          scope.calendar = scope.$parent[attrs.calendar] =  elm.html('');
+        if(attrs.fullCalendar){
+          scope.calendar =  elm.html('');
+		  $parse(attrs.fullCalendar).assign(scope.$parent, function() {
+			  return scope.calendar.fullCalendar.apply(scope.calendar, arguments);
+		  })
         }else{
           scope.calendar = elm.html('');
         }
