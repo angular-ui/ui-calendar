@@ -1,7 +1,7 @@
 /**
  * calendarDemoApp - 0.1.3
  */
-angular.module('calendarDemoApp', ['ui.calendar']);
+angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
 function CalendarCtrl($scope) {
     var date = new Date();
@@ -30,6 +30,16 @@ function CalendarCtrl($scope) {
       var m = new Date(start).getMonth();
       var events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
       callback(events);
+    };
+
+    $scope.calEventsExt = {
+       color: '#f00',
+       textColor: 'yellow',
+       events: [ 
+          {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
+          {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
+          {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
+        ]
     };
     /* alert on eventClick */
     $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
@@ -79,6 +89,10 @@ function CalendarCtrl($scope) {
     $scope.changeView = function(view,calendar) {
       calendar.fullCalendar('changeView',view);
     };
+    /* Change View */
+    $scope.renderCalender = function(calendar) {
+      calendar.fullCalendar('render');
+    };
     /* config object */
     $scope.uiConfig = {
       calendar:{
@@ -96,5 +110,6 @@ function CalendarCtrl($scope) {
     };
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+    $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 }
 /* EOF */
