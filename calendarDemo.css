@@ -6,7 +6,7 @@ section {
 	padding-top: 40px;
 }
 .icon-github {
-	background: no-repeat url('assets/img/github-16px.png');
+	background: no-repeat url('../lib/bootstrap/docs/assets/img/github-16px.png');
 	width: 16px;
 	height: 16px;
 }
@@ -81,7 +81,7 @@ section {
 /*** Calendar ***/
 
 .calAlert{
-	width: 680px; float: right; margin-bottom: 5px;
+	width: 595px; float: right; margin-bottom: 5px;
 }
 
 .calXBtn{
