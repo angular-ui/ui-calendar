@@ -49,7 +49,7 @@ angular.module('ui.calendar', [])
         var self;
         var getTokens = function() {
           var array = angular.isFunction(arraySource) ? arraySource() : arraySource;
-          return array.map(function(el) {
+          return jQuery.map(array, function(el) {
             var token = tokenFn(el);
             map[token] = el;
             return token;
