@@ -2,20 +2,20 @@
 describe('uiCalendar', function () {
     'use strict';
 
-    var scope, $compile, $locale;
+    var scope, $compile, $locale, $controller;
+
+    //Date Objects needed for event
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
 
     beforeEach(module('ui.calendar'));
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_,_$controller_) {
         scope = _$rootScope_.$new();
         $compile = _$compile_;
         $locale = _$locale_;
-
-        
-          //Date Objects needed for event
-          var date = new Date();
-          var d = date.getDate();
-          var m = date.getMonth();
-          var y = date.getFullYear();
+        $controller = _$controller_;
 
           // create an array of events, to pass into the directive. 
           scope.events = [
@@ -71,6 +71,7 @@ describe('uiCalendar', function () {
     }));
 
     describe('compiling this directive and checking for events inside the calendar', function () {
+
         it('sets names for $locale by default', function() {
             spyOn($.fn, 'fullCalendar');
             $locale.DATETIME_FORMATS.MONTH[0] = 'enero';
@@ -211,10 +212,72 @@ describe('uiCalendar', function () {
             scope.remove(scope.events,0);
             clientEventsLength = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length;
             expect(clientEventsLength).toEqual(3);
-           
         });
-        
 
-       });
+    });
+
+    describe('calendarCtrl', function(){
+        
+        var calendar,
+            calendarCtrl,
+            sourcesChanged;
+
+        function onFnAdd(source) {
+            sourcesChanged = 'added';
+        }
+
+        function onFnRemove(source) {
+            sourcesChanged = 'removed';
+        }
+
+        function onFnChanged(source) {
+            sourcesChanged = 'changed';
+        }
+
+        beforeEach(function(){
+          calendarCtrl = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
+          sourcesChanged = false;
+          scope.$apply();
+        });
+
+        it('make sure changeWatcher is initialized', function () {
+          expect(calendarCtrl.changeWatcher).not.toBe(undefined);
+        });
+
+        it('makes sure the correct function is called when an event source is added or removed', function () {
+          var sourceWatcher = calendarCtrl.changeWatcher(scope.eventSources,calendarCtrl.sourcesFingerprint);
+          expect(sourcesChanged).toBe(false);
+          sourceWatcher.subscribe(scope);
+          sourceWatcher.onAdded = onFnAdd;
+          sourceWatcher.onRemoved = onFnRemove;
+          scope.$apply();
+          scope.eventSources.push(scope.events3);
+          scope.$apply();
+          expect(sourcesChanged).toBe('added');
+          scope.eventSources.splice(0,1);
+          scope.$apply();
+          expect(sourcesChanged).toBe('removed');
+        });
+
+        it('makes sure the correct function is called when a single event is added or removed', function () {
+          var eventsWatcher = calendarCtrl.changeWatcher(calendarCtrl.allEvents,calendarCtrl.eventsFingerprint);
+          expect(sourcesChanged).toBe(false);
+          eventsWatcher.subscribe(scope);
+          eventsWatcher.onAdded = onFnAdd;
+          eventsWatcher.onRemoved = onFnRemove;
+          eventsWatcher.onChanged = onFnChanged;
+          scope.$apply();
+          scope.events2.push({id: 8,title: 'Repeating Event 2',start: new Date(y, m, d - 3, 16, 0),allDay: false});
+          scope.$apply();
+          expect(sourcesChanged).toBe('added');
+          scope.events2.splice(0,1);
+          scope.$apply();
+          expect(sourcesChanged).toBe('removed');
+          scope.events2[0].title = 'tester :)';
+          scope.$apply();
+          expect(sourcesChanged).toBe('changed');
+        });
+
+    });
 
 });

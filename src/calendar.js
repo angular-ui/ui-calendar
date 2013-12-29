@@ -10,52 +10,42 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {})
-  .directive('uiCalendar', ['uiCalendarConfig', '$locale', function(uiCalendarConfig, $locale) {
-  // Configure to use locale names by default
-  var tValues = function(data) {
-    // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
-    var r, k;
-    r = [];
-    for (k in data) {
-      r[k] = data[k];
-    }
-    return r;
-  };
-  var dtf = $locale.DATETIME_FORMATS;
-  uiCalendarConfig = angular.extend({
-    monthNames: tValues(dtf.MONTH),
-    monthNamesShort: tValues(dtf.SHORTMONTH),
-    dayNames: tValues(dtf.DAY),
-    dayNamesShort: tValues(dtf.SHORTDAY)
-  }, uiCalendarConfig || {});
-  var sourceSerialId = 1, eventSerialId = 1;
-  //returns calendar
-  return {
-    require: 'ngModel',
-    scope: {ngModel:'=',config:'='},
-    restrict: 'A',
-    link: function(scope, elm, attrs) {
-      var sources = scope.ngModel;
-      scope.destroy = function(){
-        if(attrs.calendar){
-          scope.calendar = scope.$parent[attrs.calendar] =  elm.html('');
-        }else{
-          scope.calendar = elm.html('');
+  .controller('uiCalendarCtrl', ['$scope', function($scope){
+      
+      var sourceSerialId = 1, 
+          eventSerialId = 1,
+          sources = $scope.eventSources;
+
+      this.eventsFingerprint = function(e) {
+          if (!e.__uiCalId) {
+            e.__uiCalId = eventSerialId++;
+          }
+          // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
+          return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
+              (e.allDay || false) + (e.className || '');
+      };
+
+      this.sourcesFingerprint = function(source) {
+          return source.__id || (source.__id = sourceSerialId++);
+      };
+
+      this.allEvents = function() {
+        // return sources.flatten(); but we don't have flatten
+        var arraySources = [];
+        for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
+          var source = sources[i];
+          if (angular.isArray(source)) {
+            arraySources.push(source);
+          }
         }
+        return Array.prototype.concat.apply([], arraySources);
       };
-      scope.destroy();
-      scope.init = function(){
-        var options = { eventSources: sources };
-        angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {});
-        scope.calendar.fullCalendar(options);
-      };
-      scope.init();
 
       // Track changes in array by assigning id tokens to each element and watching the scope for changes in those tokens
       // arguments:
       //  arraySource array of function that returns array of objects to watch
       //  tokenFn function(object) that returns the token for a given object
-      var changeWatcher = function(arraySource, tokenFn) {
+      this.changeWatcher = function(arraySource, tokenFn) {
         var self;
         var getTokens = function() {
           var array = angular.isFunction(arraySource) ? arraySource() : arraySource;
@@ -124,62 +114,88 @@ angular.module('ui.calendar', [])
         };
       };
 
-      //= tracking sources added/removed
 
-      var sourcesChanged = false;
+  }])
+  .directive('uiCalendar', ['uiCalendarConfig', '$locale', function(uiCalendarConfig, $locale) {
+    // Configure to use locale names by default
+    var tValues = function(data) {
+      // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
+      var r, k;
+      r = [];
+      for (k in data) {
+        r[k] = data[k];
+      }
+      return r;
+    };
+    var dtf = $locale.DATETIME_FORMATS;
+    uiCalendarConfig = angular.extend({
+      monthNames: tValues(dtf.MONTH),
+      monthNamesShort: tValues(dtf.SHORTMONTH),
+      dayNames: tValues(dtf.DAY),
+      dayNamesShort: tValues(dtf.SHORTDAY)
+    }, uiCalendarConfig || {});
 
-      var eventSourcesWatcher = changeWatcher(sources, function(source) {
-        return source.__id || (source.__id = sourceSerialId++);
-      });
-      eventSourcesWatcher.subscribe(scope);
-      eventSourcesWatcher.onAdded = function(source) {
-        scope.calendar.fullCalendar('addEventSource', source);
-        sourcesChanged = true;
-      };
-      eventSourcesWatcher.onRemoved = function(source) {
-        scope.calendar.fullCalendar('removeEventSource', source);
-        sourcesChanged = true;
-      };
+    //returns calendar
+    return {
+      restrict: 'A',
+      scope: {eventSources:'=ngModel',config:'='},
+      controller: 'uiCalendarCtrl',
+      link: function(scope, elm, attrs, controller) {
 
-      //= tracking individual events added/changed/removed
-      var allEvents = function() {
-        // return sources.flatten(); but we don't have flatten
-        var arraySources = [];
-        for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
-          var source = sources[i];
-          if (angular.isArray(source)) {
-            arraySources.push(source);
+        var sources = scope.eventSources,
+            sourcesChanged = false;
+            eventSourcesWatcher = controller.changeWatcher(sources, controller.sourcesFingerprint),
+            eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventsFingerprint);
+
+        scope.destroy = function(){
+          if(attrs.calendar) {
+            scope.calendar = scope.$parent[attrs.calendar] =  elm.html('');
+          } else {
+            scope.calendar = elm.html('');
           }
-        }
-        return Array.prototype.concat.apply([], arraySources);
-      };
-      var eventsWatcher = changeWatcher(allEvents, function(e) {
-        if (!e.__uiCalId) {
-          e.__uiCalId = eventSerialId++;
-        }
-        // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
-        return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
-            (e.allDay || false) + (e.className || '');
-      });
-      eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
-        if (sourcesChanged) {
-          // Rerender the whole thing if a new event source was added/removed
-          scope.calendar.fullCalendar('rerenderEvents');
-          sourcesChanged = false;
-          // prevent incremental updates in this case
-          return false;
-        }
-      });
-      eventsWatcher.onAdded = function(event) {
-        scope.calendar.fullCalendar('renderEvent', event);
-      };
-      eventsWatcher.onRemoved = function(event) {
-        scope.calendar.fullCalendar('removeEvents', function(e) { return e === event; });
-      };
-      eventsWatcher.onChanged = function(event) {
-        scope.calendar.fullCalendar('updateEvent', event);
-      };
-    }
-  };
+        };
+        
+        scope.init = function(){
+          var options = { eventSources: sources };
+          angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {});
+          scope.calendar.fullCalendar(options);
+        };
+
+        eventSourcesWatcher.onAdded = function(source) {
+          scope.calendar.fullCalendar('addEventSource', source);
+          sourcesChanged = true;
+        };
+
+        eventSourcesWatcher.onRemoved = function(source) {
+          scope.calendar.fullCalendar('removeEventSource', source);
+          sourcesChanged = true;
+        };
+
+        eventsWatcher.onAdded = function(event) {
+          scope.calendar.fullCalendar('renderEvent', event);
+        };
+
+        eventsWatcher.onRemoved = function(event) {
+          scope.calendar.fullCalendar('removeEvents', function(e) { return e === event; });
+        };
+
+        eventsWatcher.onChanged = function(event) {
+          scope.calendar.fullCalendar('updateEvent', event);
+        };
+
+        scope.destroy();
+        scope.init();
+        eventSourcesWatcher.subscribe(scope);
+        eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
+          if (sourcesChanged) {
+            // Rerender the whole thing if a new event source was added/removed
+            scope.calendar.fullCalendar('rerenderEvents');
+            sourcesChanged = false;
+            // prevent incremental updates in this case
+            return false;
+          }
+        });
+      }
+    };
 }]);
 
