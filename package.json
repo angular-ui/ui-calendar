@@ -16,7 +16,8 @@
     "karma-coverage": "~0.1",
     "load-grunt-tasks": "~0.2",
     "karma-jasmine": "0.1",
-    "karma-chrome-launcher": "0.1"
+    "karma-chrome-launcher": "0.1",
+    "karma-firefox-launcher": "0.1"
   }, 
   "scripts": {
     "test": "grunt"
