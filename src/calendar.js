@@ -80,14 +80,14 @@ angular.module('ui.calendar', [])
           for (i = 0, n = removedTokens.length; i < n; i++) {
             var removedToken = removedTokens[i];
             el = map[removedToken];
-            delete map[removedToken];
             var newToken = tokenFn(el);
             // if the element wasn't removed but simply got a new token, its old token will be different from the current one
             if (newToken === removedToken) {
+              delete map[removedToken];
               self.onRemoved(el);
             } else {
+            // if the element has been changed, its newToken token should be in the newTokens array, map it for later check
               replacedTokens[newToken] = removedToken;
-              self.onChanged(el);
             }
           }
 
@@ -97,8 +97,22 @@ angular.module('ui.calendar', [])
             el = map[token];
             if (!replacedTokens[token]) {
               self.onAdded(el);
+            } else {
+              // The element has been replaced.
+              delete map[replacedTokens[token]]; // Delete the old token in the map
+              delete replacedTokens[token];      // Delete it also from the replacedTokens map to know it was a successful update.
+              self.onChanged(el);
             }
           }
+
+          // These tokens should have been in the newTokens array, but they weren't.
+          // They correspond to removed elements. Let's clean the map.
+          for (var unmatchedToken in replacedTokens){
+            el = map[replacedTokens[unmatchedToken]];
+            delete map[replacedTokens[unmatchedToken]];
+            self.onRemoved(el);
+          }
+
         };
         return self = {
           subscribe: function(scope, onChanged) {
