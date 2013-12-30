@@ -99,7 +99,7 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
         });
         /* Test to make sure that when an event is added to the calendar everything is updated with the new event. */
-        it('expects that when events are added to the calendar the fullcalendar will call its addEvents method', function () {
+        it('expects that when events are added to the calendar the fullcalendar will call its renderEvent method', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length).toEqual(4);
             expect($.fn.fullCalendar.callCount).toEqual(1);
             scope.addChild(scope.events);
@@ -111,89 +111,65 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.callCount).toEqual(3);
             expect($.fn.fullCalendar.mostRecentCall.args[0]).toEqual('renderEvent');
         });
-        /* Test to make sure the calendar is calling the removeEvent function. */
-        it('expects the calendar to call removeEvents when some event is removed', function () {
-            var clientCalls = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length;
-            expect(clientCalls).toEqual(4);
-            //remove an event from the scope.
-            scope.remove(scope.events,0);
-            scope.$apply();
-            //events should auto update inside the calendar. 
-            clientCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(clientCalls).toEqual('removeEvents');
-        });
-        /* Test to see if calendar is watching all eventSources for changes. */
-        it('updates the calendar if any eventSource array contains a delta', function () {
-            var calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length;
-            var clientEventsLength2 = $.fn.fullCalendar.mostRecentCall.args[0].eventSources[1].length;
-            var callCount = $.fn.fullCalendar.callCount;
-            expect(calendarCalls).toEqual(4);
-            expect(clientEventsLength2).toEqual(4);
-            expect(callCount).toEqual(1);
+        /* Test to see if calendar is calling removeEvents when an event is removed */
+        it('removes the correct event from the event source.', function () {
             //remove an event from the scope.
             scope.remove(scope.events2,0);
             scope.$apply();
             //events should auto update inside the calendar. 
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            callCount = $.fn.fullCalendar.callCount;
-            expect(calendarCalls).toEqual('removeEvents');
+            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
+            var callCount = $.fn.fullCalendar.callCount;
+            expect(fullCalendarParam).toEqual('removeEvents');
             expect(callCount).toEqual(2);
             scope.remove(scope.events,0);
             scope.$apply();
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
+            fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             callCount = $.fn.fullCalendar.callCount;
-            expect(calendarCalls).toEqual('removeEvents');
+            expect(fullCalendarParam).toEqual('removeEvents');
             expect(callCount).toEqual(3);
         });
         /* Test to see if calendar is updating when a new eventSource is added. */
         it('updates the calendar if an eventSource is Added', function () {
-            var calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0].eventSources.length;
-            expect(calendarCalls).toEqual(2);
-            //add new source to calendar
             scope.addSource(scope.events4);
             scope.$apply();
             //eventSources should auto update inside the calendar. 
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(calendarCalls).toEqual('rerenderEvents');
+            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
+            expect(fullCalendarParam).toEqual('rerenderEvents');
         });
         /* Test to see if calendar is updating when an eventSource replaces another with an equal length. */
         it('updates the calendar if an eventSource has same length as prior eventSource', function () {
-            var calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0].eventSources;
-            var callCount =  $.fn.fullCalendar.callCount;
-            expect(calendarCalls[0].length).toEqual(4);
-            expect(calendarCalls.length).toEqual(2);
-            expect(calendarCalls[1][0].title).toEqual('All Day Event 2');
-            expect(callCount).toEqual(1);
             //replace source with one that has the same length
             scope.eventSources.splice(1,1,scope.events3);
             scope.$apply();
             //eventSources should update inside the calendar
-            callCount =  $.fn.fullCalendar.callCount;
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(calendarCalls).toEqual('rerenderEvents');
+            var callCount =  $.fn.fullCalendar.callCount;
+            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
+            expect(fullCalendarParam).toEqual('rerenderEvents');
             //fullcalendar has called 3 of its own events at this time. Remove, Add, and Rerender
             expect(callCount).toEqual(4);
             //remove an event to prove autobinding still works
             scope.remove(scope.events,0);
             scope.$apply();
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(calendarCalls).toEqual('removeEvents');
+            fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
+            callCount =  $.fn.fullCalendar.callCount;
+            expect(fullCalendarParam).toEqual('removeEvents');
+            expect(callCount).toEqual(5);
         });
 
         it('make sure the calendar can work with extended event sources', function () {
-            var calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0].eventSources;
             scope.eventSources.push(scope.calEventsExt);
             scope.$apply();
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(calendarCalls).toEqual('rerenderEvents');
+            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
+            expect(fullCalendarParam).toEqual('rerenderEvents');
         });
 
         it('make sure that if we just change the title of the event that it updates itself', function () {
-            var calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0].eventSources;
             scope.events[0].title = 'change title';
             scope.$apply();
-            calendarCalls = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(calendarCalls).toEqual('updateEvent');
+            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
+            var fullCalendarParam1  = $.fn.fullCalendar.mostRecentCall.args[1];
+            expect(fullCalendarParam).toEqual('updateEvent');
+            expect(fullCalendarParam1).toEqual(scope.events[0]);
         });
 
     });
