@@ -5,7 +5,7 @@
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/fullcalendar/fullcalendar.css">
-    <link rel="stylesheet" href="calendarDemo.css" />
+    <link rel="stylesheet" href="demo/calendarDemo.css" />
 
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
@@ -14,8 +14,8 @@
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
     <script src="bower_components/fullcalendar/fullcalendar.js"></script>
     <script src="bower_components/fullcalendar/gcal.js"></script>
-    <script src="calendar.js"></script>
-    <script src="calendarDemo.js"></script>
+    <script src="src/calendar.js"></script>
+    <script src="demo/calendarDemo.js"></script>
 </head>
 <body data-spy="scroll">
 <header class="navbar navbar-fixed-top">
@@ -96,10 +96,12 @@
                         <p>Why Not?</p>
                         
                         <div class="btn-group calTools">
-                          <button class="btn btn-info" ng-click="addRemoveEventSource(eventSources,eventSource)">
-                            Toggle an event source
+                          <button class="btn" ng-click="changeLang()">
+                            {{changeTo}}
+                          </button>              
+                          <button class="btn" ng-click="addRemoveEventSource(eventSources,eventSource)">
+                            Toggle Source
                           </button>
-
                           <button type="button" class="btn btn-primary" ng-click="addEvent()">
                             Add Event
                           </button>
