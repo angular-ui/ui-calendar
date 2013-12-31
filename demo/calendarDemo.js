@@ -110,7 +110,6 @@ function CalendarCtrl($scope) {
         eventResize: $scope.alertOnResize
       }
     };
-     $scope.uiConfig = {calendar: {}};
 
     $scope.changeLang = function() {
       if($scope.changeTo === 'Hungarian'){
