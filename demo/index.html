@@ -66,10 +66,12 @@
                         <p>Why Not?</p>
                         
                         <div class="btn-group calTools">
-                          <button class="btn btn-info" ng-click="addRemoveEventSource(eventSources,eventSource)">
-                            Toggle an event source
+                          <button class="btn" ng-click="changeLang()">
+                            {{changeTo}}
+                          </button>              
+                          <button class="btn" ng-click="addRemoveEventSource(eventSources,eventSource)">
+                            Toggle Source
                           </button>
-
                           <button type="button" class="btn btn-primary" ng-click="addEvent()">
                             Add Event
                           </button>

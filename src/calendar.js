@@ -155,14 +155,27 @@ angular.module('ui.calendar', [])
 
     return {
       restrict: 'A',
-      scope: {eventSources:'=ngModel',config:'=',calendarWatchEvent: '&'},
+      scope: {eventSources:'=ngModel',calendarWatchEvent: '&'},
       controller: 'uiCalendarCtrl',
       link: function(scope, elm, attrs, controller) {
 
         var sources = scope.eventSources,
             sourcesChanged = false;
             eventSourcesWatcher = controller.changeWatcher(sources, controller.sourcesFingerprint),
-            eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventsFingerprint);
+            eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventsFingerprint),
+            options = null;
+        
+        function getOptions(){
+          options = { eventSources: sources };
+          angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {});
+          var options2 = {};
+          for(var o in options){
+            if(o !== 'eventSources'){
+              options2[o] = options[o];
+            }
+          }
+          return JSON.stringify(options2);
+        }
 
         scope.destroy = function(){
           if(attrs.calendar) {
@@ -173,8 +186,7 @@ angular.module('ui.calendar', [])
         };
         
         scope.init = function(){
-          var options = { eventSources: sources };
-          angular.extend(options, uiCalendarConfig, attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {});
+          getOptions();
           scope.calendar.fullCalendar(options);
         };
 
@@ -212,7 +224,14 @@ angular.module('ui.calendar', [])
             return false;
           }
         });
-        }
+
+        scope.$watch(getOptions, function(newO,oldO){
+          if(newO !== oldO){
+            scope.destroy();
+            scope.init();
+          }
+        });
+      }
     };
 }]);
 
