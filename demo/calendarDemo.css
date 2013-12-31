@@ -6,7 +6,7 @@ section {
 	padding-top: 40px;
 }
 .icon-github {
-	background: no-repeat url('../../lib/bootstrap/docs/assets/img/github-16px.png');
+	background: no-repeat url('https://raw.github.com/sveinung/SetersBoka/master/public/lib/bootstrap/docs/assets/img/github-16px.png');
 	width: 16px;
 	height: 16px;
 }
