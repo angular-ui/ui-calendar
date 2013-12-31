@@ -186,7 +186,6 @@ angular.module('ui.calendar', [])
         };
         
         scope.init = function(){
-          getOptions();
           scope.calendar.fullCalendar(options);
         };
 
@@ -213,6 +212,7 @@ angular.module('ui.calendar', [])
         };
 
         scope.destroy();
+        getOptions();
         scope.init();
         eventSourcesWatcher.subscribe(scope);
         eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
