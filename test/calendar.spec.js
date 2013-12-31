@@ -75,7 +75,7 @@ describe('uiCalendar', function () {
               height: 200,
               weekends: false,
               defaultView: 'month'
-           }
+            }
           };
          
     }));
@@ -248,6 +248,14 @@ describe('uiCalendar', function () {
             clientEventSources = $.fn.fullCalendar.mostRecentCall.args[0].eventSources;
             expect(clientEventSources.length).toEqual(3);
             expect(clientEventSources[2].events[0].title).toEqual('Lunch');
+        });
+
+        it('make sure that if the calendars options change then the fullcalendar method is called with the new options', function () {
+            expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
+            scope.uiConfig.calendar.weekends = true;
+            scope.$apply();
+            expect($.fn.fullCalendar.callCount).toEqual(2);
+            expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(true);
         });
 
     });
