@@ -74,7 +74,11 @@ describe('uiCalendar', function () {
             calendar:{
               height: 200,
               weekends: false,
-              defaultView: 'month'
+              defaultView: 'month',
+              dayClick: function(){},
+              eventClick: function(){},
+              eventDrop: function(){},
+              eventResize: function(){}
             }
           };
          
@@ -291,6 +295,87 @@ describe('uiCalendar', function () {
           expect(sourcesChanged).toBe('removed');
         });
 
+        it('makes sure that dayClick is called in angular context', inject(function($timeout, $rootScope){
+            spyOn(scope.uiConfig.calendar, 'dayClick');
+            spyOn($rootScope,'$apply');
+
+            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+
+            fullCalendarConfig.dayClick();
+
+            $timeout.flush();
+
+            expect($rootScope.$apply).toHaveBeenCalled();
+            expect(scope.uiConfig.calendar.dayClick).toHaveBeenCalled();
+        }));
+
+        it('makes sure that eventClick is called in angular context', inject(function($timeout, $rootScope){
+            spyOn(scope.uiConfig.calendar, 'eventClick');
+            spyOn($rootScope,'$apply');
+
+            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+
+            fullCalendarConfig.eventClick();
+
+            $timeout.flush();
+
+            expect($rootScope.$apply).toHaveBeenCalled();
+            expect(scope.uiConfig.calendar.eventClick).toHaveBeenCalled();
+        }));
+
+        it('makes sure that eventDrop is called in angular context', inject(function($timeout, $rootScope){
+            spyOn(scope.uiConfig.calendar, 'eventDrop');
+            spyOn($rootScope,'$apply');
+
+            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+
+            fullCalendarConfig.eventDrop();
+
+            $timeout.flush();
+
+            expect($rootScope.$apply).toHaveBeenCalled();
+            expect(scope.uiConfig.calendar.eventDrop).toHaveBeenCalled();
+        }));
+
+        it('makes sure that eventResize is called in angular context', inject(function($timeout, $rootScope){
+            spyOn(scope.uiConfig.calendar, 'eventResize');
+            spyOn($rootScope,'$apply');
+
+            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+
+            fullCalendarConfig.eventResize();
+
+            $timeout.flush();
+
+            expect($rootScope.$apply).toHaveBeenCalled();
+            expect(scope.uiConfig.calendar.eventResize).toHaveBeenCalled();
+        }));
+
+        it('should not fail when addCommands is called with undefined settings ', function(){
+            expect(calendarCtrl.addCommands).not.toThrow()
+        });
+
+        it('makes sure that refetchEvents command is added on the configuration', function(){
+            calendarCtrl.addCommands(scope.uiConfig.calendar, undefined);
+
+            expect(scope.uiConfig.calendar.refetchEvents).toBeDefined();
+        });
+
+        it('makes sure that fullCallendar is called with \'refetchEvents\' when refetchEvents command is called', function(){
+            var fakeCalendar ={
+                fullCalendar: function(string){
+
+                }
+            }
+
+            spyOn(fakeCalendar, 'fullCalendar');
+
+            calendarCtrl.addCommands(scope.uiConfig.calendar, fakeCalendar);
+
+            scope.uiConfig.calendar.refetchEvents()
+
+            expect(fakeCalendar.fullCalendar).toHaveBeenCalledWith('refetchEvents');
+        });
     });
 
     describe('Testing the ability to add calendars to the scope', function(){
