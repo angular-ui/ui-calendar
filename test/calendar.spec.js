@@ -352,7 +352,7 @@ describe('uiCalendar', function () {
         }));
 
         it('should not fail when addCommands is called with undefined settings ', function(){
-            expect(calendarCtrl.addCommands).not.toThrow()
+            expect(calendarCtrl.addCommands).not.toThrow();
         });
 
         it('makes sure that refetchEvents command is added on the configuration', function(){
@@ -366,13 +366,13 @@ describe('uiCalendar', function () {
                 fullCalendar: function(string){
 
                 }
-            }
+            };
 
             spyOn(fakeCalendar, 'fullCalendar');
 
             calendarCtrl.addCommands(scope.uiConfig.calendar, fakeCalendar);
 
-            scope.uiConfig.calendar.refetchEvents()
+            scope.uiConfig.calendar.refetchEvents();
 
             expect(fakeCalendar.fullCalendar).toHaveBeenCalledWith('refetchEvents');
         });
