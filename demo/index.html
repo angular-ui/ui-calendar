@@ -225,21 +225,15 @@ function CalendarCtrl($scope) {
     };
     /* alert on eventClick */
     $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
-        $scope.$apply(function(){
-          $scope.alertMessage = ('Day Clicked ' + date);
-        });
+       $scope.alertMessage = ('Day Clicked ' + date);
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-        $scope.$apply(function(){
-          $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
-        });
+        $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
     };
     /* alert on Resize */
     $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-        $scope.$apply(function(){
-          $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
-        });
+        $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {
