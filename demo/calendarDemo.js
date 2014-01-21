@@ -1,5 +1,5 @@
 /**
- * calendarDemoApp - 0.8.0
+ * calendarDemoApp - 0.1.3
  */
 angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
@@ -44,22 +44,16 @@ function CalendarCtrl($scope) {
         ]
     };
     /* alert on eventClick */
-    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
-        $scope.$apply(function(){
-          $scope.alertMessage = ('Day Clicked ' + date);
-        });
+    $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
+        $scope.alertMessage = (event.title + ' was clicked ');
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-        $scope.$apply(function(){
-          $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
-        });
+       $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
     };
     /* alert on Resize */
     $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-        $scope.$apply(function(){
-          $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
-        });
+       $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {
@@ -105,7 +99,7 @@ function CalendarCtrl($scope) {
           center: '',
           right: 'today prev,next'
         },
-        dayClick: $scope.alertEventOnClick,
+        eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
       }
