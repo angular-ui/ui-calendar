@@ -17,70 +17,66 @@ describe('uiCalendar', function () {
         $locale = _$locale_;
         $controller = _$controller_;
 
-          // create an array of events, to pass into the directive. 
-          scope.events = [
-            {title: 'All Day Event',start: new Date(y, m, 1),url: 'http://www.angularjs.org'},
-            {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-            {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-            {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
+        // create an array of events, to pass into the directive. 
+        scope.events = [
+          {title: 'All Day Event',start: new Date(y, m, 1),url: 'http://www.angularjs.org'},
+          {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+          {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+          {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
 
-          // create an array of events, to pass into the directive. 
-          scope.events2 = [
-            {title: 'All Day Event 2',start: new Date(y, m, 1),url: 'http://www.atlantacarlocksmith.com'},
-            {title: 'Long Event 2',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-            {id: 998,title: 'Repeating Event 2',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-            {id: 998,title: 'Repeating Event 2',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
-          //array to test equals occurance
-          scope.events3 = [
-            {title: 'All Day Event 3',start: new Date(y, m, 1),url: 'http://www.atlantacarlocksmith.com'},
-            {title: 'Long Event 3',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-            {id: 998,title: 'Repeating Event 3',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-            {id: 998,title: 'Repeating Event 3',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
+        // create an array of events, to pass into the directive. 
+        scope.events2 = [
+          {title: 'All Day Event 2',start: new Date(y, m, 1),url: 'http://www.atlantacarlocksmith.com'},
+          {title: 'Long Event 2',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+          {id: 998,title: 'Repeating Event 2',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+          {id: 998,title: 'Repeating Event 2',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
+        //array to test equals occurance
+        scope.events3 = [
+          {title: 'All Day Event 3',start: new Date(y, m, 1),url: 'http://www.atlantacarlocksmith.com'},
+          {title: 'Long Event 3',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+          {id: 998,title: 'Repeating Event 3',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+          {id: 998,title: 'Repeating Event 3',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
 
-          scope.calEventsExt = {
-             color: '#f00',
-             textColor: 'yellow',
-             events: [ 
-                {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-                {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-                {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-              ]
-          };
+        scope.calEventsExt = {
+           color: '#f00',
+           textColor: 'yellow',
+           events: [ 
+              {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
+              {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
+              {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
+            ]
+        };
 
-          // create an array of events, to pass into the directive. 
-          scope.events4 = [{title: 'All Day Event 3',start: new Date(y, m, 1),url: 'http://www.yoyoyo.com'}];
+        // create an array of events, to pass into the directive. 
+        scope.events4 = [{title: 'All Day Event 3',start: new Date(y, m, 1),url: 'http://www.yoyoyo.com'}];
 
-          //event Sources array  
-          scope.eventSources = [scope.events,scope.events2]; //End of Events Array
-          
-          scope.addSource = function(source) {
-            scope.eventSources.push(source);
-          };
+        //event Sources array  
+        scope.eventSources = [scope.events,scope.events2]; //End of Events Array
+        
+        scope.addSource = function(source) {
+          scope.eventSources.push(source);
+        };
 
-          scope.addChild = function(array) {
-            array.push({
-              title: 'Click for Google ' + scope.events.length,
-              start: new Date(y, m, 28),
-              end: new Date(y, m, 29),
-              url: 'http://google.com/'
-            });
-          };
+        scope.addChild = function(array) {
+          array.push({
+            title: 'Click for Google ' + scope.events.length,
+            start: new Date(y, m, 28),
+            end: new Date(y, m, 29),
+            url: 'http://google.com/'
+          });
+        };
 
-          scope.remove = function(array,index) {
-            array.splice(index,1);
-          };
+        scope.remove = function(array,index) {
+          array.splice(index,1);
+        };
 
-          scope.uiConfig = {
-            calendar:{
-              height: 200,
-              weekends: false,
-              defaultView: 'month',
-              dayClick: function(){},
-              eventClick: function(){},
-              eventDrop: function(){},
-              eventResize: function(){}
-            }
-          };
+        scope.uiConfig = {
+          calendar:{
+            height: 200,
+            weekends: false,
+            defaultView: 'month'
+          }
+        };
          
     }));
 
@@ -186,7 +182,7 @@ describe('uiCalendar', function () {
 
     });
 
-    describe('calendarCtrl', function(){
+    describe('calendarCtrl changeWatcher functionality', function(){
         
         var calendar,
             calendarCtrl,
@@ -294,88 +290,6 @@ describe('uiCalendar', function () {
           scope.$apply();
           expect(sourcesChanged).toBe('removed');
         });
-
-        it('makes sure that dayClick is called in angular context', inject(function($timeout, $rootScope){
-            spyOn(scope.uiConfig.calendar, 'dayClick');
-            spyOn($rootScope,'$apply');
-
-            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
-
-            fullCalendarConfig.dayClick();
-
-            $timeout.flush();
-
-            expect($rootScope.$apply).toHaveBeenCalled();
-            expect(scope.uiConfig.calendar.dayClick).toHaveBeenCalled();
-        }));
-
-        it('makes sure that eventClick is called in angular context', inject(function($timeout, $rootScope){
-            spyOn(scope.uiConfig.calendar, 'eventClick');
-            spyOn($rootScope,'$apply');
-
-            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
-
-            fullCalendarConfig.eventClick();
-
-            $timeout.flush();
-
-            expect($rootScope.$apply).toHaveBeenCalled();
-            expect(scope.uiConfig.calendar.eventClick).toHaveBeenCalled();
-        }));
-
-        it('makes sure that eventDrop is called in angular context', inject(function($timeout, $rootScope){
-            spyOn(scope.uiConfig.calendar, 'eventDrop');
-            spyOn($rootScope,'$apply');
-
-            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
-
-            fullCalendarConfig.eventDrop();
-
-            $timeout.flush();
-
-            expect($rootScope.$apply).toHaveBeenCalled();
-            expect(scope.uiConfig.calendar.eventDrop).toHaveBeenCalled();
-        }));
-
-        it('makes sure that eventResize is called in angular context', inject(function($timeout, $rootScope){
-            spyOn(scope.uiConfig.calendar, 'eventResize');
-            spyOn($rootScope,'$apply');
-
-            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
-
-            fullCalendarConfig.eventResize();
-
-            $timeout.flush();
-
-            expect($rootScope.$apply).toHaveBeenCalled();
-            expect(scope.uiConfig.calendar.eventResize).toHaveBeenCalled();
-        }));
-
-        it('should not fail when addCommands is called with undefined settings ', function(){
-            expect(calendarCtrl.addCommands).not.toThrow();
-        });
-
-        it('makes sure that refetchEvents command is added on the configuration', function(){
-            calendarCtrl.addCommands(scope.uiConfig.calendar, undefined);
-
-            expect(scope.uiConfig.calendar.refetchEvents).toBeDefined();
-        });
-
-        it('makes sure that fullCallendar is called with \'refetchEvents\' when refetchEvents command is called', function(){
-            var fakeCalendar ={
-                fullCalendar: function(string){
-
-                }
-            };
-
-            spyOn(fakeCalendar, 'fullCalendar');
-
-            calendarCtrl.addCommands(scope.uiConfig.calendar, fakeCalendar);
-
-            scope.uiConfig.calendar.refetchEvents();
-
-            expect(fakeCalendar.fullCalendar).toHaveBeenCalledWith('refetchEvents');
-        });
     });
 
     describe('Testing the ability to add calendars to the scope', function(){
@@ -425,6 +339,87 @@ describe('uiCalendar', function () {
             var header = $.fn.fullCalendar.mostRecentCall.args[0].header;
             expect(header).toEqual({center: 'title'});
         });
+    });
+
+    describe('Describing calendarCtrl and its configurations functions', function(){
+        
+        var calendarCtrl;
+
+        beforeEach(function(){
+          calendarCtrl = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
+          scope.$apply();
+        });
+
+        it('makes sure that all config functions are called in an angular context', inject(function($timeout, $rootScope){
+          var functionCount = 0;
+          scope.uiConfig = {
+            calendar:{
+              height: 200,
+              weekends: false,
+              defaultView: 'month',
+              dayClick: function(){},
+              eventClick: function(){},
+              eventDrop: function(){},
+              eventResize: function(){},
+              eventMouseover: function(){}
+            }
+          };
+
+          spyOn($rootScope,'$apply');
+
+          angular.forEach(scope.uiConfig.calendar, function(value,key){
+            if (typeof value === 'function'){
+              functionCount++;
+              spyOn(scope.uiConfig.calendar, key);
+
+              var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+
+              fullCalendarConfig[key]();
+
+              $timeout.flush();
+
+              expect($rootScope.$apply.callCount).toBe(functionCount);
+              expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
+              $rootScope.$apply.isSpy = false;
+            }
+          });
+        }));
+
+        it('makes sure that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
+          
+          var functionCount = 0;
+          scope.uiConfig = {
+            calendar:{
+              height: 200,
+              weekends: false,
+              defaultView: 'month',
+              dayClick: function(){scope.$apply();},
+              eventClick: function(){scope.$apply();},
+              eventDrop: function(){scope.$apply();},
+              eventResize: function(){scope.$apply();},
+              eventMouseover: function(){scope.$apply();}
+            }
+          };
+          
+          spyOn($rootScope,'$apply');
+
+          angular.forEach(scope.uiConfig.calendar, function(value,key){
+            if (typeof value === 'function'){
+              functionCount++;
+              spyOn(scope.uiConfig.calendar, key);
+
+              var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+
+              fullCalendarConfig[key]();
+              
+              scope.$apply();
+              $timeout.flush();
+
+              expect($rootScope.$apply.callCount).toBe(functionCount*2);
+              expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
+            }
+          });
+        }));
     });
 
 });

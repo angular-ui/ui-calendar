@@ -33,16 +33,6 @@ angular.module('ui.calendar', [])
               }
 
               return wrapper;
-          },
-
-          addRefetchEventsCommand = function (settings, calendar) {
-              if (!settings) {
-                  return;
-              }
-
-              settings.refetchEvents = function () {
-                  calendar.fullCalendar('refetchEvents');
-              };
           };
 
       this.eventsFingerprint = function(e) {
@@ -160,20 +150,17 @@ angular.module('ui.calendar', [])
         };
       };
 
-      this.addCommands = function (settings, calendar) {
-          addRefetchEventsCommand(settings, calendar);
-      };
-
       this.getFullCalendarConfig = function(calendarSettings, uiCalendarConfig){
           var config = {};
 
           angular.extend(config, uiCalendarConfig);
           angular.extend(config, calendarSettings);
-
-          config.dayClick = wrapFunctionWithScopeApply(config.dayClick);
-          config.eventClick = wrapFunctionWithScopeApply(config.eventClick);
-          config.eventDrop = wrapFunctionWithScopeApply(config.eventDrop);
-          config.eventResize = wrapFunctionWithScopeApply(config.eventResize);
+         
+          angular.forEach(config, function(value,key){
+            if (typeof value === 'function'){
+              config[key] = wrapFunctionWithScopeApply(config[key]);
+            }
+          });
 
           return config;
       };
@@ -212,8 +199,6 @@ angular.module('ui.calendar', [])
         function getOptions(){
           var calendarSettings = attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {},
               fullCalendarConfig;
-
-          controller.addCommands(calendarSettings, scope.calendar);
 
           fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
 

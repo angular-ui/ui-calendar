@@ -44,8 +44,8 @@ function CalendarCtrl($scope) {
         ]
     };
     /* alert on eventClick */
-    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
-       $scope.alertMessage = ('Day Clicked ' + date);
+    $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
+        $scope.alertMessage = (event.title + ' was clicked ');
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
@@ -99,7 +99,7 @@ function CalendarCtrl($scope) {
           center: '',
           right: 'today prev,next'
         },
-        dayClick: $scope.alertEventOnClick,
+        eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize
       }

@@ -79,7 +79,7 @@ The ui-calendar directive plays nicely with ng-model.
 An Event Sources objects needs to be created to pass into ng-model. This object will be watched for changes and update the calendar accordingly, giving the calendar some Angular Magic. 
 
 The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar. [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
-Note that all calendar options are passed directly into `fullCalendar`, so you will need to wrap listeners to fullCalendar events in `scope.$apply`, as in example above.
+Note that all calendar options which are functions that are passed into the calendar are wrapped in an apply automatically.
 
 ## Accessing the calendar object
 
