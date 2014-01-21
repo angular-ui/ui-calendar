@@ -253,9 +253,7 @@ angular.module('ui.calendar', [])
         scope.init();
         eventSourcesWatcher.subscribe(scope);
         eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
-          if (sourcesChanged) {
-            // Rerender the whole thing if a new event source was added/removed
-            scope.calendar.fullCalendar('rerenderEvents');
+          if (sourcesChanged === true) {
             sourcesChanged = false;
             // prevent incremental updates in this case
             return false;
