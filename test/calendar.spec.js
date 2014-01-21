@@ -134,7 +134,7 @@ describe('uiCalendar', function () {
             scope.$apply();
             //eventSources should auto update inside the calendar. 
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(fullCalendarParam).toEqual('rerenderEvents');
+            expect(fullCalendarParam).toEqual('addEventSource');
         });
         /* Test to see if calendar is updating when an eventSource replaces another with an equal length. */
         it('updates the calendar if an eventSource has same length as prior eventSource', function () {
@@ -144,23 +144,23 @@ describe('uiCalendar', function () {
             //eventSources should update inside the calendar
             var callCount =  $.fn.fullCalendar.callCount;
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(fullCalendarParam).toEqual('rerenderEvents');
+            expect(fullCalendarParam).toEqual('addEventSource');
             //fullcalendar has called 3 of its own events at this time. Remove, Add, and Rerender
-            expect(callCount).toEqual(4);
+            expect(callCount).toEqual(3);
             //remove an event to prove autobinding still works
             scope.remove(scope.events,0);
             scope.$apply();
             fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             callCount =  $.fn.fullCalendar.callCount;
             expect(fullCalendarParam).toEqual('removeEvents');
-            expect(callCount).toEqual(5);
+            expect(callCount).toEqual(4);
         });
 
         it('make sure the calendar can work with extended event sources', function () {
             scope.eventSources.push(scope.calEventsExt);
             scope.$apply();
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
-            expect(fullCalendarParam).toEqual('rerenderEvents');
+            expect(fullCalendarParam).toEqual('addEventSource');
         });
 
         it('make sure that if we just change the title of the event that it updates itself', function () {
