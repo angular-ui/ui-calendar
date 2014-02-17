@@ -164,8 +164,8 @@ describe('uiCalendar', function () {
             expect(fullCalendarParam).toEqual('addEventSource');
         });
 
-        it('should refetch whole calendar when source events are replaced', function () {
-           scope.eventSources[0].events = scope.eventSources[0].events.slice(0);
+        it('refetches the whole calendar when source events are replaced', function () {
+           scope.eventSources[0].events = scope.eventSources[1].events.slice(0);
            scope.$apply();
            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
            expect(fullCalendarParam).toEqual('refetchEvents');
@@ -232,7 +232,7 @@ describe('uiCalendar', function () {
           scope.$apply();
           expect(sourcesChanged).toBe('added');
 
-          scope.eventSources[0].events = scope.eventSources[0].events.slice(0);
+          scope.eventSources[0].events = scope.eventSources[1].events.slice(0);
           scope.$apply();
           expect(sourcesChanged).toBe('changed');
 
