@@ -94,7 +94,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
      /* Render Tooltip */
     $scope.eventRender = function( event, element, view ) { 
         element.attr({'tooltip': event.title,
-                     'tooltip-append-to-body': true});
+                      'tooltip-append-to-body': true});
         $compile(element)($scope);
     };
     /* config object */
