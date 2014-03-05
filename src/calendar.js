@@ -1,5 +1,6 @@
 /*
 *  AngularJs Fullcalendar Wrapper for the JQuery FullCalendar
+*
 *  API @ http://arshaw.com/fullcalendar/
 *
 *  Angular Calendar Directive that takes in the [eventSources] nested array object as the ng-model and watches it deeply changes.

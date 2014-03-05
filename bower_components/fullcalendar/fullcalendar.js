@@ -1537,6 +1537,11 @@ function formatDate(date, format, options) {
 
 function formatDates(date1, date2, format, options) {
 	options = options || defaults;
+
+	if(!format){
+      return '';
+	}
+
 	var date = date1,
 		otherDate = date2,
 		i, len = format.length, c,
@@ -1834,6 +1839,9 @@ function smartProperty(obj, name) { // get a camel-cased/namespaced property of 
 
 
 function htmlEscape(s) {
+	if(!s){
+		return '';
+	}
 	return s.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;')
