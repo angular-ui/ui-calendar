@@ -87,7 +87,9 @@ function CalendarCtrl($scope) {
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
-      calendar.fullCalendar('render');
+      if(calendar){
+        calendar.fullCalendar('render');
+      }
     };
     /* config object */
     $scope.uiConfig = {
