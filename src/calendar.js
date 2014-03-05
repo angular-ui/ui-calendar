@@ -237,7 +237,7 @@ angular.module('ui.calendar', [])
         };
 
         eventsWatcher.onAdded = function(event) {
-          scope.calendar.fullCalendar('renderEvent', event);
+          scope.calendar.fullCalendar('renderEvent', event, true);
         };
 
         eventsWatcher.onRemoved = function(event) {
@@ -248,9 +248,6 @@ angular.module('ui.calendar', [])
           scope.calendar.fullCalendar('updateEvent', event);
         };
 
-        scope.destroy();
-        getOptions();
-        scope.init();
         eventSourcesWatcher.subscribe(scope);
         eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
           if (sourcesChanged === true) {
@@ -261,10 +258,8 @@ angular.module('ui.calendar', [])
         });
 
         scope.$watch(getOptions, function(newO,oldO){
-          if(newO !== oldO){
             scope.destroy();
             scope.init();
-          }
         });
       }
     };
