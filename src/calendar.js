@@ -12,9 +12,7 @@ angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {})
   .controller('uiCalendarCtrl', ['$scope', '$timeout', function($scope, $timeout){
 
-      var sourceSerialId = 1,
-          eventSerialId = 1,
-          sources = $scope.eventSources,
+      var sources = $scope.eventSources,
           extraEventSignature = $scope.calendarWatchEvent ? $scope.calendarWatchEvent : angular.noop,
 
           wrapFunctionWithScopeApply = function(functionToWrap){
@@ -35,7 +33,9 @@ angular.module('ui.calendar', [])
               return wrapper;
           };
 
-      this.eventsFingerprint = function(e) {
+      var eventSerialId = 1;
+      // @return {String} fingerprint of the event object and its properties
+      this.eventFingerprint = function(e) {
         if (!e.__uiCalId) {
           e.__uiCalId = eventSerialId++;
         }
@@ -44,12 +44,20 @@ angular.module('ui.calendar', [])
           (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
       };
 
-      this.sourcesFingerprint = function(source) {
-          return source.__id || (source.__id = sourceSerialId++);
+      var sourceSerialId = 1, sourceEventsSerialId = 1;
+      // @return {String} fingerprint of the source object and its events array
+      this.sourceFingerprint = function(source) {
+          var fp = '' + (source.__id || (source.__id = sourceSerialId++)),
+              events = angular.isObject(source) && source.events;
+          if (events) {
+              fp = fp + '-' + (events.__id || (events.__id = sourceEventsSerialId++));
+          }
+          return fp;
       };
 
+      // @return {Array} all events from all sources
       this.allEvents = function() {
-        // return sources.flatten(); but we don't have flatten
+        // do sources.map(&:events).flatten(), but we don't have flatten
         var arraySources = [];
         for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
           var source = sources[i];
@@ -70,14 +78,17 @@ angular.module('ui.calendar', [])
             arraySources.push(source.events);
           }
         }
-
         return Array.prototype.concat.apply([], arraySources);
       };
 
-      // Track changes in array by assigning id tokens to each element and watching the scope for changes in those tokens
-      // arguments:
-      //  arraySource array of function that returns array of objects to watch
-      //  tokenFn function(object) that returns the token for a given object
+      // Track changes in array of objects by assigning id tokens to each element and watching the scope for changes in the tokens
+      // @param {Array|Function} arraySource array of objects to watch
+      // @param tokenFn {Function} that returns the token for a given object
+      // @return {Object}
+      //  subscribe: function(scope, function(newTokens, oldTokens))
+      //    called when source has changed. return false to prevent individual callbacks from firing
+      //  onAdded/Removed/Changed:
+      //    when set to a callback, called each item where a respective change is detected
       this.changeWatcher = function(arraySource, tokenFn) {
         var self;
         var getTokens = function() {
@@ -91,8 +102,12 @@ angular.module('ui.calendar', [])
           }
           return result;
         };
-        // returns elements in that are in a but not in b
-        // subtractAsSets([4, 5, 6], [4, 5, 7]) => [6]
+
+        // @param {Array} a
+        // @param {Array} b
+        // @return {Array} elements in that are in a but not in b
+        // @example
+        //  subtractAsSets([6, 100, 4, 5], [4, 5, 7]) // [6, 100]
         var subtractAsSets = function(a, b) {
           var result = [], inB = {}, i, n;
           for (i = 0, n = b.length; i < n; i++) {
@@ -109,6 +124,7 @@ angular.module('ui.calendar', [])
         // Map objects to tokens and vice-versa
         var map = {};
 
+        // Compare newTokens to oldTokens and call onAdded, onRemoved, and onChanged handlers for each affected event respectively.
         var applyChanges = function(newTokens, oldTokens) {
           var i, n, el, token;
           var replacedTokens = {};
@@ -137,9 +153,10 @@ angular.module('ui.calendar', [])
           }
         };
         return self = {
-          subscribe: function(scope, onChanged) {
+          subscribe: function(scope, onArrayChanged) {
             scope.$watch(getTokens, function(newTokens, oldTokens) {
-              if (!onChanged || onChanged(newTokens, oldTokens) !== false) {
+              var notify = !(onArrayChanged && onArrayChanged(newTokens, oldTokens) === false);
+              if (notify) {
                 applyChanges(newTokens, oldTokens);
               }
             }, true);
@@ -155,7 +172,7 @@ angular.module('ui.calendar', [])
 
           angular.extend(config, uiCalendarConfig);
           angular.extend(config, calendarSettings);
-         
+
           angular.forEach(config, function(value,key){
             if (typeof value === 'function'){
               config[key] = wrapFunctionWithScopeApply(config[key]);
@@ -192,8 +209,8 @@ angular.module('ui.calendar', [])
 
         var sources = scope.eventSources,
             sourcesChanged = false,
-            eventSourcesWatcher = controller.changeWatcher(sources, controller.sourcesFingerprint),
-            eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventsFingerprint),
+            eventSourcesWatcher = controller.changeWatcher(sources, controller.sourceFingerprint),
+            eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventFingerprint),
             options = null;
 
         function getOptions(){
@@ -236,6 +253,11 @@ angular.module('ui.calendar', [])
           sourcesChanged = true;
         };
 
+        eventSourcesWatcher.onChanged = function(source) {
+          scope.calendar.fullCalendar('refetchEvents');
+          sourcesChanged = true;
+        };
+
         eventsWatcher.onAdded = function(event) {
           scope.calendar.fullCalendar('renderEvent', event);
         };
@@ -249,10 +271,10 @@ angular.module('ui.calendar', [])
         };
 
         eventSourcesWatcher.subscribe(scope);
-        eventsWatcher.subscribe(scope, function(newTokens, oldTokens) {
+        eventsWatcher.subscribe(scope, function() {
           if (sourcesChanged === true) {
             sourcesChanged = false;
-            // prevent incremental updates in this case
+            // return false to prevent onAdded/Removed/Changed handlers from firing in this case
             return false;
           }
         });
