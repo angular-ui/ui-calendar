@@ -26,7 +26,7 @@ function CalendarCtrl($scope) {
       {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
     ];
     /* event source that calls a function on every view switch */
-    $scope.eventsF = function (start, end, callback) {
+    $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
       var e = new Date(end).getTime() / 1000;
       var m = new Date(start).getMonth();
@@ -48,12 +48,12 @@ function CalendarCtrl($scope) {
         $scope.alertMessage = (event.title + ' was clicked ');
     };
     /* alert on Drop */
-     $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
+     $scope.alertOnDrop = function( event, revertFunc, jsEvent, ui, view){
+       $scope.alertMessage = ('Event Droped on ' + event.start.format());
     };
     /* alert on Resize */
-    $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-       $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
+    $scope.alertOnResize = function( event, jsEvent, ui, view){
+       $scope.alertMessage = ('Event end date was moved to ' + event.end.format());
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {

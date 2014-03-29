@@ -7,6 +7,7 @@ module.exports = function (config) {
         'bower_components/jquery-ui/ui/*.js',
         'bower_components/angular/angular.js',
         'bower_components/angular-mocks/angular-mocks.js',
+        'bower_components/moment/moment.js',
         'bower_components/fullcalendar/fullcalendar.js',
         'src/calendar.js',
         'test/*.spec.js'
