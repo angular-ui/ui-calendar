@@ -263,8 +263,8 @@ angular.module('ui.calendar', [])
         };
 
         eventSourcesWatcher.onAdded = function(source) {
-            calendar.fullCalendar('addEventSource', source);
-            sourcesChanged = true;
+          calendar.fullCalendar('addEventSource', source);
+          sourcesChanged = true;
         };
 
         eventSourcesWatcher.onRemoved = function(source) {
