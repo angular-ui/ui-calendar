@@ -176,7 +176,8 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
             scope.uiConfig.calendar.weekends = true;
             scope.$apply();
-            expect($.fn.fullCalendar.callCount).toEqual(2);
+            //3 because we are destroying the calendar as well. 
+            expect($.fn.fullCalendar.callCount).toEqual(3);
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(true);
         });
 

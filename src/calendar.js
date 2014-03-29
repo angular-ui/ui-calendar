@@ -230,10 +230,8 @@ angular.module('ui.calendar', [])
         };
 
         eventSourcesWatcher.onAdded = function(source) {
-          if(elm.is(':visible')){
             scope.calendar.fullCalendar('addEventSource', source);
             sourcesChanged = true;
-          }
         };
 
         eventSourcesWatcher.onRemoved = function(source) {
