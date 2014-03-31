@@ -12,7 +12,7 @@ A complete AngularJS directive for the Arshaw FullCalendar.
 
 # Testing
 
-We use karma and grunt to ensure the quality of the code. 
+We use karma and grunt to ensure the quality of the code.
 
     npm install -g grunt-cli
     npm install
@@ -50,7 +50,7 @@ Apply the directive to your div elements. The calendar must be supplied an array
 
 ## Options
 
-All the Arshaw Fullcalendar options can be passed through the directive. This even means function objects that are declared on the scope. 
+All the Arshaw Fullcalendar options can be passed through the directive. This even means function objects that are declared on the scope.
 
     myAppModule.controller('MyController', function($scope) {
         /* config object */
@@ -76,7 +76,7 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
 
 The ui-calendar directive plays nicely with ng-model.
 
-An Event Sources objects needs to be created to pass into ng-model. This object will be watched for changes and update the calendar accordingly, giving the calendar some Angular Magic. 
+An Event Sources objects needs to be created to pass into ng-model. This object will be watched for changes and update the calendar accordingly, giving the calendar some Angular Magic.
 
 The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar. [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
 Note that all calendar options which are functions that are passed into the calendar are wrapped in an apply automatically.
@@ -86,11 +86,11 @@ Note that all calendar options which are functions that are passed into the cale
 To avoid potential issues, by default the calendar object is not available in the parent scope. Access the object by declaring a calendar attribute name:
 
     <div ui-calendar="calendarOptions" ng-model="eventSources" calendar="myCalendar">
-    
+
 Now the calendar object is available in the parent scope:
 
     $scope.myCalendar.fullCalendar
-    
+
 This allows you to declare any number of calendar objects with distinct names.
 
 ## Custom event rendering
@@ -108,11 +108,27 @@ If you need to automatically re-render other event data, you can use `calendar-w
     <ui-calendar calendar-watch-event="extraEventSignature" ... >
     // will now watch for price
 
+## Watching the displayed date range of the calendar
+
+There is no mechanism to $watch the displayed date range on the calendar due to the JQuery nature of fullCalendar.  If you want
+to track the dates displayed on the calendar so you can fetch events outside the scope of fullCalendar (Say from a caching store
+in a service, instead of letting fullCalendar pull them via AJAX), you can add the viewRender callback to the calendar config.
+
+    $scope.calendarConfig = {
+        calendar:{
+            height: "100%",
+            ...
+            viewRender: function(view, element) {
+                $log.debug("View Changed: ", view.visStart, view.visEnd, view.start, view.end);
+            }
+        }
+    };
+
 ## Documentation for the Calendar
 
 The calendar works alongside of all the documentation represented [here](http://arshaw.com/fullcalendar/docs)
 
-## PR's R always Welcome                                                                                                                                                
-PR's are welcome at any time. 
+## PR's R always Welcome
+PR's are welcome at any time.
 Make sure that if a new feature is added, that the proper tests are created.
-We are following a linear approach to this directives history, so PR's are never merged through github's client. 
+We are following a linear approach to this directives history, so PR's are never merged through github's client.
