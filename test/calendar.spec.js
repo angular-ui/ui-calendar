@@ -219,7 +219,11 @@ describe('uiCalendar', function () {
           expect(calendarCtrl.changeWatcher).not.toBe(undefined);
         });
 
+<<<<<<< HEAD
         it('should call the correct function when an event source is added or removed', function () {
+=======
+        it('should make sure the correct function is called when an event source is added or removed', function () {
+>>>>>>> chore(tests): cleanup the tests
           var sourceWatcher = calendarCtrl.changeWatcher(scope.eventSources,calendarCtrl.sourceFingerprint);
           expect(sourcesChanged).toBe(false);
           sourceWatcher.subscribe(scope);
@@ -241,7 +245,11 @@ describe('uiCalendar', function () {
           expect(sourcesChanged).toBe('removed');
         });
 
+<<<<<<< HEAD
         it('should call the correct function when a single event is added or removed', function () {
+=======
+        it('should make sure the correct function is called when a single event is added or removed', function () {
+>>>>>>> chore(tests): cleanup the tests
           var eventsWatcher = calendarCtrl.changeWatcher(calendarCtrl.allEvents,calendarCtrl.eventFingerprint);
           expect(sourcesChanged).toBe(false);
           eventsWatcher.subscribe(scope);
@@ -316,7 +324,7 @@ describe('uiCalendar', function () {
             $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
             scope.$apply();
          });
-
+ 
          it('should make sure the calendar sets the myCalendar object to the calendarConfig', function () {
             expect(config.calendars.myCalendar).not.toBe(undefined);
          });
@@ -399,8 +407,13 @@ describe('uiCalendar', function () {
           });
         }));
 
+<<<<<<< HEAD
         it('should check that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
 
+=======
+        it('should make sure that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
+          
+>>>>>>> chore(tests): cleanup the tests
           var functionCount = 0;
           scope.uiConfig = {
             calendar:{
