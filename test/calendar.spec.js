@@ -89,7 +89,7 @@ describe('uiCalendar', function () {
         });
 
         /* test the calendar's initial setup */
-        it('expects the calendar to be set up with the correct options and events', function () {
+        it('should set up the calendar with the correct options and events', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length).toBe(4);
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0][0].title).toBe('All Day Event');
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0][0].url).toBe('http://www.angularjs.org');
@@ -99,7 +99,7 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
         });
         /* Test to make sure that when an event is added to the calendar everything is updated with the new event. */
-        it('expects that when events are added to the calendar the fullcalendar will call its renderEvent method', function () {
+        it('should call its renderEvent method', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0].length).toEqual(4);
             expect($.fn.fullCalendar.callCount).toEqual(1);
             scope.addChild(scope.events);
@@ -112,7 +112,7 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0]).toEqual('renderEvent');
         });
         /* Test to see if calendar is calling removeEvents when an event is removed */
-        it('removes the correct event from the event source.', function () {
+        it('should remove the correct event from the event source.', function () {
             //remove an event from the scope.
             scope.remove(scope.events2,0);
             scope.$apply();
@@ -129,7 +129,7 @@ describe('uiCalendar', function () {
             expect(callCount).toEqual(3);
         });
         /* Test to see if calendar is updating when a new eventSource is added. */
-        it('updates the calendar if an eventSource is Added', function () {
+        it('should update the calendar if an eventSource is Added', function () {
             scope.addSource(scope.events4);
             scope.$apply();
             //eventSources should auto update inside the calendar. 
@@ -137,7 +137,7 @@ describe('uiCalendar', function () {
             expect(fullCalendarParam).toEqual('addEventSource');
         });
         /* Test to see if calendar is updating when an eventSource replaces another with an equal length. */
-        it('updates the calendar if an eventSource has same length as prior eventSource', function () {
+        it('should update the calendar if an eventSource has same length as prior eventSource', function () {
             //replace source with one that has the same length
             scope.eventSources.splice(1,1,scope.events3);
             scope.$apply();
@@ -156,14 +156,14 @@ describe('uiCalendar', function () {
             expect(callCount).toEqual(4);
         });
 
-        it('make sure the calendar can work with extended event sources', function () {
+        it('should work with extended event sources', function () {
             scope.eventSources.push(scope.calEventsExt);
             scope.$apply();
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             expect(fullCalendarParam).toEqual('addEventSource');
         });
 
-        it('make sure that if we just change the title of the event that it updates itself', function () {
+        it('should make sure that if we just change the title of the event that it updates itself', function () {
             scope.events[0].title = 'change title';
             scope.$apply();
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
@@ -172,7 +172,7 @@ describe('uiCalendar', function () {
             expect(fullCalendarParam1).toEqual(scope.events[0]);
         });
 
-        it('make sure that if the calendars options change then the fullcalendar method is called with the new options', function () {
+        it('should make sure that if the calendars options change then the fullcalendar method is called with the new options', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
             scope.uiConfig.calendar.weekends = true;
             scope.$apply();
@@ -206,11 +206,11 @@ describe('uiCalendar', function () {
           scope.$apply();
         });
 
-        it('make sure changeWatcher is initialized', function () {
+        it('should make sure changeWatcher is initialized', function () {
           expect(calendarCtrl.changeWatcher).not.toBe(undefined);
         });
 
-        it('makes sure the correct function is called when an event source is added or removed', function () {
+        it('should make sure the correct function is called when an event source is added or removed', function () {
           var sourceWatcher = calendarCtrl.changeWatcher(scope.eventSources,calendarCtrl.sourcesFingerprint);
           expect(sourcesChanged).toBe(false);
           sourceWatcher.subscribe(scope);
@@ -225,7 +225,7 @@ describe('uiCalendar', function () {
           expect(sourcesChanged).toBe('removed');
         });
 
-        it('makes sure the correct function is called when a single event is added or removed', function () {
+        it('should make sure the correct function is called when a single event is added or removed', function () {
           var eventsWatcher = calendarCtrl.changeWatcher(calendarCtrl.allEvents,calendarCtrl.eventsFingerprint);
           expect(sourcesChanged).toBe(false);
           eventsWatcher.subscribe(scope);
@@ -244,7 +244,7 @@ describe('uiCalendar', function () {
           expect(sourcesChanged).toBe('changed');
         });
 
-        it('makes sure the correct function is called when the calendarWatchEvent function is return variable is altered', function () {
+        it('should make sure the correct function is called when the calendarWatchEvent function is return variable is altered', function () {
           scope.testX = 0;
 
           scope.calendarWatchEvent = function(){
@@ -266,7 +266,7 @@ describe('uiCalendar', function () {
           expect(sourcesChanged).toBe('changed');
         });
 
-        it('makes sure that eventSources in extended form are tracked properly', function () {
+        it('should make sure that eventSources in extended form are tracked properly', function () {
           scope.testX = 0;
           scope.eventSources.push(scope.calEventsExt);
           var calendarCtrl2 = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
@@ -301,14 +301,14 @@ describe('uiCalendar', function () {
             scope.$apply();
          });
 
-         it('make sure the calendar sets the myCalendar object to the defining scope', function () {
+         it('should make sure the calendar sets the myCalendar object to the defining scope', function () {
             expect(scope.myCalendar).not.toBe(undefined);
          });
     });
 
     describe('Local variable config testing and option overriding', function(){
 
-        it('sets names for $locale by default', function() {
+        it('should set names for $locale by default', function() {
             spyOn($.fn, 'fullCalendar');
             $locale.DATETIME_FORMATS.MONTH[0] = 'enero';
             $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
@@ -316,7 +316,7 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].monthNames[0]).toBe('enero');
         });
 
-        it('allows overriding names for $locale', function() {
+        it('should allow overriding names for $locale', function() {
           spyOn($.fn, 'fullCalendar');
           scope.uiConfig.calendar.monthNames = $locale.DATETIME_FORMATS.MONTH.slice();
           scope.uiConfig.calendar.monthNames[0] = 'custom name';
@@ -326,7 +326,7 @@ describe('uiCalendar', function () {
         });
 
          /* Test to make sure header options can be overwritten */
-        it('overwrites default header options', function () {
+        it('should overwrite default header options', function () {
             spyOn($.fn, 'fullCalendar');
             scope.uiConfig2 = {
               calendar:{
@@ -350,7 +350,7 @@ describe('uiCalendar', function () {
           scope.$apply();
         });
 
-        it('makes sure that all config functions are called in an angular context', inject(function($timeout, $rootScope){
+        it('should make sure that all config functions are called in an angular context', inject(function($timeout, $rootScope){
           var functionCount = 0;
           scope.uiConfig = {
             calendar:{
@@ -385,7 +385,7 @@ describe('uiCalendar', function () {
           });
         }));
 
-        it('makes sure that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
+        it('should make sure that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
           
           var functionCount = 0;
           scope.uiConfig = {
