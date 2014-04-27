@@ -261,6 +261,16 @@ angular.module('ui.calendar', [])
             scope.destroy();
             scope.init();
         });
+
+        var unbindCalendarVisibilityWatcher = scope.$watch(function () {
+            return scope.calendar.is(':visible');
+        },
+                function (newValue) {
+                    if (newValue) {
+                        scope.calendar.fullCalendar('refetchEvents');
+                        unbindCalendarVisibilityWatcher();
+                    }
+                });          
       }
     };
 }]);
