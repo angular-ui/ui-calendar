@@ -1,9 +1,9 @@
 /**
- * calendarDemoApp - 0.1.3
+ * calendarDemoApp - 0.8.1
  */
 angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
-function CalendarCtrl($scope) {
+function CalendarCtrl($scope,$compile) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -91,6 +91,11 @@ function CalendarCtrl($scope) {
         calendar.fullCalendar('render');
       }
     };
+     /* Render Tooltip */
+    $scope.eventRender = function( event, element, view ) { 
+        element.attr('tooltip', event.title);
+        $compile(element)($scope);
+    };
     /* config object */
     $scope.uiConfig = {
       calendar:{
@@ -103,7 +108,8 @@ function CalendarCtrl($scope) {
         },
         eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize
+        eventResize: $scope.alertOnResize,
+        eventRender: $scope.eventRender
       }
     };
 
