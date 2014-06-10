@@ -37,8 +37,12 @@ This will copy the ui-calendar files into your `components` folder, along with i
     <script type="text/javascript" src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
-    <script type="text/javascript" src="bower_components/fullcalendar/fullcalendar.js"></script>
-    <script type="text/javascript" src="bower_components/fullcalendar/gcal.js"></script>
+    <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
+    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/fullcalendar/dist/fullcalendar.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/fullcalendar/dist/fullcalendar.print.css">
 
 Add the calendar module as a dependency to your application module:
 

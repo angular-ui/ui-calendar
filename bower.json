@@ -19,7 +19,7 @@
     "angular": "~1.2.x",
     "jquery": "~2.x",
     "jquery-ui": "~1.10.3",
-    "fullcalendar": "~1.x"
+    "fullcalendar": "~2.x"
   },
   "devDependencies": {
     "angular-mocks": "~1.x",
