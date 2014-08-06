@@ -7,8 +7,9 @@ A complete AngularJS directive for the Arshaw FullCalendar.
 - ([JQuery](http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js))
 - ([JQueryUI](http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js))
 - ([AngularJS](http://code.angularjs.org/1.2.1/angular.js))
+- ([MomentJS](http://momentjs.com/))
 - ([fullcalendar.js](http://arshaw.com/fullcalendar/download/))
-- optional - ([gcal-plugin](http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js))
+- optional - gcal, included in the fullcalendar download.
 
 # Testing
 
@@ -37,8 +38,9 @@ This will copy the ui-calendar files into your `components` folder, along with i
     <script type="text/javascript" src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
-    <script type="text/javascript" src="bower_components/fullcalendar/fullcalendar.js"></script>
-    <script type="text/javascript" src="bower_components/fullcalendar/gcal.js"></script>
+    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+    <script type="text/javascript" src="bower_components/dist/fullcalendar/fullcalendar.js"></script>
+    <script type="text/javascript" src="bower_components/dist/fullcalendar/gcal.js"></script>
 
 Add the calendar module as a dependency to your application module:
 
