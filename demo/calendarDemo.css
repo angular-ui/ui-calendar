@@ -5,11 +5,6 @@ body {
 section {
 	padding-top: 40px;
 }
-.icon-github {
-	background: no-repeat url('../lib/bootstrap/docs/assets/img/github-16px.png');
-	width: 16px;
-	height: 16px;
-}
 .hero-unit {
 	position: relative;
 	padding: 40px 0;
