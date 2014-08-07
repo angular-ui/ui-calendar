@@ -1,8 +1,10 @@
 # ui-calendar directive [![Build Status](https://travis-ci.org/angular-ui/ui-calendar.png?branch=master)](https://travis-ci.org/angular-ui/ui-calendar)
 
-A complete AngularJS directive for the Arshaw FullCalendar.
+A complete AngularJS native directive inspired by Arshaw FullCalendar.
 
-# Requirements
+The goal of this branch is to remove all of the below requirements and or replace them with angular native solutions.
+
+# Requirements - (formally)
 - ([fullcalendar.css](https://raw.github.com/angular-ui/ui-calendar/gh-pages/bower_components/fullcalendar/fullcalendar.css))
 - ([JQuery](http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js))
 - ([JQueryUI](http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js))
