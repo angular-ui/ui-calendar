@@ -376,9 +376,7 @@ describe('uiCalendar', function () {
               var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
 
               fullCalendarConfig[key]();
-
               $timeout.flush();
-
               expect($rootScope.$apply.callCount).toBe(functionCount);
               expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
               $rootScope.$apply.isSpy = false;
@@ -415,7 +413,6 @@ describe('uiCalendar', function () {
               
               scope.$apply();
               $timeout.flush();
-
               expect($rootScope.$apply.callCount).toBe(functionCount*2);
               expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
             }

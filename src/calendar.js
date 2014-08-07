@@ -26,8 +26,9 @@ angular.module('ui.calendar', [])
                       // In this way the function will be safely executed on the next digest.
 
                       var args = arguments;
+                      var _this = this;
                       $timeout(function(){
-                          functionToWrap.apply(this, args);
+                        functionToWrap.apply(_this, args);
                       });
                   };
               }
