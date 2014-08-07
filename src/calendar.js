@@ -37,11 +37,11 @@ angular.module('ui.calendar', [])
           };
 
       this.eventsFingerprint = function(e) {
-        if (!e.__uiCalId) {
-          e.__uiCalId = eventSerialId++;
+        if (!e._id) {
+          e._id = eventSerialId++;
         }
         // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
-        return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
+        return "" + e._id + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
           (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
       };
 
@@ -246,11 +246,13 @@ angular.module('ui.calendar', [])
 
         eventsWatcher.onRemoved = function(event) {
           scope.calendar.fullCalendar('removeEvents', function(e) { 
-            return e.__uiCalId === event.__uiCalId; 
+            return e._id === event._id;
           });
         };
 
         eventsWatcher.onChanged = function(event) {
+          event._start = $.fullCalendar.moment(event.start);
+          event._end = $.fullCalendar.moment(event.end);
           scope.calendar.fullCalendar('updateEvent', event);
         };
 
