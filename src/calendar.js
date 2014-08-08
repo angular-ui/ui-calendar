@@ -220,9 +220,9 @@ angular.module('ui.calendar', [])
             scope.calendar.fullCalendar('destroy');
           }
           if(attrs.calendar) {
-            scope.calendar = scope.$parent[attrs.calendar] =  elm.html('');
+            scope.calendar = scope.$parent[attrs.calendar] =  $(elm).html('');
           } else {
-            scope.calendar = elm.html('');
+            scope.calendar = $(elm).html('');
           }
         };
 
