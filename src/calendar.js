@@ -238,7 +238,7 @@ angular.module('ui.calendar', [])
         };
 
         eventsWatcher.onAdded = function(event) {
-          scope.calendar.fullCalendar('renderEvent', event);
+          scope.calendar.fullCalendar('renderEvent', event, event.stick);
         };
 
         eventsWatcher.onRemoved = function(event) {
@@ -246,7 +246,7 @@ angular.module('ui.calendar', [])
         };
 
         eventsWatcher.onChanged = function(event) {
-          scope.calendar.fullCalendar('updateEvent', event);
+          scope.calendar.fullCalendar('updateEvent', event, event.stick);
         };
 
         eventSourcesWatcher.subscribe(scope);
