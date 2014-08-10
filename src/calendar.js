@@ -238,15 +238,15 @@ angular.module('ui.calendar', [])
         };
 
         eventsWatcher.onAdded = function(event) {
-          scope.calendar.fullCalendar('renderEvent', event);
+          scope.calendar.fullCalendar('renderEvent', event, event.stick);
         };
 
         eventsWatcher.onRemoved = function(event) {
-          scope.calendar.fullCalendar('removeEvents', function(e) { return e === event; });
+          scope.calendar.fullCalendar('removeEvents', event.id);
         };
 
         eventsWatcher.onChanged = function(event) {
-          scope.calendar.fullCalendar('updateEvent', event);
+          scope.calendar.fullCalendar('updateEvent', event, event.stick);
         };
 
         eventSourcesWatcher.subscribe(scope);
