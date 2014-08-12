@@ -3,11 +3,8 @@
 A complete AngularJS directive for the Arshaw FullCalendar.
 
 # Requirements
-- ([fullcalendar.css](https://raw.github.com/angular-ui/ui-calendar/gh-pages/bower_components/fullcalendar/fullcalendar.css))
-- ([JQuery](http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js))
-- ([JQueryUI](http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js))
 - ([AngularJS](http://code.angularjs.org/1.2.1/angular.js))
-- ([fullcalendar.js](http://arshaw.com/fullcalendar/download/))
+- ([fullcalendar.js 2.0 and it's dependencies](http://arshaw.com/fullcalendar/download/))
 - optional - ([gcal-plugin](http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js))
 
 # Testing
