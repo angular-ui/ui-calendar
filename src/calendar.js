@@ -208,11 +208,11 @@ angular.module('ui.calendar', [])
 
           fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
 
-          var localeConfig = controller.getLocaleConfig(fullCalendarConfig);
-          angular.extend(fullCalendarConfig, localeConfig);
+          var localeFullCalendarConfig = controller.getLocaleConfig(fullCalendarConfig);
+          angular.extend(localeFullCalendarConfig, fullCalendarConfig);
 
           options = { eventSources: sources };
-          angular.extend(options, fullCalendarConfig);
+          angular.extend(options, localeFullCalendarConfig);
 
           var options2 = {};
           for(var o in options){
