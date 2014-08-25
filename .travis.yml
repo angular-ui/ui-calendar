@@ -15,3 +15,6 @@ before_script:
   - bower install
 
 script: "grunt --verbose"
+
+git:
+  depth: 10
