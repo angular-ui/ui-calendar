@@ -10,7 +10,7 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {})
-  .controller('uiCalendarCtrl', ['$scope', '$timeout', function($scope, $timeout){
+  .controller('uiCalendarCtrl', ['$scope', '$timeout', '$locale', function($scope, $timeout, $locale){
 
       var sourceSerialId = 1,
           eventSerialId = 1,
@@ -165,26 +165,31 @@ angular.module('ui.calendar', [])
 
           return config;
       };
-  }])
-  .directive('uiCalendar', ['uiCalendarConfig', '$locale', function(uiCalendarConfig, $locale) {
-    // Configure to use locale names by default
-    var tValues = function(data) {
-      // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
-      var r, k;
-      r = [];
-      for (k in data) {
-        r[k] = data[k];
-      }
-      return r;
-    };
-    var dtf = $locale.DATETIME_FORMATS;
-    uiCalendarConfig = angular.extend({
-      monthNames: tValues(dtf.MONTH),
-      monthNamesShort: tValues(dtf.SHORTMONTH),
-      dayNames: tValues(dtf.DAY),
-      dayNamesShort: tValues(dtf.SHORTDAY)
-    }, uiCalendarConfig || {});
 
+    this.getLocaleConfig = function(fullCalendarConfig) {
+      if (!fullCalendarConfig.lang || fullCalendarConfig.useNgLocale) {
+        // Configure to use locale names by default
+        var tValues = function(data) {
+          // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
+          var r, k;
+          r = [];
+          for (k in data) {
+            r[k] = data[k];
+          }
+          return r;
+        };
+        var dtf = $locale.DATETIME_FORMATS;
+        return {
+          monthNames: tValues(dtf.MONTH),
+          monthNamesShort: tValues(dtf.SHORTMONTH),
+          dayNames: tValues(dtf.DAY),
+          dayNamesShort: tValues(dtf.SHORTDAY)
+        };
+      }
+      return {};
+    };
+  }])
+  .directive('uiCalendar', ['uiCalendarConfig', function(uiCalendarConfig) {
     return {
       restrict: 'A',
       scope: {eventSources:'=ngModel',calendarWatchEvent: '&'},
@@ -203,8 +208,11 @@ angular.module('ui.calendar', [])
 
           fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
 
+          var localeFullCalendarConfig = controller.getLocaleConfig(fullCalendarConfig);
+          angular.extend(localeFullCalendarConfig, fullCalendarConfig);
+
           options = { eventSources: sources };
-          angular.extend(options, fullCalendarConfig);
+          angular.extend(options, localeFullCalendarConfig);
 
           var options2 = {};
           for(var o in options){
