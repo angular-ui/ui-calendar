@@ -45,6 +45,10 @@ Apply the directive to your div elements. The calendar must be supplied an array
 
     <div ui-calendar ng-model="eventSources"></div>
 
+Define your model in a scope e.g.
+
+    $scope.eventSources = [];
+
 ## Options
 
 All the Arshaw Fullcalendar options can be passed through the directive. This even means function objects that are declared on the scope.
