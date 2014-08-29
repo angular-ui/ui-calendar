@@ -31,7 +31,6 @@ To your `components.json` file. Then run
 This will copy the ui-calendar files into your `components` folder, along with its dependencies. Load the script files in your application:
 
     <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
-    <script type="text/javascript" src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
     <script type="text/javascript" src="bower_components/fullcalendar/fullcalendar.js"></script>
