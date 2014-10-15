@@ -18,7 +18,7 @@ We use karma and grunt to ensure the quality of the code.
 
 # Usage
 
-We use [bower](http://twitter.github.com/bower/) for dependency management.  Add
+We use [bower](http://bower.io/) for dependency management.  Add
 
     dependencies: {
         "angular-ui-calendar": "latest"
