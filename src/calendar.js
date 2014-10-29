@@ -192,7 +192,11 @@ angular.module('ui.calendar', [])
   .directive('uiCalendar', ['uiCalendarConfig', function(uiCalendarConfig) {
     return {
       restrict: 'A',
-      scope: {eventSources:'=ngModel',calendarWatchEvent: '&'},
+      scope: {
+        eventSources:'=ngModel',
+        calendarWatchEvent: '&',
+        calendar: '='
+      },
       controller: 'uiCalendarCtrl',
       link: function(scope, elm, attrs, controller) {
 
@@ -227,11 +231,7 @@ angular.module('ui.calendar', [])
           if(scope.calendar && scope.calendar.fullCalendar){
             scope.calendar.fullCalendar('destroy');
           }
-          if(attrs.calendar) {
-            scope.calendar = scope.$parent[attrs.calendar] =  $(elm).html('');
-          } else {
-            scope.calendar = $(elm).html('');
-          }
+          scope.calendar = $(elm).html('');
         };
 
         scope.init = function(){
