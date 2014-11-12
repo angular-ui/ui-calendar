@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="calendarDemo.css" />
 
     <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../bower_components/jquery-ui/ui/jquery-ui.js"></script>
-    <script src="../bower_components/moment/moment.js"></script>
 
     <script src="../bower_components/angular/angular.js"></script>
-    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+    <script src="../bower_components/moment/moment.js"></script>
     <script src="../bower_components/fullcalendar/dist/fullcalendar.js"></script>
     <script src="../bower_components/fullcalendar/dist/gcal.js"></script>
     <script src="../src/calendar.js"></script>
@@ -47,8 +46,8 @@
                 <h1>UI Calendar</h1>
                 <p>A complete AngularJS directive for the <a href="http://arshaw.com/fullcalendar/">Arshaw FullCalendar</a>.</p>
                 <p class="btn-group">
-                    <a href="https://github.com/angular-ui/ui-calendar" class='btn'>Code on Github</a>
-                    <a href="https://github.com/angular-ui/ui-calendar/archive/master.zip" class='btn btn-primary'><i class="icon-download-alt icon-white"></i> Download <small>(0.1.3)</small></a>
+                    <a href="https://github.com/angular-ui/ui-calendar" class='btn'><i class='icon-github'></i> Code on Github</a>
+                    <a href="https://github.com/angular-ui/ui-calendar/archive/master.zip" class='btn btn-primary'><i class="icon-download-alt icon-white"></i> Download <small>(0.8.1)</small></a>
                 </p>
             </div>
             <div class="bs-docs-social">
@@ -122,7 +121,7 @@
 
                     <div class="span8">
                         <tabset>
-                            <tab select="renderCalender(myCalendar1);">
+                            <tab select="renderCalender('myCalendar1');">
                               <tab-heading>
                                <i class="glyphicon glyphicon-bell"></i> Calendar One
                               </tab-heading>
@@ -132,14 +131,14 @@
                               <div class="btn-toolbar">
                                 <p class="pull-right lead">Calendar One View Options</p>
                                 <div class="btn-group">
-                                    <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar1)">AgendaDay</button>
-                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar1)">AgendaWeek</button>
-                                    <button class="btn btn-success" ng-click="changeView('month', myCalendar1)">Month</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
                                 </div>
                               </div>
-                            <div class="calendar" ng-model="eventSources" calendar="myCalendar1" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
                            </tab>
-                           <tab select="renderCalender(myCalendar2);">
+                           <tab select="renderCalender('myCalendar2');">
                             <tab-heading>
                               <i class="glyphicon glyphicon-bell"></i> Calendar Two
                             </tab-heading>
@@ -149,14 +148,14 @@
                               <div class="btn-toolbar">
                                 <p class="pull-right lead">Calendar Two View Options</p>
                                 <div class="btn-group">
-                                    <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar2)">AgendaDay</button>
-                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar2)">AgendaWeek</button>
-                                    <button class="btn btn-success" ng-click="changeView('month', myCalendar2)">Month</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar2')">AgendaDay</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar2')">AgendaWeek</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar2')">Month</button>
                                 </div>
                               </div>
-                            <div class="calendar" ng-model="eventSources" calendar="myCalendar2" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources" calendar="myCalendar2" ui-calendar="uiConfig.calendar"></div>
                            </tab>
-                           <tab select="renderCalender(myCalendar3);">
+                           <tab select="renderCalender('myCalendar3');">
                             <tab-heading>
                               <i class="glyphicon glyphicon-bell"></i> Calendar Three
                             </tab-heading>
@@ -166,32 +165,33 @@
                               <div class="btn-toolbar">
                                 <p class="pull-right lead">Calendar Three View Options</p>
                                 <div class="btn-group">
-                                    <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar3)">AgendaDay</button>
-                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar3)">AgendaWeek</button>
-                                    <button class="btn btn-success" ng-click="changeView('month', myCalendar3)">Month</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar3')">AgendaDay</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar3')">AgendaWeek</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar3')">Month</button>
                                 </div>
                               </div>
-                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>
                            </tab>
                         </tabset>
                     </div>
                 </div>
             </div>
             <h3>How?</h3>
-            <div>* The jQuery UI files are only necessary if you plan to do drag & drop / resizing</div>
-                <pre class="prettyprint linenums">
+        <pre class="prettyprint linenums">
 &lt;div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"&gt;&lt;/div&gt; 
 
 /**
- * calendarDemoApp - 0.1.3
+ * calendarDemoApp - 0.9.0
  */
 angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
-function CalendarCtrl($scope) {
+function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
+    
+    $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
     $scope.eventSource = {
             url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
@@ -208,7 +208,7 @@ function CalendarCtrl($scope) {
       {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
     ];
     /* event source that calls a function on every view switch */
-    $scope.eventsF = function (start, end, callback) {
+    $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
       var e = new Date(end).getTime() / 1000;
       var m = new Date(start).getMonth();
@@ -226,16 +226,16 @@ function CalendarCtrl($scope) {
         ]
     };
     /* alert on eventClick */
-    $scope.alertEventOnClick = function( date, allDay, jsEvent, view ){
-       $scope.alertMessage = ('Day Clicked ' + date);
+    $scope.alertOnEventClick = function( date, jsEvent, view){
+        $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
-     $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-        $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
+     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
     };
     /* alert on Resize */
-    $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-        $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
+    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {
@@ -265,11 +265,19 @@ function CalendarCtrl($scope) {
     };
     /* Change View */
     $scope.changeView = function(view,calendar) {
-      calendar.fullCalendar('changeView',view);
+      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
-      calendar.fullCalendar('render');
+      if(uiCalendarConfig.calendars[calendar]){
+        uiCalendarConfig.calendars[calendar].fullCalendar('render');
+      }
+    };
+     /* Render Tooltip */
+    $scope.eventRender = function( event, element, view ) { 
+        element.attr({'tooltip': event.title,
+                     'tooltip-append-to-body': true});
+        $compile(element)($scope);
     };
     /* config object */
     $scope.uiConfig = {
@@ -281,9 +289,22 @@ function CalendarCtrl($scope) {
           center: '',
           right: 'today prev,next'
         },
-        dayClick: $scope.alertEventOnClick,
+        eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize
+        eventResize: $scope.alertOnResize,
+        eventRender: $scope.eventRender
+      }
+    };
+
+    $scope.changeLang = function() {
+      if($scope.changeTo === 'Hungarian'){
+        $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
+        $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
+        $scope.changeTo= 'English';
+      } else {
+        $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        $scope.changeTo = 'Hungarian';
       }
     };
     /* event sources array*/
@@ -297,11 +318,9 @@ function CalendarCtrl($scope) {
     </div>
 </div>
         <script type="text/javascript">
-
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-17352735-3']);
             _gaq.push(['_trackPageview']);
-
             (function () {
                 var ga = document.createElement('script');
                 ga.type = 'text/javascript';
@@ -310,7 +329,6 @@ function CalendarCtrl($scope) {
                 var s = document.getElementsByTagName('script')[0];
                 s.parentNode.insertBefore(ga, s);
             })();
-
         </script>
     </body>
 </html>

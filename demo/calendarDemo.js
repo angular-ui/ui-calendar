@@ -1,9 +1,9 @@
 /**
- * calendarDemoApp - 0.1.3
+ * calendarDemoApp - 0.9.0
  */
 angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
-function CalendarCtrl($scope) {
+function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -44,16 +44,16 @@ function CalendarCtrl($scope) {
         ]
     };
     /* alert on eventClick */
-    $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
-        $scope.alertMessage = (event.title + ' was clicked ');
+    $scope.alertOnEventClick = function( date, jsEvent, view){
+        $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
-     $scope.alertOnDrop = function( event, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('Event Droped on ' + event.start.format());
+     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
     };
     /* alert on Resize */
-    $scope.alertOnResize = function( event, jsEvent, ui, view){
-       $scope.alertMessage = ('Event end date was moved to ' + event.end.format());
+    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {
@@ -83,13 +83,19 @@ function CalendarCtrl($scope) {
     };
     /* Change View */
     $scope.changeView = function(view,calendar) {
-      calendar.fullCalendar('changeView',view);
+      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
-      if(calendar){
-        calendar.fullCalendar('render');
+      if(uiCalendarConfig.calendars[calendar]){
+        uiCalendarConfig.calendars[calendar].fullCalendar('render');
       }
+    };
+     /* Render Tooltip */
+    $scope.eventRender = function( event, element, view ) { 
+        element.attr({'tooltip': event.title,
+                     'tooltip-append-to-body': true});
+        $compile(element)($scope);
     };
     /* config object */
     $scope.uiConfig = {
@@ -103,7 +109,8 @@ function CalendarCtrl($scope) {
         },
         eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize
+        eventResize: $scope.alertOnResize,
+        eventRender: $scope.eventRender
       }
     };
 
