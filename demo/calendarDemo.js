@@ -1,5 +1,5 @@
 /**
- * calendarDemoApp - 0.8.1
+ * calendarDemoApp - 0.9.0
  */
 angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
