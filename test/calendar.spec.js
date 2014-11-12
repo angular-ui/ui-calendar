@@ -2,7 +2,7 @@
 describe('uiCalendar', function () {
     'use strict';
 
-    var scope, $compile, $locale, $controller;
+    var scope, $compile, $locale, $controller, config;
 
     //Date Objects needed for event
     var date = new Date();
@@ -11,11 +11,12 @@ describe('uiCalendar', function () {
     var y = date.getFullYear();
 
     beforeEach(module('ui.calendar'));
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_,_$controller_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_,_$controller_,uiCalendarConfig) {
         scope = _$rootScope_.$new();
         $compile = _$compile_;
         $locale = _$locale_;
         $controller = _$controller_;
+        config = uiCalendarConfig;
 
         // create an array of events, to pass into the directive. 
         scope.events = [
@@ -293,17 +294,17 @@ describe('uiCalendar', function () {
         });
     });
 
-    describe('Testing the ability to add calendars to the scope', function(){
+    describe('Testing the ability to add calendars to the calendarConfig', function(){
 
          beforeEach(function(){
             spyOn($.fn, 'fullCalendar');
-            expect(scope.myCalendar).toBe(undefined);
+            expect(config.calendars.myCalendar).toBe(undefined);
             $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
             scope.$apply();
          });
 
-         it('should make sure the calendar sets the myCalendar object to the defining scope', function () {
-            expect(scope.myCalendar).not.toBe(undefined);
+         it('should make sure the calendar sets the myCalendar object to the calendarConfig', function () {
+            expect(config.calendars.myCalendar).not.toBe(undefined);
          });
     });
 

@@ -9,8 +9,13 @@
 */
 
 angular.module('ui.calendar', [])
-  .constant('uiCalendarConfig', {})
-  .controller('uiCalendarCtrl', ['$scope', '$timeout', '$locale', function($scope, $timeout, $locale){
+  .constant('uiCalendarConfig', {calendars: {}})
+  .controller('uiCalendarCtrl', ['$scope', 
+                                 '$timeout', 
+                                 '$locale', function(
+                                  $scope, 
+                                  $timeout, 
+                                  $locale){
 
       var sourceSerialId = 1,
           eventSerialId = 1,
@@ -198,6 +203,7 @@ angular.module('ui.calendar', [])
 
         var sources = scope.eventSources,
             sourcesChanged = false,
+            calendar,
             eventSourcesWatcher = controller.changeWatcher(sources, controller.sourcesFingerprint),
             eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventsFingerprint),
             options = null;
@@ -210,9 +216,10 @@ angular.module('ui.calendar', [])
 
           var localeFullCalendarConfig = controller.getLocaleConfig(fullCalendarConfig);
           angular.extend(localeFullCalendarConfig, fullCalendarConfig);
-
           options = { eventSources: sources };
           angular.extend(options, localeFullCalendarConfig);
+          //remove calendars from options
+          options.calendars = null;
 
           var options2 = {};
           for(var o in options){
@@ -224,36 +231,36 @@ angular.module('ui.calendar', [])
         }
 
         scope.destroy = function(){
-          if(scope.calendar && scope.calendar.fullCalendar){
-            scope.calendar.fullCalendar('destroy');
+          if(calendar && calendar.fullCalendar){
+            calendar.fullCalendar('destroy');
           }
           if(attrs.calendar) {
-            scope.calendar = scope.$parent[attrs.calendar] =  $(elm).html('');
+            calendar = uiCalendarConfig.calendars[attrs.calendar] = $(elm).html('');
           } else {
-            scope.calendar = $(elm).html('');
+            calendar = $(elm).html('');
           }
         };
 
         scope.init = function(){
-          scope.calendar.fullCalendar(options);
+          calendar.fullCalendar(options);
         };
 
         eventSourcesWatcher.onAdded = function(source) {
-            scope.calendar.fullCalendar('addEventSource', source);
+            calendar.fullCalendar('addEventSource', source);
             sourcesChanged = true;
         };
 
         eventSourcesWatcher.onRemoved = function(source) {
-          scope.calendar.fullCalendar('removeEventSource', source);
+          calendar.fullCalendar('removeEventSource', source);
           sourcesChanged = true;
         };
 
         eventsWatcher.onAdded = function(event) {
-          scope.calendar.fullCalendar('renderEvent', event);
+          calendar.fullCalendar('renderEvent', event);
         };
 
         eventsWatcher.onRemoved = function(event) {
-          scope.calendar.fullCalendar('removeEvents', function(e) { 
+          calendar.fullCalendar('removeEvents', function(e) { 
             return e._id === event._id;
           });
         };
@@ -261,7 +268,7 @@ angular.module('ui.calendar', [])
         eventsWatcher.onChanged = function(event) {
           event._start = $.fullCalendar.moment(event.start);
           event._end = $.fullCalendar.moment(event.end);
-          scope.calendar.fullCalendar('updateEvent', event);
+          calendar.fullCalendar('updateEvent', event);
         };
 
         eventSourcesWatcher.subscribe(scope);
