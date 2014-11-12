@@ -4,17 +4,17 @@
     <title>AngularUI Calendar for AngularJS</title>
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/fullcalendar/fullcalendar.css">
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css">
     <link rel="stylesheet" href="demo/calendarDemo.css" />
 
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
 
     <script src="bower_components/angular/angular.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
-    <script src="bower_components/fullcalendar/fullcalendar.js"></script>
-    <script src="bower_components/fullcalendar/gcal.js"></script>
-    <script src="//rawgithub.com/angular-ui/ui-calendar/master/src/calendar.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/fullcalendar/dist/gcal.js"></script>
+    <script src="src/calendar.js"></script>
     <script src="demo/calendarDemo.js"></script>
 </head>
 <body data-spy="scroll">
@@ -121,7 +121,7 @@
 
                     <div class="span8">
                         <tabset>
-                            <tab select="renderCalender(myCalendar1);">
+                            <tab select="renderCalender('myCalendar1');">
                               <tab-heading>
                                <i class="glyphicon glyphicon-bell"></i> Calendar One
                               </tab-heading>
@@ -131,14 +131,14 @@
                               <div class="btn-toolbar">
                                 <p class="pull-right lead">Calendar One View Options</p>
                                 <div class="btn-group">
-                                    <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar1)">AgendaDay</button>
-                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar1)">AgendaWeek</button>
-                                    <button class="btn btn-success" ng-click="changeView('month', myCalendar1)">Month</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
                                 </div>
                               </div>
                             <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
                            </tab>
-                           <tab select="renderCalender(myCalendar2);">
+                           <tab select="renderCalender('myCalendar2');">
                             <tab-heading>
                               <i class="glyphicon glyphicon-bell"></i> Calendar Two
                             </tab-heading>
@@ -148,14 +148,14 @@
                               <div class="btn-toolbar">
                                 <p class="pull-right lead">Calendar Two View Options</p>
                                 <div class="btn-group">
-                                    <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar2)">AgendaDay</button>
-                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar2)">AgendaWeek</button>
-                                    <button class="btn btn-success" ng-click="changeView('month', myCalendar2)">Month</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar2')">AgendaDay</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar2')">AgendaWeek</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar2')">Month</button>
                                 </div>
                               </div>
                             <div class="calendar" ng-model="eventSources" calendar="myCalendar2" ui-calendar="uiConfig.calendar"></div>
                            </tab>
-                           <tab select="renderCalender(myCalendar3);">
+                           <tab select="renderCalender('myCalendar3');">
                             <tab-heading>
                               <i class="glyphicon glyphicon-bell"></i> Calendar Three
                             </tab-heading>
@@ -165,9 +165,9 @@
                               <div class="btn-toolbar">
                                 <p class="pull-right lead">Calendar Three View Options</p>
                                 <div class="btn-group">
-                                    <button class="btn btn-success" ng-click="changeView('agendaDay', myCalendar3)">AgendaDay</button>
-                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', myCalendar3)">AgendaWeek</button>
-                                    <button class="btn btn-success" ng-click="changeView('month', myCalendar3)">Month</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar3')">AgendaDay</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar3')">AgendaWeek</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar3')">Month</button>
                                 </div>
                               </div>
                             <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>

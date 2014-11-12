@@ -3,7 +3,7 @@
  */
 angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
-function CalendarCtrl($scope,$compile) {
+function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -26,7 +26,7 @@ function CalendarCtrl($scope,$compile) {
       {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
     ];
     /* event source that calls a function on every view switch */
-    $scope.eventsF = function (start, end, callback) {
+    $scope.eventsF = function (start, end, timezone, callback) {
       var s = new Date(start).getTime() / 1000;
       var e = new Date(end).getTime() / 1000;
       var m = new Date(start).getMonth();
@@ -44,16 +44,16 @@ function CalendarCtrl($scope,$compile) {
         ]
     };
     /* alert on eventClick */
-    $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
-        $scope.alertMessage = (event.title + ' was clicked ');
+    $scope.alertOnEventClick = function( date, jsEvent, view){
+        $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
-     $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
+     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
     };
     /* alert on Resize */
-    $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-       $scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
+    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
     };
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function(sources,source) {
@@ -83,12 +83,12 @@ function CalendarCtrl($scope,$compile) {
     };
     /* Change View */
     $scope.changeView = function(view,calendar) {
-      calendar.fullCalendar('changeView',view);
+      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
-      if(calendar){
-        calendar.fullCalendar('render');
+      if(uiCalendarConfig.calendars[calendar]){
+        uiCalendarConfig.calendars[calendar].fullCalendar('render');
       }
     };
      /* Render Tooltip */
