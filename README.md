@@ -77,20 +77,20 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
 
 The ui-calendar directive plays nicely with ng-model.
 
-An Event Sources objects needs to be created to pass into ng-model. This object will be watched for changes and update the calendar accordingly, giving the calendar some Angular Magic.
+An Event Sources objects needs to be created to pass into ng-model. This object's values will be watched for changes. If a change occurs, then that specific calendar will call the appropriate fullCalendar method.
 
 The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar. [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
 Note that all calendar options which are functions that are passed into the calendar are wrapped in an apply automatically.
 
 ## Accessing the calendar object
 
-To avoid potential issues, by default the calendar object is not available in the parent scope. Access the object by declaring a calendar attribute name:
+It is possible to access a specific calendar object by declaring a name for it on the uiCalendar directive. In this next line we are naming the calendar 'myCalendar'. This will be attached to the uiCalendarConfig constant object, that can be accessed via DI.
 
     <div ui-calendar="calendarOptions" ng-model="eventSources" calendar="myCalendar">
 
-Now the calendar object is available in the parent scope:
+Now the calendar object is available in uiCalendarConfig.calendars:
 
-    $scope.myCalendar.fullCalendar
+    uiCalendarConfig.calendars.myCalendar
 
 This allows you to declare any number of calendar objects with distinct names.
 
