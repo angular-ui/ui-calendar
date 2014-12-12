@@ -28,8 +28,9 @@ To your `components.json` file. Then run
 
     bower install
 
-This will copy the ui-calendar files into your `components` folder, along with its dependencies. Load the script files in your application:
+This will copy the ui-calendar files into your `components` folder, along with its dependencies. Load the script and style files in your application:
 
+    <link rel="stylesheet" href="bower_components/fullcalendar/fullcalendar.css"/>
     <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
     <script type="text/javascript" src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
