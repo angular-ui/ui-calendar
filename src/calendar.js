@@ -20,7 +20,7 @@ angular.module('ui.calendar', [])
       var sourceSerialId = 1,
           eventSerialId = 1,
           sources = $scope.eventSources,
-          extraEventSignature = $scope.calendarWatchEvent ? $scope.calendarWatchEvent : angular.noop,
+          extraEventSignature = $scope.calendarWatchEvent() ? $scope.calendarWatchEvent() : angular.noop,
 
           wrapFunctionWithScopeApply = function(functionToWrap){
               var wrapper;

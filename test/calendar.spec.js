@@ -203,6 +203,7 @@ describe('uiCalendar', function () {
         }
 
         beforeEach(function(){
+          scope.calendarWatchEvent = angular.noop;
           calendarCtrl = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
           sourcesChanged = false;
           scope.$apply();
@@ -249,8 +250,8 @@ describe('uiCalendar', function () {
         it('should make sure the correct function is called when the calendarWatchEvent function is return variable is altered', function () {
           scope.testX = 0;
 
-          scope.calendarWatchEvent = function(){
-            return scope.testX;
+          scope.calendarWatchEvent = function() { 
+            return function(){ return scope.testX; };
           };
 
           var calendarCtrl2 = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
@@ -348,6 +349,7 @@ describe('uiCalendar', function () {
         var calendarCtrl;
 
         beforeEach(function(){
+          scope.calendarWatchEvent = angular.noop;
           calendarCtrl = $controller('uiCalendarCtrl', {$scope: scope, $element: null});
           scope.$apply();
         });
