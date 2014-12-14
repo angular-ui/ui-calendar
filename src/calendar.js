@@ -10,11 +10,11 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {calendars: {}})
-  .controller('uiCalendarCtrl', ['$scope', 
-                                 '$timeout', 
+  .controller('uiCalendarCtrl', ['$scope',
+                                 '$timeout',
                                  '$locale', function(
-                                  $scope, 
-                                  $timeout, 
+                                  $scope,
+                                  $timeout,
                                   $locale){
 
       var sourceSerialId = 1,
@@ -161,7 +161,7 @@ angular.module('ui.calendar', [])
 
           angular.extend(config, uiCalendarConfig);
           angular.extend(config, calendarSettings);
-         
+
           angular.forEach(config, function(value,key){
             if (typeof value === 'function'){
               config[key] = wrapFunctionWithScopeApply(config[key]);
@@ -260,15 +260,18 @@ angular.module('ui.calendar', [])
         };
 
         eventsWatcher.onRemoved = function(event) {
-          calendar.fullCalendar('removeEvents', function(e) { 
+          calendar.fullCalendar('removeEvents', function(e) {
             return e._id === event._id;
           });
         };
 
         eventsWatcher.onChanged = function(event) {
-          event._start = $.fullCalendar.moment(event.start);
-          event._end = $.fullCalendar.moment(event.end);
-          calendar.fullCalendar('updateEvent', event);
+          var clientEvents = calendar.fullCalendar('clientEvents', event._id);
+          for (var i = 0; i < clientEvents.length; i++) {
+            var clientEvent = clientEvents[i];
+            clientEvent = angular.extend(clientEvent, event);
+            calendar.fullCalendar('updateEvent', clientEvent);
+          }
         };
 
         eventSourcesWatcher.subscribe(scope);

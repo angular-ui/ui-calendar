@@ -18,14 +18,14 @@ describe('uiCalendar', function () {
         $controller = _$controller_;
         config = uiCalendarConfig;
 
-        // create an array of events, to pass into the directive. 
+        // create an array of events, to pass into the directive.
         scope.events = [
           {title: 'All Day Event',start: new Date(y, m, 1),url: 'http://www.angularjs.org'},
           {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
           {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
           {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: true}];
 
-        // create an array of events, to pass into the directive. 
+        // create an array of events, to pass into the directive.
         scope.events2 = [
           {title: 'All Day Event 2',start: new Date(y, m, 1),url: 'http://www.atlantacarlocksmith.com'},
           {title: 'Long Event 2',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
@@ -41,19 +41,19 @@ describe('uiCalendar', function () {
         scope.calEventsExt = {
            color: '#f00',
            textColor: 'yellow',
-           events: [ 
+           events: [
               {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
               {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
               {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
             ]
         };
 
-        // create an array of events, to pass into the directive. 
+        // create an array of events, to pass into the directive.
         scope.events4 = [{title: 'All Day Event 3',start: new Date(y, m, 1),url: 'http://www.yoyoyo.com'}];
 
-        //event Sources array  
+        //event Sources array
         scope.eventSources = [scope.events,scope.events2]; //End of Events Array
-        
+
         scope.addSource = function(source) {
           scope.eventSources.push(source);
         };
@@ -78,11 +78,11 @@ describe('uiCalendar', function () {
             defaultView: 'month'
           }
         };
-         
+
     }));
 
     describe('compiling this directive and checking for events inside the calendar', function () {
-        
+
         beforeEach(function(){
             spyOn($.fn, 'fullCalendar');
             $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
@@ -96,7 +96,7 @@ describe('uiCalendar', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0][0].url).toBe('http://www.angularjs.org');
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[1][0].url).toBe('http://www.atlantacarlocksmith.com');
             expect($.fn.fullCalendar.mostRecentCall.args[0].eventSources[0][3].allDay).toNotBe(false);
-            expect($.fn.fullCalendar.mostRecentCall.args[0].height).toEqual(200);  
+            expect($.fn.fullCalendar.mostRecentCall.args[0].height).toEqual(200);
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
         });
         /* Test to make sure that when an event is added to the calendar everything is updated with the new event. */
@@ -117,7 +117,7 @@ describe('uiCalendar', function () {
             //remove an event from the scope.
             scope.remove(scope.events2,0);
             scope.$apply();
-            //events should auto update inside the calendar. 
+            //events should auto update inside the calendar.
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             var callCount = $.fn.fullCalendar.callCount;
             expect(fullCalendarParam).toEqual('removeEvents');
@@ -133,7 +133,7 @@ describe('uiCalendar', function () {
         it('should update the calendar if an eventSource is Added', function () {
             scope.addSource(scope.events4);
             scope.$apply();
-            //eventSources should auto update inside the calendar. 
+            //eventSources should auto update inside the calendar.
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             expect(fullCalendarParam).toEqual('addEventSource');
         });
@@ -165,19 +165,27 @@ describe('uiCalendar', function () {
         });
 
         it('should make sure that if we just change the title of the event that it updates itself', function () {
+            var originalEvent = angular.copy(scope.events[0]);
+            $.fn.fullCalendar.andCallFake(function(method) {
+              if (method === 'clientEvents') {
+                return [ originalEvent ];
+              }
+            });
             scope.events[0].title = 'change title';
             scope.$apply();
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             var fullCalendarParam1  = $.fn.fullCalendar.mostRecentCall.args[1];
             expect(fullCalendarParam).toEqual('updateEvent');
-            expect(fullCalendarParam1).toEqual(scope.events[0]);
+            expect(fullCalendarParam1).toEqual(originalEvent);
+            // fullCalendar 'updateEvent' need an original Event Object
+            expect(fullCalendarParam1).toBe(originalEvent);
         });
 
         it('should make sure that if the calendars options change then the fullcalendar method is called with the new options', function () {
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(false);
             scope.uiConfig.calendar.weekends = true;
             scope.$apply();
-            //3 because we are destroying the calendar as well. 
+            //3 because we are destroying the calendar as well.
             expect($.fn.fullCalendar.callCount).toEqual(3);
             expect($.fn.fullCalendar.mostRecentCall.args[0].weekends).toEqual(true);
         });
@@ -185,7 +193,7 @@ describe('uiCalendar', function () {
     });
 
     describe('calendarCtrl changeWatcher functionality', function(){
-        
+
         var calendar,
             calendarCtrl,
             sourcesChanged;
@@ -332,7 +340,7 @@ describe('uiCalendar', function () {
             spyOn($.fn, 'fullCalendar');
             scope.uiConfig2 = {
               calendar:{
-                header: {center: 'title'} 
+                header: {center: 'title'}
              }
             };
             $compile('<div ui-calendar="uiConfig2.calendar" ng-model="eventSources"></div>')(scope);
@@ -344,7 +352,7 @@ describe('uiCalendar', function () {
     });
 
     describe('Describing calendarCtrl and its configurations functions', function(){
-        
+
         var calendarCtrl;
 
         beforeEach(function(){
@@ -386,7 +394,7 @@ describe('uiCalendar', function () {
         }));
 
         it('should make sure that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
-          
+
           var functionCount = 0;
           scope.uiConfig = {
             calendar:{
@@ -400,7 +408,7 @@ describe('uiCalendar', function () {
               eventMouseover: function(){scope.$apply();}
             }
           };
-          
+
           spyOn($rootScope,'$apply');
 
           angular.forEach(scope.uiConfig.calendar, function(value,key){
@@ -411,7 +419,7 @@ describe('uiCalendar', function () {
               var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
 
               fullCalendarConfig[key]();
-              
+
               scope.$apply();
               $timeout.flush();
               expect($rootScope.$apply.callCount).toBe(functionCount*2);
