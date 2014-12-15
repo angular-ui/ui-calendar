@@ -161,9 +161,9 @@ angular.module('ui.calendar', [])
 
           angular.extend(config, uiCalendarConfig);
           angular.extend(config, calendarSettings);
-         
+ 
           angular.forEach(config, function(value,key){
-            if (typeof value === 'function'){
+            if (typeof value === 'function' && ['eventDataTransform', 'eventClick'].indexOf(key) === -1){
               config[key] = wrapFunctionWithScopeApply(config[key]);
             }
           });
