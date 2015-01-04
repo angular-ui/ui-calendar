@@ -10,7 +10,7 @@
     <script src="../bower_components/jquery/dist/jquery.js"></script>
 
     <script src="../bower_components/angular/angular.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="../bower_components/moment/moment.js"></script>
     <script src="../bower_components/fullcalendar/dist/fullcalendar.js"></script>
     <script src="../bower_components/fullcalendar/dist/gcal.js"></script>
@@ -60,7 +60,7 @@
                             <iframe src="http://ghbtns.com/github-btn.html?user=angular-ui&amp;repo=ui-calendar&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
                         </li>
                         <li>
-                            <div class="g-plusone" data-size="medium"></div>        
+                            <div class="g-plusone" data-size="medium"></div>
                             <!-- Place this tag after the last +1 button tag. -->
                             <script type="text/javascript">
                                 (function () {
@@ -94,11 +94,11 @@
                         <h3>Why?</h3>
 
                         <p>Why Not?</p>
-                        
+
                         <div class="btn-group calTools">
                           <button class="btn" ng-click="changeLang()">
                             {{changeTo}}
-                          </button>              
+                          </button>
                           <button class="btn" ng-click="addRemoveEventSource(eventSources,eventSource)">
                             Toggle Source
                           </button>
@@ -111,7 +111,7 @@
                             <li ng-repeat="e in events">
                                 <div class="alert alert-info">
                                     <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
-                                    <b> <input ng-model="e.title"></b> 
+                                    <b> <input ng-model="e.title"></b>
                                     {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
                                 </div>
                             </li>
@@ -178,7 +178,7 @@
             </div>
             <h3>How?</h3>
         <pre class="prettyprint linenums">
-&lt;div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"&gt;&lt;/div&gt; 
+&lt;div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"&gt;&lt;/div&gt;
 
 /**
  * calendarDemoApp - 0.9.0
@@ -190,7 +190,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    
+
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
     $scope.eventSource = {
@@ -219,7 +219,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     $scope.calEventsExt = {
        color: '#f00',
        textColor: 'yellow',
-       events: [ 
+       events: [
           {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
           {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
           {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
@@ -274,7 +274,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
       }
     };
      /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) { 
+    $scope.eventRender = function( event, element, view ) {
         element.attr({'tooltip': event.title,
                      'tooltip-append-to-body': true});
         $compile(element)($scope);
