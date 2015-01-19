@@ -389,12 +389,12 @@ describe('uiCalendar', function () {
             }
           };
 
-          spyOn($rootScope,'$apply');
+          spyOn($rootScope,'$apply').andCallThrough();
 
           angular.forEach(scope.uiConfig.calendar, function(value,key){
             if (typeof value === 'function'){
               functionCount++;
-              spyOn(scope.uiConfig.calendar, key);
+              spyOn(scope.uiConfig.calendar, key).andCallThrough();
 
               var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
 
@@ -423,12 +423,12 @@ describe('uiCalendar', function () {
             }
           };
 
-          spyOn($rootScope,'$apply');
+          spyOn($rootScope,'$apply').andCallThrough();
 
           angular.forEach(scope.uiConfig.calendar, function(value,key){
             if (typeof value === 'function'){
               functionCount++;
-              spyOn(scope.uiConfig.calendar, key);
+              spyOn(scope.uiConfig.calendar, key).andCallThrough();
 
               var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
 
