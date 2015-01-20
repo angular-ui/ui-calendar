@@ -7,6 +7,9 @@ module.exports = function (grunt) {
   // Default task.
   grunt.registerTask('default', ['jshint', 'karma']);
 
+  // uglify
+  grunt.registerTask('minify', ['uglify']);
+
   var testConfig = function(configFile, customOptions) {
     var options = { configFile: configFile, keepalive: true };
     var travisOptions = process.env.TRAVIS && { browsers: ['Firefox'], reporters: 'dots' };
@@ -33,6 +36,12 @@ module.exports = function (grunt) {
         boss:true,
         eqnull:true,
         globals:{}
+      }
+    },
+    uglify: {
+      build: {
+        src: ['src/**/*.js'],
+        dest: 'calendar.min.js'
       }
     }
   });

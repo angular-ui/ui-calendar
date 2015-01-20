@@ -16,6 +16,11 @@ We use karma and grunt to ensure the quality of the code.
     bower install
     grunt
 
+# Minify
+
+    grunt minify
+
+
 # Usage
 
 We use [bower](http://twitter.github.com/bower/) for dependency management.  Add
