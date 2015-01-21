@@ -11,10 +11,8 @@
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {calendars: {}})
   .controller('uiCalendarCtrl', ['$scope', 
-                                 '$timeout', 
                                  '$locale', function(
                                   $scope, 
-                                  $timeout, 
                                   $locale){
 
       var sourceSerialId = 1,
@@ -23,22 +21,19 @@ angular.module('ui.calendar', [])
           extraEventSignature = $scope.calendarWatchEvent ? $scope.calendarWatchEvent : angular.noop,
 
           wrapFunctionWithScopeApply = function(functionToWrap){
-              var wrapper;
+              return function(){
+                  // This may happen outside of angular context, so create one if outside.
 
-              if (functionToWrap){
-                  wrapper = function(){
-                      // This happens outside of angular context so we need to wrap it in a timeout which has an implied apply.
-                      // In this way the function will be safely executed on the next digest.
-
+                  if ($scope.$root.$$phase) {
+                      return functionToWrap.apply(this, arguments);
+                  } else {
                       var args = arguments;
-                      var _this = this;
-                      $timeout(function(){
-                        functionToWrap.apply(_this, args);
+                      var self = this;
+                      return $scope.$root.$apply(function(){
+                          return functionToWrap.apply(self, args);
                       });
-                  };
-              }
-
-              return wrapper;
+                  }
+              };
           };
 
       this.eventsFingerprint = function(e) {
