@@ -243,6 +243,9 @@ angular.module('ui.calendar', [])
 
         scope.init = function(){
           calendar.fullCalendar(options);
+          if(attrs.calendar) {
+            uiCalendarConfig.calendars[attrs.calendar] = calendar;
+          }          
         };
 
         eventSourcesWatcher.onAdded = function(source) {
