@@ -42,7 +42,7 @@ Add the calendar module as a dependency to your application module:
 
     var myAppModule = angular.module('MyApp', ['ui.calendar'])
 
-Apply the directive to your div elements. The calendar must be supplied an array of decoumented event sources to render itself:
+Apply the directive to your div elements. The calendar must be supplied an array of documented event sources to render itself:
 
     <div ui-calendar ng-model="eventSources"></div>
 
