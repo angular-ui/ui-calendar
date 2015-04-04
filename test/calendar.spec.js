@@ -164,11 +164,11 @@ describe('uiCalendar', function () {
             expect(fullCalendarParam).toEqual('addEventSource');
         });
 
-        it('refetches the whole calendar when source events are replaced', function () {
-           scope.eventSources[0].events = scope.eventSources[1].events.slice(0);
+        it('shoud refetch the whole calendar when source events are replaced', function () {
+           scope.eventSources[0] = scope.events3;
            scope.$apply();
            var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
-           expect(fullCalendarParam).toEqual('refetchEvents');
+           expect(fullCalendarParam).toEqual('addEventSource');
         });
 
         it('should make sure that if we just change the title of the event that it updates itself', function () {
@@ -225,16 +225,16 @@ describe('uiCalendar', function () {
           sourceWatcher.subscribe(scope);
           sourceWatcher.onAdded = onFnAdd;
           sourceWatcher.onRemoved = onFnRemove;
-          sourceWatcher.onRemoved = onFnChanged;
+          sourceWatcher.onChanged = onFnChanged;
           scope.$apply();
 
           scope.eventSources.push(scope.events3);
           scope.$apply();
           expect(sourcesChanged).toBe('added');
 
-          scope.eventSources[0].events = scope.eventSources[1].events.slice(0);
+          scope.eventSources[0] = scope.events4;
           scope.$apply();
-          expect(sourcesChanged).toBe('changed');
+          expect(sourcesChanged).toBe('added');
 
           scope.eventSources.splice(0,1);
           scope.$apply();
