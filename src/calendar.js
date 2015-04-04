@@ -8,6 +8,14 @@
 *
 */
 
+(function(factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else {
+        factory(jQuery);
+    }
+})(function($) {
+
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {calendars: {}})
   .controller('uiCalendarCtrl', ['$scope', 
@@ -287,3 +295,5 @@ angular.module('ui.calendar', [])
       }
     };
 }]);
+
+});
