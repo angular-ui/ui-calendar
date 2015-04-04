@@ -273,7 +273,7 @@ angular.module('ui.calendar', [])
         };
 
         eventSourcesWatcher.onChanged = function(source) {
-          scope.calendar.fullCalendar('refetchEvents');
+          calendar.fullCalendar('refetchEvents');
           sourcesChanged = true;
         };
 
