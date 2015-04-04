@@ -46,7 +46,7 @@ angular.module('ui.calendar', [])
           e.__uiCalId = eventSerialId++;
         }
         // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
-        return "" + e._id + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
+        return "" + e.__uiCalId + e._id + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
           (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
       };
 
@@ -74,7 +74,7 @@ angular.module('ui.calendar', [])
             // event source as object, ie extended form
             var extEvent = {};
             for(var key in source){
-              if(key !== '_uiCalId' && key !== 'events'){
+              if(key !== '__uiCalId' && key !== 'events'){
                  extEvent[key] = source[key];
               }
             }
