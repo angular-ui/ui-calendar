@@ -5,7 +5,7 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'karma']);
+  grunt.registerTask('default', ['jshint', 'karma', 'uglify']);
 
   // uglify
   grunt.registerTask('minify', ['uglify']);
