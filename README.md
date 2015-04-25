@@ -9,29 +9,19 @@ A complete AngularJS directive for the Arshaw FullCalendar.
 - ([fullcalendar.js 2.0 and it's dependencies](http://arshaw.com/fullcalendar/download/))
 - optional - ([gcal-plugin](http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js))
 
-# Testing
-
-We use karma and grunt to ensure the quality of the code.
-
-    npm install -g grunt-cli
-    npm install
-    bower install
-    grunt
-
-# Minify
-
-    grunt minify
-
-
 # Usage
 
-We use [bower](http://twitter.github.com/bower/) for dependency management.  Add
+Using [bower](http://bower.io) run:
+
+    bower install --save angular-ui-calendar
+    
+Alternatively you can add it to your `bower.json` like this:
 
     dependencies: {
         "angular-ui-calendar": "latest"
     }
 
-To your `components.json` file. Then run
+And then run
 
     bower install
 
@@ -48,7 +38,7 @@ This will copy the ui-calendar files into your `components` folder, along with i
 
 Add the calendar module as a dependency to your application module:
 
-    var myAppModule = angular.module('MyApp', ['ui.calendar'])
+    var app = angular.module('App', ['ui.calendar'])
 
 Apply the directive to your div elements. The calendar must be supplied an array of documented event sources to render itself:
 
@@ -138,9 +128,22 @@ in a service, instead of letting fullCalendar pull them via AJAX), you can add t
         }
     };
 
+# Minify
+
+    grunt minify
+
 ## Documentation for the Calendar
 
 The calendar works alongside of all the documentation represented [here](http://arshaw.com/fullcalendar/docs)
 
 ## PR's R always Welcome
 Make sure that if a new feature is added, that the proper tests are created.
+
+# Testing
+
+We use karma and grunt to ensure the quality of the code.
+
+    npm install -g grunt-cli
+    npm install
+    bower install
+    grunt
