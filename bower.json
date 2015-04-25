@@ -1,6 +1,6 @@
 {
   "name": "angular-ui-calendar",
-  "version": "0.9.0-beta.1",
+  "version": "1.0.0",
   "description": "A complete AngularJS directive for the Arshaw FullCalendar.",
   "author": "https://github.com/angular-ui/ui-calendar/graphs/contributors",
   "license": "MIT",
