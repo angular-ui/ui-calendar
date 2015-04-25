@@ -117,6 +117,10 @@ If you need to automatically re-render other event data, you can use `calendar-w
     <ui-calendar calendar-watch-event="extraEventSignature" ... >
     // will now watch for price
 
+### Adding new events issue
+
+When adding new events to the calendar they can disappear when switching months. To solve this add `stick: true` to the event object being added to the scope. 
+
 ## Watching the displayed date range of the calendar
 
 There is no mechanism to $watch the displayed date range on the calendar due to the JQuery nature of fullCalendar.  If you want
