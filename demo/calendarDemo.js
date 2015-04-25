@@ -74,6 +74,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
         title: 'Open Sesame',
         start: new Date(y, m, 28),
         end: new Date(y, m, 29),
+        stick: true,
         className: ['openSesame']
       });
     };
