@@ -5,6 +5,7 @@
 A complete AngularJS directive for the Arshaw FullCalendar.
 
 # Requirements
+
 - ([AngularJS](http://code.angularjs.org/1.2.1/angular.js))
 - ([fullcalendar.js 2.0 and it's dependencies](http://arshaw.com/fullcalendar/download/))
 - optional - ([gcal-plugin](http://arshaw.com/js/fullcalendar-1.5.3/fullcalendar/gcal.js))
