@@ -366,72 +366,40 @@ describe('uiCalendar', function () {
           scope.$apply();
         });
 
-        it('should make sure that all config functions are called in an angular context', inject(function($timeout, $rootScope){
-          var functionCount = 0;
-          scope.uiConfig = {
-            calendar:{
-              height: 200,
-              weekends: false,
-              defaultView: 'month',
-              dayClick: function(){},
-              eventClick: function(){},
-              eventDrop: function(){},
-              eventResize: function(){},
-              eventMouseover: function(){}
-            }
-          };
+        it('should make sure that all config functions are called in an angular context', inject(function($rootScope){
+            scope.uiConfig = {
+                calendar:{
+                    height: 200,
+                    weekends: false,
+                    defaultView: 'month'
+                }
+            };
 
-          spyOn($rootScope,'$apply');
+            var keys = ['dayClick', 'eventClick', 'eventDrop', 'eventResize', 'eventMouseover'];
+            angular.forEach(keys, function(key) {
+                scope.uiConfig.calendar[key] = jasmine.createSpy().andReturn(key);
+            });
 
-          angular.forEach(scope.uiConfig.calendar, function(value,key){
-            if (typeof value === 'function'){
-              functionCount++;
-              spyOn(scope.uiConfig.calendar, key);
+            var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
 
-              var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
+            spyOn($rootScope,'$apply').andCallThrough();
 
-              fullCalendarConfig[key]();
-              $timeout.flush();
-              expect($rootScope.$apply.callCount).toBe(functionCount);
-              expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
-              $rootScope.$apply.isSpy = false;
-            }
-          });
-        }));
+            angular.forEach(keys, function(key){
+                $rootScope.$apply.reset();
 
-        it('should check that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
+                var fn = fullCalendarConfig[key];
 
-          var functionCount = 0;
-          scope.uiConfig = {
-            calendar:{
-              height: 200,
-              weekends: false,
-              defaultView: 'month',
-              dayClick: function(){scope.$apply();},
-              eventClick: function(){scope.$apply();},
-              eventDrop: function(){scope.$apply();},
-              eventResize: function(){scope.$apply();},
-              eventMouseover: function(){scope.$apply();}
-            }
-          };
+                expect(fn()).toBe(key);
+                expect($rootScope.$apply.callCount).toBe(1);
+                expect(scope.uiConfig.calendar[key].callCount).toBe(1);
 
-          spyOn($rootScope,'$apply');
-
-          angular.forEach(scope.uiConfig.calendar, function(value,key){
-            if (typeof value === 'function'){
-              functionCount++;
-              spyOn(scope.uiConfig.calendar, key);
-
-              var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
-
-              fullCalendarConfig[key]();
-              
-              scope.$apply();
-              $timeout.flush();
-              expect($rootScope.$apply.callCount).toBe(functionCount*2);
-              expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
-            }
-          });
+                expect($rootScope.$apply(function(){
+                    expect($rootScope.$apply.callCount).toBe(2);
+                    return fn();
+                })).toBe(key);
+                expect($rootScope.$apply.callCount).toBe(2);
+                expect(scope.uiConfig.calendar[key].callCount).toBe(2);
+            });
         }));
     });
 
