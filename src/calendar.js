@@ -247,9 +247,9 @@ angular.module('ui.calendar', [])
             calendar.fullCalendar('destroy');
           }
           if(attrs.calendar) {
-            calendar = uiCalendarConfig.calendars[attrs.calendar] = $(elm).html('');
+            calendar = uiCalendarConfig.calendars[attrs.calendar] = elm.html('');
           } else {
-            calendar = $(elm).html('');
+            calendar = elm.html('');
           }
         };
 
