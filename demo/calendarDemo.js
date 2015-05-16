@@ -1,7 +1,8 @@
 /**
  * calendarDemoApp - 0.9.0
  */
-angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
+angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap'])
+       .controller('CalendarCtrl', CalendarCtrl)
 
 function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     var date = new Date();
@@ -87,6 +88,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
+      console.log('hahahhahahhah', uiCalendarConfig.calendars[calendar])
       if(uiCalendarConfig.calendars[calendar]){
         uiCalendarConfig.calendars[calendar].fullCalendar('render');
       }
