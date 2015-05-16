@@ -409,41 +409,6 @@ describe('uiCalendar', function () {
                 expect(scope.uiConfig.calendar[key].callCount).toBe(2);
             });
         }));
-
-        it('should check that any function that already has an apply in it does not break the calendar (backwards compatible)', inject(function($timeout, $rootScope){
-
-          var functionCount = 0;
-          scope.uiConfig = {
-            calendar:{
-              height: 200,
-              weekends: false,
-              defaultView: 'month',
-              dayClick: function(){scope.$apply();},
-              eventClick: function(){scope.$apply();},
-              eventDrop: function(){scope.$apply();},
-              eventResize: function(){scope.$apply();},
-              eventMouseover: function(){scope.$apply();}
-            }
-          };
-
-          spyOn($rootScope,'$apply').andCallThrough();
-
-          angular.forEach(scope.uiConfig.calendar, function(value,key){
-            if (typeof value === 'function'){
-              functionCount++;
-              spyOn(scope.uiConfig.calendar, key).andCallThrough();
-
-              var fullCalendarConfig = calendarCtrl.getFullCalendarConfig(scope.uiConfig.calendar, {});
-
-              fullCalendarConfig[key]();
-              
-              scope.$apply();
-              $timeout.flush();
-              expect($rootScope.$apply.callCount).toBe(functionCount*2);
-              expect(scope.uiConfig.calendar[key]).toHaveBeenCalled();
-            }
-          });
-        }));
     });
 
 });
