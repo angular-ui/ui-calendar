@@ -284,8 +284,10 @@ angular.module('ui.calendar', [])
         };
 
         eventsWatcher.onChanged = function(event) {
-          event._start = jQuery.fullCalendar.moment(event.start);
-          event._end = jQuery.fullCalendar.moment(event.end);
+          var momentjs = (jQuery.fullCalendar && jQuery.fullCalendar.moment)? jQuery.fullCalendar.moment : moment;
+
+          event._start = momentjs(event.start);
+          event._end = momentjs(event.end);
           calendar.fullCalendar('updateEvent', event);
         };
 
