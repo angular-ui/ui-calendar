@@ -172,12 +172,20 @@ describe('uiCalendar', function () {
         });
 
         it('should make sure that if we just change the title of the event that it updates itself', function () {
+            var originalEvent = angular.copy(scope.events[0]);
+            $.fn.fullCalendar.andCallFake(function(method) {
+              if (method === 'clientEvents') {
+                return [ originalEvent ];
+              }
+            });
             scope.events[0].title = 'change title';
             scope.$apply();
             var fullCalendarParam = $.fn.fullCalendar.mostRecentCall.args[0];
             var fullCalendarParam1  = $.fn.fullCalendar.mostRecentCall.args[1];
             expect(fullCalendarParam).toEqual('updateEvent');
-            expect(fullCalendarParam1).toEqual(scope.events[0]);
+            expect(fullCalendarParam1).toEqual(originalEvent);
+            // fullCalendar 'updateEvent' need an original Event Object
+            expect(fullCalendarParam1).toBe(originalEvent);
         });
 
         it('should make sure that if the calendars options change then the fullcalendar method is called with the new options', function () {
