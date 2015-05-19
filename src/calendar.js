@@ -42,7 +42,7 @@ angular.module('ui.calendar', [])
         }
         // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
         return "" + e._id + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
-          (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
+          (e.allDay || '') + (e.className || '') + extraEventSignature({event: e}) || '';
       };
 
       var sourceSerialId = 1, sourceEventsSerialId = 1;

@@ -106,7 +106,7 @@ If you need to automatically re-render other event data, you can use `calendar-w
        returns "" + event.price;
     }
 
-    <ui-calendar calendar-watch-event="extraEventSignature" ... >
+    <ui-calendar calendar-watch-event="extraEventSignature(event)" ... >
     // will now watch for price
 
 ### Adding new events issue
