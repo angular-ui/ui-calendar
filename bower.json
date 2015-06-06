@@ -1,10 +1,10 @@
 {
-  "name": "ui-calendar-reggie",
+  "name": "angular-ui-calendar",
   "version": "1.0.0",
-  "description": "This is just a fork from angular-ui-calendar updated with fullcalender v2.3.1 + angular 1.3.15",
+  "description": "A complete AngularJS directive for the Arshaw FullCalendar.",
   "author": "https://github.com/angular-ui/ui-calendar/graphs/contributors",
   "license": "MIT",
-  "homepage": "https://github.com/reggieboyYEAH/ui-calendar",
+  "homepage": "http://angular-ui.github.com",
   "main": "./src/calendar.js",
   "ignore": [
     "**/.*",
