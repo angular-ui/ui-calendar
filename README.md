@@ -15,7 +15,7 @@ A complete AngularJS directive for the Arshaw FullCalendar.
 Using [bower](http://bower.io) run:
 
     bower install --save angular-ui-calendar
-    
+
 Alternatively you can add it to your `bower.json` like this:
 
     dependencies: {
@@ -28,14 +28,14 @@ And then run
 
 This will copy the ui-calendar files into your `components` folder, along with its dependencies. Load the script and style files in your application:
 
-    <link rel="stylesheet" href="bower_components/fullcalendar/fullcalendar.css"/>
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
     <!-- jquery, moment, and angular have to get included before fullcalendar -->
-    <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
-    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
-    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
-    <script type="text/javascript" src="bower_components/fullcalendar/fullcalendar.js"></script>
-    <script type="text/javascript" src="bower_components/fullcalendar/gcal.js"></script>
+    <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
 
 Add the calendar module as a dependency to your application module:
 
@@ -111,7 +111,7 @@ If you need to automatically re-render other event data, you can use `calendar-w
 
 ### Adding new events issue
 
-When adding new events to the calendar they can disappear when switching months. To solve this add `stick: true` to the event object being added to the scope. 
+When adding new events to the calendar they can disappear when switching months. To solve this add `stick: true` to the event object being added to the scope.
 
 ## Watching the displayed date range of the calendar
 
