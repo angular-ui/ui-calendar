@@ -40,9 +40,13 @@ angular.module('ui.calendar', [])
         if (!e._id) {
           e._id = eventSerialId++;
         }
+        var extraSignature = (extraEventSignature({event: e}) || '');
+        var start = moment.isMoment(e.start) ? e.start.unix() : (e.start ? moment(e.start).unix() : '');
+        var end =   moment.isMoment(e.end)   ? e.end.unix()   : (e.end   ? moment(e.end).unix()     : '');
+
         // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
-        return "" + e._id + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
-          (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
+        return "" + e._id + (e.id || '') + (e.title || '') + (e.url || '') + start + end +
+          (e.allDay || '') + (e.className || '') + extraSignature;
       };
 
       var sourceSerialId = 1, sourceEventsSerialId = 1;
