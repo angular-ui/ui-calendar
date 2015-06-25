@@ -133,6 +133,11 @@ in a service, instead of letting fullCalendar pull them via AJAX), you can add t
 
     grunt minify
 
+# Local Server to test demo
+
+    grunt serve
+
+
 ## Documentation for the Calendar
 
 The calendar works alongside of all the documentation represented [here](http://arshaw.com/fullcalendar/docs)
