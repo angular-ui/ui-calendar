@@ -221,10 +221,8 @@ angular.module('ui.calendar', [])
     .directive(
     'uiCalendar', [
         'uiCalendarConfig',
-        '$timeout',
         function (
-            uiCalendarConfig,
-            $timeout
+            uiCalendarConfig
         ) {
             return {
                 restrict: 'AE',
@@ -278,14 +276,10 @@ angular.module('ui.calendar', [])
                         if (!calendar) {
                             calendar = angular.element(elm).html('');
                         }
-                        $timeout(
-                            function(){
-                                calendar.fullCalendar(options);
-                                if (attrs.calendar) {
-                                    uiCalendarConfig.calendars[attrs.calendar] = calendar;
-                                }
-                            }
-                        );
+                        calendar.fullCalendar(options);
+                        if (attrs.calendar) {
+                            uiCalendarConfig.calendars[attrs.calendar] = calendar;
+                        }
 
                     };
 

@@ -134,5 +134,11 @@ calendarDemoApp.controller('CalendarCtrl', function($scope, $compile, uiCalendar
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+    $timeout(
+        function () {
+            $scope.renderCalender('myCalendar1');
+        }
+    );
+
 });
 /* EOF */
