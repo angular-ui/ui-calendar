@@ -1,6 +1,6 @@
 {
   "name": "angular-ui-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A complete AngularJS directive for the Arshaw FullCalendar.",
   "author": "https://github.com/angular-ui/ui-calendar/graphs/contributors",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "karma-jasmine": "0.1",
     "karma-chrome-launcher": "0.1",
     "karma-firefox-launcher": "0.1"
-  }, 
+  },
   "scripts": {
     "test": "grunt"
   },
