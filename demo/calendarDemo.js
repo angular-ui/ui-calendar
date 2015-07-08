@@ -1,14 +1,15 @@
 /**
  * calendarDemoApp - 0.9.0
  */
-angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
+angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap'])
+        .controller('CalendarCtrl', CalendarCtrl);
 
-function CalendarCtrl($scope,$compile,uiCalendarConfig) {
+function CalendarCtrl($scope, $compile, $timeout, uiCalendarConfig) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    
+
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
     $scope.eventSource = {
@@ -37,7 +38,7 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     $scope.calEventsExt = {
        color: '#f00',
        textColor: 'yellow',
-       events: [ 
+       events: [
           {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
           {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
           {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
@@ -74,7 +75,6 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
         title: 'Open Sesame',
         start: new Date(y, m, 28),
         end: new Date(y, m, 29),
-        stick: true,
         className: ['openSesame']
       });
     };
@@ -88,14 +88,16 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
-      if(uiCalendarConfig.calendars[calendar]){
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
-      }
+      $timeout(function() {
+        if(uiCalendarConfig.calendars[calendar]){
+          uiCalendarConfig.calendars[calendar].fullCalendar('render');
+        }
+      });
     };
      /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) { 
+    $scope.eventRender = function( event, element, view ) {
         element.attr({'tooltip': event.title,
-                     'tooltip-append-to-body': true});
+                      'tooltip-append-to-body': true});
         $compile(element)($scope);
     };
     /* config object */
