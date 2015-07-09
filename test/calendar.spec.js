@@ -2,11 +2,10 @@
 describe('uiCalendar', function () {
     'use strict';
 
-    var scope, $compile, $locale, $controller, config;
+    var scope, $compile, $locale, $controller, config, element, elementScope, fullCalendar;
 
     //Date Objects needed for event
     var date = new Date();
-    var element, elementScope, fullCalendar;
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
@@ -90,25 +89,30 @@ describe('uiCalendar', function () {
             scope.$apply();
             elementScope = element.scope();
             elementScope.$digest();
-            elementScope.$digest();
         });
 
         /* test the calendar's initial setup */
         it('should set up the calendar with the correct options and events', function () {
-            expect(fullCalendar.calls.mostRecent().args[0].eventSources).toEqual(scope.eventSources);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].eventSources[0].length).toBe(4);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].eventSources[0][0].title).toBe('All Day Event');
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].eventSources[0][0].url).toBe('http://www.angularjs.org');
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].eventSources[1][0].url).toBe('http://www.atlantacarlocksmith.com');
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].eventSources[0][3].allDay).not.toBe(false);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].height).toEqual(200);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].weekends).toEqual(false);
         });
         /* Test to make sure that when an event is added to the calendar everything is updated with the new event. */
         it('should call its renderEvent method', function () {
-            expect(fullCalendar.calls.mostRecent().args[0].eventSources[0].length).toEqual(4);
-            expect(fullCalendar.calls.count()).toEqual(1);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].eventSources[0].length).toEqual(4);
+            expect($.fn.fullCalendar.calls.count()).toEqual(1);
             scope.addChild(scope.events);
             scope.$apply();
-            expect(fullCalendar.calls.count()).toEqual(2);
-            expect(fullCalendar.calls.mostRecent().args[0]).toEqual('renderEvent');
+            expect($.fn.fullCalendar.calls.count()).toEqual(2);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0]).toEqual('renderEvent');
             scope.addChild(scope.events);
             scope.$apply();
-            expect(fullCalendar.calls.count()).toEqual(3);
-            expect(fullCalendar.calls.mostRecent().args[0]).toEqual('renderEvent');
+            expect($.fn.fullCalendar.calls.count()).toEqual(3);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0]).toEqual('renderEvent');
         });
         /* Test to see if calendar is calling removeEvents when an event is removed */
         it('should remove the correct event from the event source.', function () {
@@ -116,14 +120,14 @@ describe('uiCalendar', function () {
             scope.remove(scope.events2,0);
             scope.$apply();
             //events should auto update inside the calendar.
-            var fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
-            var callCount = fullCalendar.calls.count();
+            var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
+            var callCount = $.fn.fullCalendar.calls.count();
             expect(fullCalendarParam).toEqual('removeEvents');
             expect(callCount).toEqual(2);
             scope.remove(scope.events,0);
             scope.$apply();
-            fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
-            callCount = fullCalendar.calls.count();
+            fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
+            callCount = $.fn.fullCalendar.calls.count();
             expect(fullCalendarParam).toEqual('removeEvents');
             expect(callCount).toEqual(3);
         });
@@ -132,7 +136,7 @@ describe('uiCalendar', function () {
             scope.addSource(scope.events4);
             scope.$apply();
             //eventSources should auto update inside the calendar.
-            var fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
+            var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
             expect(fullCalendarParam).toEqual('addEventSource');
         });
         /* Test to see if calendar is updating when an eventSource replaces another with an equal length. */
@@ -141,67 +145,77 @@ describe('uiCalendar', function () {
             scope.eventSources.splice(1,1,scope.events3);
             scope.$apply();
             //eventSources should update inside the calendar
-            var callCount =  fullCalendar.calls.count();
-            var fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
+            var callCount =  $.fn.fullCalendar.calls.count();
+            var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
             expect(fullCalendarParam).toEqual('addEventSource');
             //fullcalendar has called 3 of its own events at this time. Remove, Add, and Rerender
-            expect(callCount).toEqual(4);
+            expect(callCount).toEqual(3);
             //remove an event to prove autobinding still works
             scope.remove(scope.events,0);
             scope.$apply();
-            fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
-            callCount =  fullCalendar.calls.count();
+            fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
+            callCount =  $.fn.fullCalendar.calls.count();
             expect(fullCalendarParam).toEqual('removeEvents');
-            expect(callCount).toEqual(5);
+            expect(callCount).toEqual(4);
         });
 
         it('should work with extended event sources', function () {
             scope.eventSources.push(scope.calEventsExt);
             scope.$apply();
-            var fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
+            var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
             expect(fullCalendarParam).toEqual('addEventSource');
         });
 
         it('shoud refetch the whole calendar when source events are replaced', function () {
            scope.eventSources[0] = scope.events3;
            scope.$apply();
-           var fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
+           var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
            expect(fullCalendarParam).toEqual('addEventSource');
         });
 
         it('should make sure that if we just change the title of the event that it updates itself', function () {
             var originalEvent = angular.copy(scope.events[0]);
-            fullCalendar.and.callFake(function(method) {
+            $.fn.fullCalendar.and.callFake(function(method) {
               if (method === 'clientEvents') {
                 return [ originalEvent ];
               }
             });
             scope.events[0].title = 'change title';
             scope.$apply();
-            var fullCalendarParam = fullCalendar.calls.mostRecent().args[0];
-            var fullCalendarParam1  = fullCalendar.calls.mostRecent().args[1];
+            var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
+            var fullCalendarParam1  = $.fn.fullCalendar.calls.mostRecent().args[1];
             expect(fullCalendarParam).toEqual('updateEvent');
             expect(fullCalendarParam1).toEqual(originalEvent);
             // fullCalendar 'updateEvent' need an original Event Object
             expect(fullCalendarParam1).toBe(originalEvent);
         });
 
+        it('should make sure that if the calendars options change then the fullcalendar method is called with the new options', function () {
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].weekends).toEqual(false);
+            scope.uiConfig.calendar.weekends = true;
+            scope.$apply();
+            //3 because we are destroying the calendar as well.
+            expect($.fn.fullCalendar.calls.count()).toEqual(3);
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].weekends).toEqual(true);
+        });
+
     });
 
     describe('calendarCtrl changeWatcher functionality', function(){
 
-        var calendarCtrl,
+        var calendar,
+            calendarCtrl,
             sourcesChanged;
 
-        function onFnAdd() {
+        function onFnAdd(source) {
             sourcesChanged = 'added';
         }
 
-        function onFnRemove() {
+        function onFnRemove(source) {
             sourcesChanged = 'removed';
         }
 
-        function onFnChanged() {
+        function onFnChanged(source) {
             sourcesChanged = 'changed';
         }
 
@@ -317,6 +331,42 @@ describe('uiCalendar', function () {
             expect(config.calendars.myCalendar).not.toBe(undefined);
          });
     });
+
+    describe('Local variable config testing and option overriding', function(){
+
+        it('should set names for $locale by default', function() {
+            spyOn($.fn, 'fullCalendar');
+            $locale.DATETIME_FORMATS.MONTH[0] = 'enero';
+            $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
+            scope.$apply();
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].monthNames[0]).toBe('enero');
+        });
+
+        it('should allow overriding names for $locale', function() {
+          spyOn($.fn, 'fullCalendar');
+          scope.uiConfig.calendar.monthNames = $locale.DATETIME_FORMATS.MONTH.slice();
+          scope.uiConfig.calendar.monthNames[0] = 'custom name';
+          $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
+          scope.$apply();
+          expect($.fn.fullCalendar.calls.mostRecent().args[0].monthNames[0]).toBe('custom name');
+        });
+
+         /* Test to make sure header options can be overwritten */
+        it('should overwrite default header options', function () {
+            spyOn($.fn, 'fullCalendar');
+            scope.uiConfig2 = {
+              calendar:{
+                header: {center: 'title'}
+             }
+            };
+            $compile('<div ui-calendar="uiConfig2.calendar" ng-model="eventSources"></div>')(scope);
+            scope.$apply();
+            expect($.fn.fullCalendar.calls.mostRecent().args[0].hasOwnProperty('header')).toEqual(true);
+            var header = $.fn.fullCalendar.calls.mostRecent().args[0].header;
+            expect(header).toEqual({center: 'title'});
+        });
+    });
+
     describe('Describing calendarCtrl and its configurations functions', function(){
 
         var calendarCtrl;
@@ -338,7 +388,7 @@ describe('uiCalendar', function () {
             var keys = ['dayClick', 'eventClick', 'eventDrop', 'eventResize', 'eventMouseover'];
             angular.forEach(keys, function(key) {
                 scope.uiConfig.calendar[key] = jasmine.createSpy().and.callFake(function(){
-                    return key;
+                   return key;
                 });
             });
 
