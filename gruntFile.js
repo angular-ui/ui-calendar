@@ -24,18 +24,18 @@ module.exports = function (grunt) {
       }
     },
     jshint:{
-      files:['src/**/*.js', 'test/**/*.js', 'demo/**/*.js'],
-      options:{
-        curly:true,
-        eqeqeq:true,
-        immed:true,
-        latedef:true,
-        newcap:true,
-        noarg:true,
-        sub:true,
-        boss:true,
-        eqnull:true,
-        globals:{}
+      files: ['src/**/*.js', 'test/**/*.js', 'demo/**/*.js'],
+      options: {
+        curly: true,
+        eqeqeq: true,
+        immed: true,
+        latedef: false,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        boss: true,
+        eqnull: true,
+        globals: {}
       }
     },
     uglify: {
