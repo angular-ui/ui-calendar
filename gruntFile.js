@@ -9,6 +9,8 @@ module.exports = function (grunt) {
 
   // uglify
   grunt.registerTask('minify', ['uglify']);
+  //connect - local server 
+  grunt.registerTask('serve', ['connect']);
 
   var testConfig = function(configFile, customOptions) {
     var options = { configFile: configFile, keepalive: true };
