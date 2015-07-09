@@ -23,13 +23,13 @@ module.exports = function (grunt) {
         options: testConfig('test/test.conf.js')
       }
     },
-    jshint:{
+    jshint: {
       files: ['src/**/*.js', 'test/**/*.js', 'demo/**/*.js'],
       options: {
         curly: true,
         eqeqeq: true,
         immed: true,
-        latedef: false,
+        latedef: 'nofunc',
         newcap: true,
         noarg: true,
         sub: true,
