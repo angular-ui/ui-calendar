@@ -85,7 +85,7 @@ describe('uiCalendar', function () {
 
         beforeEach(function(){
             fullCalendar = spyOn($.fn, 'fullCalendar');
-            element = $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
+            element = $compile('<div ui-calendar="{{uiConfig.calendar}}" ng-model="eventSources"></div>')(scope);
             scope.$apply();
             elementScope = element.scope();
             elementScope.$digest();
@@ -149,14 +149,14 @@ describe('uiCalendar', function () {
             var fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
             expect(fullCalendarParam).toEqual('addEventSource');
             //fullcalendar has called 3 of its own events at this time. Remove, Add, and Rerender
-            expect(callCount).toEqual(3);
+            expect(callCount).toEqual(4);
             //remove an event to prove autobinding still works
             scope.remove(scope.events,0);
             scope.$apply();
             fullCalendarParam = $.fn.fullCalendar.calls.mostRecent().args[0];
             callCount =  $.fn.fullCalendar.calls.count();
             expect(fullCalendarParam).toEqual('removeEvents');
-            expect(callCount).toEqual(4);
+            expect(callCount).toEqual(5);
         });
 
         it('should work with extended event sources', function () {
@@ -323,7 +323,7 @@ describe('uiCalendar', function () {
          beforeEach(function(){
             spyOn($.fn, 'fullCalendar');
             expect(config.calendars.myCalendar).toBe(undefined);
-            $compile('<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
+            $compile('<div ui-calendar="{{uiConfig.calendar}}" calendar="myCalendar" ng-model="eventSources"></div>')(scope);
             scope.$apply();
          });
 
@@ -337,7 +337,7 @@ describe('uiCalendar', function () {
         it('should set names for $locale by default', function() {
             spyOn($.fn, 'fullCalendar');
             $locale.DATETIME_FORMATS.MONTH[0] = 'enero';
-            $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
+            $compile('<div ui-calendar="{{uiConfig.calendar}}" ng-model="eventSources"></div>')(scope);
             scope.$apply();
             expect($.fn.fullCalendar.calls.mostRecent().args[0].monthNames[0]).toBe('enero');
         });
@@ -346,7 +346,7 @@ describe('uiCalendar', function () {
           spyOn($.fn, 'fullCalendar');
           scope.uiConfig.calendar.monthNames = $locale.DATETIME_FORMATS.MONTH.slice();
           scope.uiConfig.calendar.monthNames[0] = 'custom name';
-          $compile('<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>')(scope);
+          $compile('<div ui-calendar="{{uiConfig.calendar}}" ng-model="eventSources"></div>')(scope);
           scope.$apply();
           expect($.fn.fullCalendar.calls.mostRecent().args[0].monthNames[0]).toBe('custom name');
         });
@@ -359,7 +359,7 @@ describe('uiCalendar', function () {
                 header: {center: 'title'}
              }
             };
-            $compile('<div ui-calendar="uiConfig2.calendar" ng-model="eventSources"></div>')(scope);
+            $compile('<div ui-calendar="{{uiConfig2.calendar}}" ng-model="eventSources"></div>')(scope);
             scope.$apply();
             expect($.fn.fullCalendar.calls.mostRecent().args[0].hasOwnProperty('header')).toEqual(true);
             var header = $.fn.fullCalendar.calls.mostRecent().args[0].header;
