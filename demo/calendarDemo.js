@@ -1,10 +1,10 @@
 /**
  * calendarDemoApp - 0.9.0
  */
-angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap'])
-        .controller('CalendarCtrl', CalendarCtrl);
+var calendarDemoApp = angular.module('calendarDemoApp', ['ui.calendar', 'ui.bootstrap']);
 
-function CalendarCtrl($scope, $compile, $timeout, uiCalendarConfig) {
+calendarDemoApp.controller('CalendarCtrl',
+   function($scope, $compile, $timeout, uiCalendarConfig) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -131,5 +131,5 @@ function CalendarCtrl($scope, $compile, $timeout, uiCalendarConfig) {
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
-}
+});
 /* EOF */

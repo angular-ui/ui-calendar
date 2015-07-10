@@ -226,7 +226,7 @@ angular.module('ui.calendar', [])
             options = null;
 
         function getOptions(){
-          var calendarSettings = attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {},
+          var calendarSettings = attrs.uiCalendar ? scope.$eval(attrs.uiCalendar) : {},
               fullCalendarConfig;
 
           fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
@@ -247,7 +247,7 @@ angular.module('ui.calendar', [])
           return JSON.stringify(options2);
         }
 
-        scope.destroy = function(){
+        scope.destroyCalendar = function(){
           if(calendar && calendar.fullCalendar){
             calendar.fullCalendar('destroy');
           }
@@ -258,42 +258,65 @@ angular.module('ui.calendar', [])
           }
         };
 
-        scope.init = function(){
+        scope.initCalendar = function(){
+          if (!calendar) {
+            calendar = angular.element(elm).html('');
+          }
           calendar.fullCalendar(options);
           if(attrs.calendar) {
             uiCalendarConfig.calendars[attrs.calendar] = calendar;
           }          
         };
+        scope.$on('$destroy', function() {
+          scope.destroyCalendar();
+        });
 
         eventSourcesWatcher.onAdded = function(source) {
-          calendar.fullCalendar('addEventSource', source);
-          sourcesChanged = true;
+          if (calendar && calendar.fullCalendar) {
+            calendar.fullCalendar(options);
+            if (attrs.calendar) {
+                uiCalendarConfig.calendars[attrs.calendar] = calendar;
+            }
+            calendar.fullCalendar('addEventSource', source);
+            sourcesChanged = true;
+          }
         };
 
         eventSourcesWatcher.onRemoved = function(source) {
-          calendar.fullCalendar('removeEventSource', source);
-          sourcesChanged = true;
+          if (calendar && calendar.fullCalendar) {
+            calendar.fullCalendar('removeEventSource', source);
+            sourcesChanged = true;
+          }
         };
 
-        eventSourcesWatcher.onChanged = function(source) {
-          calendar.fullCalendar('refetchEvents');
-          sourcesChanged = true;
+        eventSourcesWatcher.onChanged = function() {
+          if (calendar && calendar.fullCalendar) {
+            calendar.fullCalendar('refetchEvents');
+            sourcesChanged = true;
+          }
+
         };
 
         eventsWatcher.onAdded = function(event) {
-          calendar.fullCalendar('renderEvent', event, (event.stick ? true : false));
+          if (calendar && calendar.fullCalendar) {
+            calendar.fullCalendar('renderEvent', event, (event.stick ? true : false));
+          }
         };
 
         eventsWatcher.onRemoved = function(event) {
-          calendar.fullCalendar('removeEvents', event._id);
+          if (calendar && calendar.fullCalendar) {
+            calendar.fullCalendar('removeEvents', event._id);
+          }
         };
 
         eventsWatcher.onChanged = function(event) {
-          var clientEvents = calendar.fullCalendar('clientEvents', event._id);
-          for (var i = 0; i < clientEvents.length; i++) {
-            var clientEvent = clientEvents[i];
-            clientEvent = angular.extend(clientEvent, event);
-            calendar.fullCalendar('updateEvent', clientEvent);
+          if (calendar && calendar.fullCalendar) {
+            var clientEvents = calendar.fullCalendar('clientEvents', event._id);
+            for (var i = 0; i < clientEvents.length; i++) {
+              var clientEvent = clientEvents[i];
+              clientEvent = angular.extend(clientEvent, event);
+              calendar.fullCalendar('updateEvent', clientEvent);
+            }
           }
         };
 
@@ -306,9 +329,13 @@ angular.module('ui.calendar', [])
           }
         });
 
-        scope.$watch(getOptions, function(newO,oldO){
-            scope.destroy();
-            scope.init();
+        scope.$watch(getOptions, function(newValue, oldValue) {
+          if(newValue !== oldValue) {
+            scope.destroyCalendar();
+            scope.initCalendar();
+          } else if((newValue && angular.isUndefined(calendar))) {
+            scope.initCalendar();
+          }
         });
       }
     };
