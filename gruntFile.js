@@ -9,6 +9,8 @@ module.exports = function (grunt) {
 
   // uglify
   grunt.registerTask('minify', ['uglify']);
+  //connect - local server 
+  grunt.registerTask('serve', ['connect']);
 
   var testConfig = function(configFile, customOptions) {
     var options = { configFile: configFile, keepalive: true };
@@ -43,6 +45,18 @@ module.exports = function (grunt) {
         src: ['src/**/*.js'],
         dest: 'calendar.min.js'
       }
+    },
+    connect: {
+      server: {
+        options: {
+          port: 8000,
+            open: true,
+            debug: true,
+            keepalive: true,
+            hostname: '*',
+            base: ['demo', '.']
+          }
+        }
     }
   });
 
