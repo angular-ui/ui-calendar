@@ -226,7 +226,7 @@ angular.module('ui.calendar', [])
             options = null;
 
         function getOptions(){
-          var calendarSettings = attrs.uiCalendar ? scope.$eval(attrs.uiCalendar) : {},
+          var calendarSettings = attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {},
               fullCalendarConfig;
 
           fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
