@@ -181,7 +181,8 @@ angular.module('ui.calendar', [])
 
           angular.forEach(config, function(value,key){
             if (typeof value === 'function'){
-              config[key] = wrapFunctionWithScopeApply(config[key]);
+              if(key !== "eventRender")
+                config[key] = wrapFunctionWithScopeApply(config[key]);
             }
           });
 
