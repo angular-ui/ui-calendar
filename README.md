@@ -77,7 +77,7 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
 
 The ui-calendar directive plays nicely with ng-model.
 
-An Event Sources objects needs to be created to pass into ng-model. This object's values will be watched for changes. If a change occurs, then that specific calendar will call the appropriate fullCalendar method.
+An Event Sources object needs to be created to pass into ng-model. This object's values will be watched for changes. If a change occurs, then that specific calendar will call the appropriate fullCalendar method.
 
 The ui-calendar directive expects the eventSources object to be any type allowed in the documentation for the fullcalendar. [docs](http://arshaw.com/fullcalendar/docs/event_data/Event_Source_Object/)
 Note that all calendar options which are functions that are passed into the calendar are wrapped in an apply automatically.
