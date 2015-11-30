@@ -10,9 +10,9 @@
 
 angular.module('ui.calendar', [])
   .constant('uiCalendarConfig', {calendars: {}})
-  .controller('uiCalendarCtrl', ['$scope', 
+  .controller('uiCalendarCtrl', ['$scope',
                                  '$locale', function(
-                                  $scope, 
+                                  $scope,
                                   $locale){
 
       var sources = $scope.eventSources,
@@ -40,11 +40,11 @@ angular.module('ui.calendar', [])
         if (!e._id) {
           e._id = eventSerialId++;
         }
-        
+
         var extraSignature = extraEventSignature({event: e}) || '';
         var start = moment.isMoment(e.start) ? e.start.unix() : (e.start ? moment(e.start).unix() : '');
         var end =   moment.isMoment(e.end)   ? e.end.unix()   : (e.end   ? moment(e.end).unix()   : '');
-        
+
         // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
         return "" + e._id + (e.id || '') + (e.title || '') + (e.url || '') + start + end +
           (e.allDay || '') + (e.className || '') + extraSignature;
@@ -265,7 +265,7 @@ angular.module('ui.calendar', [])
           calendar.fullCalendar(options);
           if(attrs.calendar) {
             uiCalendarConfig.calendars[attrs.calendar] = calendar;
-          }          
+          }
         };
         scope.$on('$destroy', function() {
           scope.destroyCalendar();
@@ -299,7 +299,7 @@ angular.module('ui.calendar', [])
 
         eventsWatcher.onAdded = function(event) {
           if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('renderEvent', event, (event.stick ? true : false));
+            calendar.fullCalendar('renderEvent', event, true);
           }
         };
 
