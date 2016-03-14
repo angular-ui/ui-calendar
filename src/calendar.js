@@ -258,14 +258,20 @@ angular.module('ui.calendar', [])
           }
         };
 
-        scope.initCalendar = function(){
+        scope.initCalendar = function(changeView, gotoDate){
           if (!calendar) {
             calendar = angular.element(elm).html('');
           }
           calendar.fullCalendar(options);
           if(attrs.calendar) {
             uiCalendarConfig.calendars[attrs.calendar] = calendar;
-          }          
+          }
+          if(changeView) {
+            calendar.fullCalendar('changeView', changeView);
+          }
+          if (gotoDate) {
+            calendar.fullCalendar('gotoDate', gotoDate);
+          }
         };
         scope.$on('$destroy', function() {
           scope.destroyCalendar();
@@ -330,12 +336,26 @@ angular.module('ui.calendar', [])
         });
 
         scope.$watch(getOptions, function(newValue, oldValue) {
-          if(newValue !== oldValue) {
-            scope.destroyCalendar();
-            scope.initCalendar();
-          } else if((newValue && angular.isUndefined(calendar))) {
-            scope.initCalendar();
-          }
+		function _initCalendar() {
+			//if settings has not changeView, then keep the current one;
+            		var changeView, gotoDate;
+            		if (calendar && calendar.fullCalendar) {
+                		var lastView = calendar.fullCalendar('getView');
+               	 		if (lastView) {
+                    			if (newValue.defaultView === oldValue.defaultView) {
+                        			changeView = lastView.name;
+                    			}
+		                    	gotoDate = lastView.intervalStart;
+                		}
+        	    }
+	            scope.initCalendar(changeView, gotoDate);
+		}
+                if(newValue !== oldValue) {
+            		scope.destroyCalendar();
+            		_initCalendar();
+          	} else if((newValue && angular.isUndefined(calendar))) {
+            		_initCalendar();
+          	}
         });
       }
     };
