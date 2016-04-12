@@ -16,7 +16,7 @@
     "package.json"
   ],
   "dependencies": {
-    "angular": "~1.4.1",
+    "angular": "~1.5.0",
     "jquery": "~2.1.4",
     "fullcalendar": "~2.3.2",
     "moment": "~2.10.3"

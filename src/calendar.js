@@ -262,10 +262,10 @@ angular.module('ui.calendar', [])
           if (!calendar) {
             calendar = angular.element(elm).html('');
           }
-          calendar.fullCalendar(options);
           if(attrs.calendar) {
             uiCalendarConfig.calendars[attrs.calendar] = calendar;
           }          
+          calendar.fullCalendar(options);
         };
         scope.$on('$destroy', function() {
           scope.destroyCalendar();
