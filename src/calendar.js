@@ -205,7 +205,8 @@ angular.module('ui.calendar', [])
           monthNames: tValues(dtf.MONTH),
           monthNamesShort: tValues(dtf.SHORTMONTH),
           dayNames: tValues(dtf.DAY),
-          dayNamesShort: tValues(dtf.SHORTDAY)
+          dayNamesShort: tValues(dtf.SHORTDAY),
+          firstDay: dtf.FIRSTDAYOFWEEK + 1
         };
       }
       return {};
