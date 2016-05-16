@@ -27,7 +27,7 @@
 	"requireImportAlphabetized": true,
 	"requireLineBreakAfterVariableAssignment": true,
 	"requireLineFeedAtFileEnd": true,
-	"requireMultiLineTernary": true,
+	"requireMultiLineTernary": false,
 	"requireObjectKeysOnNewLine": true,
 	"requirePaddingNewLinesAfterUseStrict": true,
 	"requirePaddingNewLinesInObjects": true,

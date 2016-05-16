@@ -5,12 +5,12 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'karma']);
+    grunt.registerTask('default', ['jshint', 'jscs', 'karma']);
 
     // uglify
     grunt.registerTask('minify', ['uglify']);
-    
-    //connect - local server 
+
+    //connect - local server
     grunt.registerTask('serve', ['connect']);
 
     var testConfig = function (configFile, customOptions) {
@@ -33,8 +33,41 @@ module.exports = function (grunt) {
             }
         },
         jshint : {
-            files : ['src/**/*.js', 'test/**/*.js', 'demo/**/*.js'],
-            jshintrc : true
+            files : ['src/**/*.js'],
+            options : {
+                curly : true,
+                devel : true,
+                eqeqeq : true,
+                forin : true,
+                funcscope : true,
+                latedef : "nofunc",
+                laxbreak : true,
+                loopfunc : true,
+                maxdepth : 3,
+                noarg : true,
+                nonbsp : true,
+                nonew : true,
+                notypeof : true,
+                shadow : false,
+                browser : true,
+                undef : true,
+                unused : "vars",
+                predef : [],
+                globals : {
+                    moment : true,
+                    angular : true,
+                    $ : true,
+                    jasmine : true
+                }
+            }
+        },
+        jscs : {
+            all : [
+                ['src/**/*.js']
+            ],
+            options : {
+                config : '.jscsrc'
+            }
         },
         uglify : {
             build : {
@@ -55,5 +88,4 @@ module.exports = function (grunt) {
             }
         }
     });
-
 };
