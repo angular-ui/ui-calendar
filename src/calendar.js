@@ -108,7 +108,7 @@ angular.module('ui.calendar', [])
                 var self;
 
                 var getTokens = function () {
-                    return (angular.isFunction(arraySource) ? arraySource() : arraySource).reduce(
+                    return ((angular.isFunction(arraySource) ? arraySource() : arraySource) || []).reduce(
                         function (rslt, el) {
                             var token = tokenFn(el);
                             map[token] = el;
@@ -207,7 +207,7 @@ angular.module('ui.calendar', [])
                     // Configure to use locale names by default
                     var tValues = function (data) {
                         // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
-                        return Object.keys(data).reduce(
+                        return (Object.keys(data) || []).reduce(
                             function (rslt, el) {
                                 rslt[el] = data[el];
                                 return rslt;
