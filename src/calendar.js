@@ -209,10 +209,10 @@ angular.module('ui.calendar', [])
                         // convert {0: "Jan", 1: "Feb", ...} to ["Jan", "Feb", ...]
                         return (Object.keys(data) || []).reduce(
                             function (rslt, el) {
-                                rslt[el] = data[el];
+                                rslt.push(data[el]);
                                 return rslt;
                             },
-                            {}
+                            []
                         );
                     };
 
