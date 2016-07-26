@@ -273,15 +273,15 @@ angular.module('ui.calendar', [])
                             calendar.fullCalendar('destroy');
                         }
                         if (attrs.calendar) {
-                            calendar = uiCalendarConfig.calendars[attrs.calendar] = $(elm).html('');
+                            calendar = uiCalendarConfig.calendars[attrs.calendar] = angular.element(elm).html('');
                         } else {
-                            calendar = $(elm).html('');
+                            calendar = angular.element(elm).html('');
                         }
                     };
 
                     scope.initCalendar = function () {
                         if (!calendar) {
-                            calendar = $(elm).html('');
+                            calendar = angular.element(elm).html('');
                         }
                         calendar.fullCalendar(options);
                         if (attrs.calendar) {
