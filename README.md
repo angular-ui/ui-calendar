@@ -64,7 +64,7 @@ All the Arshaw Fullcalendar options can be passed through the directive. This ev
               center: 'title',
               right: 'today prev,next'
             },
-            dayClick: $scope.alertEventOnClick,
+            eventClick: $scope.alertEventOnClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize
           }
