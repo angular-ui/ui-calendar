@@ -87,7 +87,7 @@ calendarDemoApp.controller('CalendarCtrl',
       uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
     };
     /* Change View */
-    $scope.renderCalender = function(calendar) {
+    $scope.renderCalendar = function(calendar) {
       $timeout(function() {
         if(uiCalendarConfig.calendars[calendar]){
           uiCalendarConfig.calendars[calendar].fullCalendar('render');
