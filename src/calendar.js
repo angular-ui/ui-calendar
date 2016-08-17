@@ -281,7 +281,7 @@ angular.module('ui.calendar', [])
 
                     scope.initCalendar = function () {
                         if (!calendar) {
-                            calendar = angular.element(elm).html('');
+                            calendar = $(elm);//on sharepoint use angular.element(elm).html('') cant get $.fn.fullCalendar
                         }
                         calendar.fullCalendar(options);
                         if (attrs.calendar) {
