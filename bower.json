@@ -16,7 +16,7 @@
     "package.json"
   ],
   "dependencies": {
-    "angular": "~1.4.x",
+    "angular": ">=1.4.x",
     "jquery": "~2.1.4",
     "fullcalendar": "~2.7.1",
     "moment": ">=2.5.0"
@@ -27,6 +27,6 @@
   },
   "resolutions": {
     "jquery": "~2.1.4",
-    "angular": "~1.4.x"
+    "angular": ">=1.4.x"
   }
 }
