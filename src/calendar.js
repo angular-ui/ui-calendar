@@ -281,7 +281,7 @@ angular.module('ui.calendar', [])
 
                     scope.initCalendar = function () {
                         if (!calendar) {
-                            calendar = angular.element(elm).html('');
+                            calendar = $(elm).html('');
                         }
                         calendar.fullCalendar(options);
                         if (attrs.calendar) {
