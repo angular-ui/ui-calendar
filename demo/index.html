@@ -102,7 +102,7 @@
                                     <button class="btn btn-success" ng-click="changeView('month', myCalendar1)">Month</button>
                                 </div>
                               </div>
-                            <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="{{uiConfig.calendar}}"></div>
                            </tab>
                            <tab select="renderCalender(myCalendar2);">
                             <tab-heading>
@@ -119,7 +119,7 @@
                                     <button class="btn btn-success" ng-click="changeView('month', myCalendar2)">Month</button>
                                 </div>
                               </div>
-                            <div class="calendar" ng-model="eventSources" calendar="myCalendar2" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources" calendar="myCalendar2" ui-calendar="{{uiConfig.calendar}}"></div>
                            </tab>
                            <tab select="renderCalender(myCalendar3);">
                             <tab-heading>
@@ -136,7 +136,7 @@
                                     <button class="btn btn-success" ng-click="changeView('month', myCalendar3)">Month</button>
                                 </div>
                               </div>
-                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>
+                            <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="{{uiConfig.calendar}}"></div>
                            </tab>
                         </tabset>
                     </div>
@@ -144,7 +144,7 @@
             </div>
             <h3>How?</h3>
 				<pre class="prettyprint linenums">
-&lt;div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"&gt;&lt;/div&gt; 
+&lt;div ui-calendar="{{uiConfig.calendar}}" class="span8 calendar" ng-model="eventSources"&gt;&lt;/div&gt; 
 
 angular.module('calendarDemoApp', ['ui.calendar']);
 
