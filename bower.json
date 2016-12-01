@@ -19,7 +19,7 @@
     "angular": ">=1.4.x",
     "jquery": "~3.1.1",
     "fullcalendar": "~2.9.1",
-    "moment": ">=2.9.0"
+    "moment": ">=2.5.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.x",
