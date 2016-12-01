@@ -17,16 +17,16 @@
   ],
   "dependencies": {
     "angular": ">=1.4.x",
-    "jquery": "~2.1.4",
-    "fullcalendar": "~2.7.1",
-    "moment": ">=2.5.0"
+    "jquery": "~3.1.1",
+    "fullcalendar": "~2.9.1",
+    "moment": ">=2.9.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.x",
     "bootstrap-css": "2.3.1"
   },
   "resolutions": {
-    "jquery": "~2.1.4",
+    "jquery": "^3.1.1",
     "angular": ">=1.4.x"
   }
 }
