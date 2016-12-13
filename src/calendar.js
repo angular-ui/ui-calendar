@@ -10,10 +10,10 @@
 
 angular.module('ui.calendar', [])
 
-    .constant('uiCalendarConfig', {
+    .constant('cmpsUiCalendarConfig', {
         calendars : {}
     })
-    .controller('uiCalendarCtrl', ['$scope', '$locale',
+    .controller('cmpsUiCalendarCtrl', ['$scope', '$locale',
         function ($scope, $locale) {
 
             var sources = $scope.eventSources;
@@ -187,10 +187,10 @@ angular.module('ui.calendar', [])
                 return self;
             };
 
-            this.getFullCalendarConfig = function (calendarSettings, uiCalendarConfig) {
+            this.getFullCalendarConfig = function (calendarSettings, cmpsUiCalendarConfig) {
                 var config = {};
 
-                angular.extend(config, uiCalendarConfig);
+                angular.extend(config, cmpsUiCalendarConfig);
                 angular.extend(config, calendarSettings);
 
                 angular.forEach(config, function (value, key) {
@@ -229,8 +229,8 @@ angular.module('ui.calendar', [])
             };
         }
     ])
-    .directive('uiCalendar', ['uiCalendarConfig',
-        function (uiCalendarConfig) {
+    .directive('cmpscmpsUiCalendar', ['cmpsUiCalendarConfig',
+        function (cmpsUiCalendarConfig) {
 
             return {
                 restrict : 'A',
@@ -238,7 +238,7 @@ angular.module('ui.calendar', [])
                     eventSources : '=ngModel',
                     calendarWatchEvent : '&'
                 },
-                controller : 'uiCalendarCtrl',
+                controller : 'cmpsUiCalendarCtrl',
                 link : function (scope, elm, attrs, controller) {
                     var sources = scope.eventSources;
                     var sourcesChanged = false;
@@ -248,8 +248,8 @@ angular.module('ui.calendar', [])
                     var options = null;
 
                     function getOptions () {
-                        var calendarSettings = attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {};
-                        var fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
+                        var calendarSettings = attrs.cmpsUiCalendar ? scope.$parent.$eval(attrs.cmpsUiCalendar) : {};
+                        var fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, cmpsUiCalendarConfig);
                         var localeFullCalendarConfig = controller.getLocaleConfig(fullCalendarConfig);
                         angular.extend(localeFullCalendarConfig, fullCalendarConfig);
                         options = {
@@ -273,7 +273,7 @@ angular.module('ui.calendar', [])
                             calendar.fullCalendar('destroy');
                         }
                         if (attrs.calendar) {
-                            calendar = uiCalendarConfig.calendars[attrs.calendar] = angular.element(elm).html('');
+                            calendar = cmpsUiCalendarConfig.calendars[attrs.calendar] = angular.element(elm).html('');
                         } else {
                             calendar = angular.element(elm).html('');
                         }
@@ -285,7 +285,7 @@ angular.module('ui.calendar', [])
                         }
                         calendar.fullCalendar(options);
                         if (attrs.calendar) {
-                            uiCalendarConfig.calendars[attrs.calendar] = calendar;
+                            cmpsUiCalendarConfig.calendars[attrs.calendar] = calendar;
                         }
                     };
 
@@ -297,7 +297,7 @@ angular.module('ui.calendar', [])
                         if (calendar && calendar.fullCalendar) {
                             calendar.fullCalendar(options);
                             if (attrs.calendar) {
-                                uiCalendarConfig.calendars[attrs.calendar] = calendar;
+                                cmpsUiCalendarConfig.calendars[attrs.calendar] = calendar;
                             }
                             calendar.fullCalendar('addEventSource', source);
                             sourcesChanged = true;
