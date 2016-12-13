@@ -48,6 +48,31 @@ Apply the directive to your div elements. The calendar must be supplied an array
 Define your model in a scope e.g.
 
     $scope.eventSources = [];
+    
+In order to create a tabbed system with multiple callendars be sure to include the Angular bootstrap files into your modules. These are different than just using Twitter Bootstrap becasue these include unique directives such as select which gives your application more flexibility to determine which calendar it needs to render for each tab.  
+
+    var app = angular.module('app',['ui.calendar', 'ui.bootstrap']);
+
+Make sure to add the correct angular bootstrap. An example is provided below. Each tab will have a unique ng-model with the specific calendar event data you want to include. In order for your new calendar to render you need to add the function renderCalendar() with the name of the calendar provided usign the "calendar" property.
+
+    <tabset>
+        <tab select="renderCalendar('myCalendar')" > 
+            <tab-heading>
+                Any Heading
+            </tab-heading>
+            <div ui-calendar="uiConfig.calendar" class="span8 calendar" calendar="myCalendar" ng-model="eventSources"></div>
+        </tab>
+    </tabset>
+    
+Include the renderCalendar function so the calendar re-renders:
+
+    $scope.renderCalendar = function(calendar) {
+      $timeout(function() {
+        if(uiCalendarConfig.calendars[calendar]){
+          uiCalendarConfig.calendars[calendar].fullCalendar('render');
+        }
+      });
+    };
 
 ## Options
 
