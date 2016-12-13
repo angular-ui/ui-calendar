@@ -3,8 +3,8 @@
 <head>
     <title>AngularUI Calendar for AngularJS</title>
     <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="/../bower_components/bootstrap-css/css/bootstrap.css" />
-    <link rel="stylesheet" href="/../bower_components/fullcalendar/dist/fullcalendar.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap-css/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/fullcalendar/dist/fullcalendar.css">
     <link rel="stylesheet" href="calendarDemo.css" />
 
     <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -269,9 +269,11 @@ function CalendarCtrl($scope,$compile,uiCalendarConfig) {
     };
     /* Change View */
     $scope.renderCalender = function(calendar) {
-      if(uiCalendarConfig.calendars[calendar]){
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
-      }
+      $timeout(function() {
+        if(uiCalendarConfig.calendars[calendar]){
+          uiCalendarConfig.calendars[calendar].fullCalendar('render');
+        }
+      });
     };
      /* Render Tooltip */
     $scope.eventRender = function( event, element, view ) { 
