@@ -8,13 +8,22 @@
 *
 */
 
-angular.module('ui.calendar', [])
+(function(global, factory) {
+    if (typeof define === "function" && define.amd) {
+        define(['angular', 'jquery', 'moment', 'fullcalendar'], factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory(require('angular'), require('jquery'), require('moment'), require('fullcalendar'));
+    } else {
+        global.uiCalendarDirective = factory(global.angular, global.jQuery, global.moment, global.fullcalendar);
+    }
+})(this, function(angular, $) {
+    'use strict';
+    angular.module('ui.calendar', [])
 
-    .constant('uiCalendarConfig', {
-        calendars : {}
-    })
-    .controller('uiCalendarCtrl', ['$scope', '$locale',
-        function ($scope, $locale) {
+        .constant('uiCalendarConfig', {
+            calendars : {}
+        })
+        .controller('uiCalendarCtrl', ['$scope', '$locale', function ($scope, $locale) {
 
             var sources = $scope.eventSources;
             var extraEventSignature = $scope.calendarWatchEvent ? $scope.calendarWatchEvent : angular.noop;
@@ -44,8 +53,8 @@ angular.module('ui.calendar', [])
                 }
 
                 var extraSignature = extraEventSignature({
-                    event : e
-                }) || '';
+                        event : e
+                    }) || '';
                 var start = moment.isMoment(e.start) ? e.start.unix() : (e.start ? moment(e.start).unix() : '');
                 var end = moment.isMoment(e.end) ? e.end.unix() : (e.end ? moment(e.end).unix() : '');
 
@@ -227,10 +236,8 @@ angular.module('ui.calendar', [])
 
                 return {};
             };
-        }
-    ])
-    .directive('uiCalendar', ['uiCalendarConfig',
-        function (uiCalendarConfig) {
+        }])
+        .directive('uiCalendar', ['uiCalendarConfig', function (uiCalendarConfig) {
 
             return {
                 restrict : 'A',
@@ -360,6 +367,8 @@ angular.module('ui.calendar', [])
                     });
                 }
             };
-        }
-    ]
-);
+        }]);
+});
+function factory(angular, moment, fullcalendar) {
+
+}
