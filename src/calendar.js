@@ -8,6 +8,10 @@
 *
 */
 
+/*
+edit: Ing. Luis, 9 de marzo 2016
+*/
+
 angular.module('ui.calendar', [])
 
     .constant('uiCalendarConfig', {
