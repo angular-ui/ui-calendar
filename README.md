@@ -103,7 +103,7 @@ If you need to automatically re-render other event data, you can use `calendar-w
 `calendar-watch-event` expression must return a function that is passed `event` as argument and returns a string or a number, for example:
 
     $scope.extraEventSignature = function(event) {
-       returns "" + event.price;
+       return "" + event.price;
     }
 
     <ui-calendar calendar-watch-event="extraEventSignature(event)" ... >
