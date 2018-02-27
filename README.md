@@ -109,6 +109,12 @@ If you need to automatically re-render other event data, you can use `calendar-w
     <ui-calendar calendar-watch-event="extraEventSignature(event)" ... >
     // will now watch for price
 
+If you want to extend re-rendering criteria to watch multiple fields return concatenation of field values, for example:
+
+    $scope.extraEventSignature = function(event) {
+       returns "" + event.price + event.quantity;
+    }
+
 ### Adding new events issue
 
 When adding new events to the calendar they can disappear when switching months. To solve this add `stick: true` to the event object being added to the scope.
