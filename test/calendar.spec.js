@@ -2,7 +2,7 @@
 describe('uiCalendar', function () {
     'use strict';
 
-    var scope, $compile, $locale, $controller, config, element, elementScope, fullCalendar;
+    var scope, $compile, $locale, $controller, $log, config, element, elementScope, fullCalendar;
 
     //Date Objects needed for event
     var date = new Date();
@@ -11,11 +11,12 @@ describe('uiCalendar', function () {
     var y = date.getFullYear();
 
     beforeEach(module('ui.calendar'));
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_,_$controller_,uiCalendarConfig) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$locale_,_$controller_, _$log_, uiCalendarConfig) {
         scope = _$rootScope_.$new();
         $compile = _$compile_;
         $locale = _$locale_;
         $controller = _$controller_;
+        $log = _$log_;
         config = uiCalendarConfig;
 
         // create an array of events, to pass into the directive.
@@ -197,6 +198,24 @@ describe('uiCalendar', function () {
             //3 because we are destroying the calendar as well.
             expect($.fn.fullCalendar.calls.count()).toEqual(3);
             expect($.fn.fullCalendar.calls.mostRecent().args[0].weekends).toEqual(true);
+        });
+
+        it('should destroy FullCalendar when the directive scope is destroyed', function () {
+            elementScope.$destroy();
+            expect($.fn.fullCalendar.calls.mostRecent().args[0]).toEqual('destroy');
+        });
+
+        it('should report FullCalendar failures without propagating them', function () {
+            spyOn($log, 'warn');
+            $.fn.fullCalendar.and.callFake(function () {
+                throw new Error('FullCalendar failure');
+            });
+
+            expect(function () {
+                scope.addChild(scope.events);
+                scope.$apply();
+            }).not.toThrow();
+            expect($log.warn).toHaveBeenCalled();
         });
 
     });

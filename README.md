@@ -169,3 +169,7 @@ npm install -g bower grunt-cli
 bower install
 grunt
 ```
+
+Bower is retained for the historical demo and test harness. Consumers may load
+`src/calendar.js` directly alongside the pinned, known-compatible AngularJS
+1.4.1, jQuery 2.1.4, FullCalendar 2.3.2, and Moment 2.10.3 packages.

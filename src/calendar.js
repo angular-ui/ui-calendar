@@ -223,7 +223,7 @@ angular.module('ui.calendar', [])
       return {};
     };
   }])
-  .directive('uiCalendar', ['uiCalendarConfig', function(uiCalendarConfig) {
+  .directive('uiCalendar', ['uiCalendarConfig', '$log', function(uiCalendarConfig, $log) {
     return {
       restrict: 'A',
       scope: {eventSources:'=ngModel',calendarWatchEvent: '&', resources: '='},
@@ -245,6 +245,7 @@ angular.module('ui.calendar', [])
           try {
             return calendar.fullCalendar.apply(calendar, arguments);
           } catch (error) {
+            $log.warn('uiCalendar FullCalendar call failed', error);
             return undefined;
           }
         }
