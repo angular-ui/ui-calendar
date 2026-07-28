@@ -14,8 +14,8 @@ module.exports = function (grunt) {
 
   var testConfig = function(configFile, customOptions) {
     var options = { configFile: configFile, keepalive: true };
-    var travisOptions = process.env.TRAVIS && { browsers: ['Firefox'], reporters: 'dots' };
-    return grunt.util._.extend(options, customOptions, travisOptions);
+    var ciOptions = process.env.CI && { browsers: ['ChromeHeadless'], reporters: 'dots' };
+    return grunt.util._.extend(options, customOptions, ciOptions);
   };
 
   // Project configuration.

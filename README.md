@@ -153,3 +153,19 @@ We use karma and grunt to ensure the quality of the code.
     npm install
     bower install
     grunt
+## Maintenance status
+
+This AngularJS integration is maintained for compatibility and security fixes.
+AngularJS is end-of-life; new applications should use supported frameworks.
+
+## Development
+
+Use the Node version in `.nvmrc`, then install dependencies and run the same
+lint and browser-test gate used by CI:
+
+```bash
+npm ci
+npm install -g bower grunt-cli
+bower install
+grunt
+```

@@ -15,7 +15,7 @@ angular.module('ui.calendar', [])
                                   $scope, 
                                   $locale){
 
-      var sources = $scope.eventSources,
+      var sources = $scope.eventSources || [],
           extraEventSignature = $scope.calendarWatchEvent ? $scope.calendarWatchEvent : angular.noop,
 
           wrapFunctionWithScopeApply = function(functionToWrap){
@@ -58,7 +58,7 @@ angular.module('ui.calendar', [])
         }
         
         // This extracts all the information we need from the resource. http://jsperf.com/angular-calendar-events-fingerprint/3
-        return r.id;
+        return r.id || r._id;
       };
 
       var sourceSerialId = 1, sourceEventsSerialId = 1;
@@ -109,8 +109,8 @@ angular.module('ui.calendar', [])
       this.changeWatcher = function(arraySource, tokenFn) {
         var self;
         var getTokens = function() {
-          // console.log(arraySource);
           var array = angular.isFunction(arraySource) ? arraySource() : arraySource;
+          array = angular.isArray(array) ? array : [];
           var result = [], token, el;
           for (var i = 0, n = array.length; i < n; i++) {
             el = array[i];
@@ -229,14 +229,25 @@ angular.module('ui.calendar', [])
       scope: {eventSources:'=ngModel',calendarWatchEvent: '&', resources: '='},
       controller: 'uiCalendarCtrl',
       link: function(scope, elm, attrs, controller) {
-        var sources = scope.eventSources,
-            evResources = scope.resources,
+        var sources = scope.eventSources || [],
+            evResources = scope.resources || [],
             sourcesChanged = false,
             calendar,
             eventSourcesWatcher = controller.changeWatcher(sources, controller.sourceFingerprint),
             eventsWatcher = controller.changeWatcher(controller.allEvents, controller.eventFingerprint),
-            resourceWatcher = controller.changeWatcher(scope.resources, controller.resourceFingerprint),
+            resourceWatcher = controller.changeWatcher(evResources, controller.resourceFingerprint),
             options = null;
+
+        function callCalendar() {
+          if (!calendar || !angular.isFunction(calendar.fullCalendar)) {
+            return undefined;
+          }
+          try {
+            return calendar.fullCalendar.apply(calendar, arguments);
+          } catch (error) {
+            return undefined;
+          }
+        }
 
         function getOptions(){
           var calendarSettings = attrs.uiCalendar ? scope.$parent.$eval(attrs.uiCalendar) : {},
@@ -262,9 +273,7 @@ angular.module('ui.calendar', [])
         }
 
         scope.destroyCalendar = function(){
-          if(calendar && calendar.fullCalendar){
-            calendar.fullCalendar('destroy');
-          }
+          callCalendar('destroy');
           if(attrs.calendar) {
             calendar = uiCalendarConfig.calendars[attrs.calendar] = $(elm).html('');
           } else {
@@ -276,10 +285,9 @@ angular.module('ui.calendar', [])
           if (!calendar) {
             calendar = angular.element(elm).html('');
           }
-          calendar.fullCalendar(options);
+          callCalendar(options);
           if(attrs.calendar) {
             uiCalendarConfig.calendars[attrs.calendar] = calendar;
-            window.calendar = calendar;
           }          
         };
         scope.$on('$destroy', function() {
@@ -287,62 +295,62 @@ angular.module('ui.calendar', [])
         });
 
         eventSourcesWatcher.onAdded = function(source) {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar(options);
+          if (calendar) {
+            callCalendar(options);
             if (attrs.calendar) {
                 uiCalendarConfig.calendars[attrs.calendar] = calendar;
             }
-            calendar.fullCalendar('addEventSource', source);
+            callCalendar('addEventSource', source);
             sourcesChanged = true;
           }
         };
 
         eventSourcesWatcher.onRemoved = function(source) {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('removeEventSource', source);
+          if (calendar) {
+            callCalendar('removeEventSource', source);
             sourcesChanged = true;
           }
         };
 
         eventSourcesWatcher.onChanged = function() {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('refetchEvents');
+          if (calendar) {
+            callCalendar('refetchEvents');
             sourcesChanged = true;
           }
 
         };
 
         eventsWatcher.onAdded = function(event) {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('renderEvent', event, true);
+          if (calendar) {
+            callCalendar('renderEvent', event, true);
           }
         };
 
         eventsWatcher.onRemoved = function(event) {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('removeEvents', event._id);
+          if (calendar) {
+            callCalendar('removeEvents', event._id);
           }
         };
 
         resourceWatcher.onAdded = function(resource) {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('addResource', resource);
+          if (calendar) {
+            callCalendar('addResource', resource);
           }
         };
 
         resourceWatcher.onRemoved = function(resource) {
-          if (calendar && calendar.fullCalendar) {
-            calendar.fullCalendar('removeResource', resource);
+          if (calendar) {
+            callCalendar('removeResource', resource);
           }
         };
 
         eventsWatcher.onChanged = function(event) {
-          if (calendar && calendar.fullCalendar) {
-            var clientEvents = calendar.fullCalendar('clientEvents', event._id);
+          if (calendar) {
+            var clientEvents = callCalendar('clientEvents', event._id) || [];
             for (var i = 0; i < clientEvents.length; i++) {
               var clientEvent = clientEvents[i];
               clientEvent = angular.extend(clientEvent, event);
-              calendar.fullCalendar('updateEvent', clientEvent);
+              callCalendar('updateEvent', clientEvent);
             }
           }
         };
